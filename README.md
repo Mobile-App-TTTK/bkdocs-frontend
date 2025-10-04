@@ -1,8 +1,12 @@
-# Welcome to your Expo app 👋
+# Welcome to BKDocs App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is an [Expo](https://expo.dev) project for managing and sharing learning documents tailored for students at Ho Chi Minh City University of Technology.
 
-## Get started
+## Project Overview
+
+BKDocs is a mobile application designed to help students organize, manage, and share academic documents such as lecture notes, assignments, and study materials. It promotes collaboration among students by enabling easy uploading, searching, and sharing of resources within the university community.
+
+## Get Started
 
 1. Install dependencies
 
@@ -25,26 +29,28 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
+## Get a Fresh Project
 
-When you're ready, run:
+When you're ready to reset and start fresh, run:
 
 ```bash
 npm run reset-project
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can continue developing.
 
-## Learn more
+## Learn More
 
-To learn more about developing your project with Expo, look at the following resources:
+To learn more about developing your project with Expo, check out the following resources:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or dive into advanced topics with our [guides](https://docs.expo.dev/guides).
 - [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-## Join the community
+## Join the Community
 
 Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+For project-specific discussions or contributions, feel free to open issues or pull requests on this repository!
