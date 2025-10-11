@@ -23,7 +23,7 @@ jobs:
         run: npm ci
 
       - name: Login to Expo
-        run: eas login --token ${{ secrets.EAS_TOKEN }}
+        run: npx expo login -u ${{ secrets.EXPO_USERNAME }} -p ${{ secrets.EXPO_PASSWORD }}
 
       - name: Publish OTA Update
         run: npx eas update --branch preview --message "Auto deploy from GitHub"
