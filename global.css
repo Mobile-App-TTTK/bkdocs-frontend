@@ -6,4 +6,16 @@
   * {
     font-family: 'Gilroy-Regular', system-ui, sans-serif;
   }
+  
+  .font-medium {
+    font-family: 'Gilroy-Medium', system-ui, sans-serif;
+  }
+  
+  .font-semibold {
+    font-family: 'Gilroy-Semibold', system-ui, sans-serif;
+  }
+  
+  .font-bold {
+    font-family: 'Gilroy-Bold', system-ui, sans-serif;
+  }
 }
