@@ -1,4 +1,6 @@
+import { ROUTES } from '@/constants/routes';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import {
   Box,
   Button,
@@ -159,7 +161,7 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
             </FormControl>
 
             <Pressable alignSelf="flex-end" isDisabled={isLoading}>
-              <Text color="primary.600" fontWeight="medium">Quên mật khẩu?</Text>
+              <Text color="primary.600" fontWeight="medium" onPress={() => router.push(ROUTES.FORGOT_PASSWORD )as any}>Quên mật khẩu?</Text>
             </Pressable>
 
             <Button onPress={handleSubmit} isDisabled={isLoading} isLoading={isLoading} borderRadius={12} height={12}>
@@ -169,7 +171,7 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
             <HStack justifyContent="center" alignItems="center">
               <Text color="coolGray.600">Chưa có tài khoản? </Text>
               <Pressable isDisabled={isLoading}>
-                <Text color="primary.600" fontWeight="semibold">Đăng ký ngay</Text>
+                <Text color="primary.600" fontWeight="semibold" onPress={() => router.push(ROUTES.SIGNUP )as any}>Đăng ký ngay</Text>
               </Pressable>
             </HStack>
           </VStack>
