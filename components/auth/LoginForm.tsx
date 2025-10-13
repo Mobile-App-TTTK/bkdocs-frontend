@@ -23,7 +23,7 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-  
+
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
 
@@ -58,7 +58,7 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
       style={{ flex: 1 }}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
     >
-      <ScrollView 
+      <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
@@ -143,15 +143,15 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
                     fontFamily: 'Gilroy-Regular'
                   }}
                 />
-                <TouchableOpacity 
-                  onPress={() => setShowPassword(!showPassword)} 
+                <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}
                   disabled={isLoading}
                   style={{ padding: 4 }}
                 >
-                  <Ionicons 
-                    name={showPassword ? 'eye-outline' : 'eye-off-outline'} 
-                    size={20} 
-                    color="#6b7280" 
+                  <Ionicons
+                    name={showPassword ? 'eye-outline' : 'eye-off-outline'}
+                    size={20}
+                    color="#6b7280"
                   />
                 </TouchableOpacity>
               </View>
@@ -161,7 +161,7 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
             </FormControl>
 
             <Pressable alignSelf="flex-end" isDisabled={isLoading}>
-              <Text color="primary.600" fontWeight="medium" onPress={() => router.push(ROUTES.FORGOT_PASSWORD )as any}>Quên mật khẩu?</Text>
+              <Text color="primary.600" fontWeight="medium" onPress={() => router.push(ROUTES.FORGOT_PASSWORD)}>Quên mật khẩu?</Text>
             </Pressable>
 
             <Button onPress={handleSubmit} isDisabled={isLoading} isLoading={isLoading} borderRadius={12} height={12}>
@@ -171,7 +171,7 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
             <HStack justifyContent="center" alignItems="center">
               <Text color="coolGray.600">Chưa có tài khoản? </Text>
               <Pressable isDisabled={isLoading}>
-                <Text color="primary.600" fontWeight="semibold" onPress={() => router.push(ROUTES.SIGNUP )as any}>Đăng ký ngay</Text>
+                <Text color="primary.600" fontWeight="semibold" onPress={() => router.push(ROUTES.SIGNUP)}>Đăng ký ngay</Text>
               </Pressable>
             </HStack>
           </VStack>
