@@ -1,4 +1,4 @@
-import {Box, Button, FormControl, Pressable, Text, VStack} from "native-base";
+import {Box, Button, FormControl, HStack, Pressable, Text, VStack} from "native-base";
 import {KeyboardAvoidingView, Platform, ScrollView, TextInput, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import React, {useRef, useState} from "react";
@@ -98,6 +98,9 @@ export default function ForgotPasswordForm({ onSubmit, isLoading = false }: Forg
               <Button onPress={handleSubmit} isDisabled={isLoading} isLoading={isLoading} borderRadius={12} height={12}>
                 Đặt lại mật khẩu
               </Button>
+              <HStack>
+
+              </HStack>
           </VStack>
         </Box>
       </ScrollView>
