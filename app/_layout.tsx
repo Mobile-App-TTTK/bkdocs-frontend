@@ -14,12 +14,12 @@ import '../global.css';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const { isLoading, finishLoading } = useSplashScreen(2000);
+  const { isLoading, finishLoading } = useSplashScreen(1000);
   const fontsLoaded = useAppFonts();
 
   if (isLoading || !fontsLoaded) {
     return (
-      <SplashScreen onFinish={finishLoading} duration={2000} />
+      <SplashScreen onFinish={finishLoading} duration={1000} />
     );
   }
 
@@ -84,10 +84,9 @@ export default function RootLayout() {
         <NavigationThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           <NativeBaseProvider theme={nativeBaseTheme}>
             <AuthProvider>
-              <Stack screenOptions={{ animation: 'none' }}>
+              <Stack screenOptions={{ animation: 'none', headerShown: false }}>
                 <Stack.Screen name="index" options={{ headerShown: false }} />
                 <Stack.Screen name="(public)" options={{ headerShown: false }} />
-                <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
               </Stack>
               <StatusBar style="auto" />
             </AuthProvider>

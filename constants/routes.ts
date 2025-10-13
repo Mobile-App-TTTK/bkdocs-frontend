@@ -1,7 +1,7 @@
 export const ROUTES = {
-  HOME: '/(app)/home',
+  HOME: '/(app)/(tabs)/home',
   LOGIN: '/(public)/login',
-  ONBOARD: '/(public)/onboard',
+  ONBOARD: '/(public)/onboard'
 } as const;
 
 export type AppRoute = typeof ROUTES[keyof typeof ROUTES];
