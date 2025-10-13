@@ -41,7 +41,7 @@ export default function OnboardScreen() {
         className="absolute right-4 z-10 px-3"
         style={{ top: insets.top + 8 }}
       >
-        <Text className="text-sm text-neutral-500 dark:text-gray-400 font-medium">Bỏ qua</Text>
+        <Text className="text-sm !text-neutral-700font-medium">Bỏ qua</Text>
       </Pressable>
 
       <View style={{ height: screenHeight * 0.6, width: '100%' }}>
