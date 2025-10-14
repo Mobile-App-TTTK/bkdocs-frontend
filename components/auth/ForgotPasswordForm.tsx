@@ -1,8 +1,8 @@
-import {Box, Button, FormControl, HStack, Pressable, Text, VStack} from "native-base";
-import {KeyboardAvoidingView, Platform, ScrollView, TextInput, View} from "react-native";
-import {Ionicons} from "@expo/vector-icons";
-import React, {useRef, useState} from "react";
-import {useRouter} from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { Box, Button, FormControl, HStack, Pressable, Text, VStack } from "native-base";
+import React, { useRef, useState } from "react";
+import { KeyboardAvoidingView, Platform, ScrollView, TextInput, View } from "react-native";
 
 interface ForgotPasswordFormProps {
     onSubmit: (email: string) => void;
@@ -46,10 +46,9 @@ export default function ForgotPasswordForm({ onSubmit, isLoading = false }: Forg
         showsVerticalScrollIndicator={false}
       >
         <Box px={6} flex={1} py={8} justifyContent="center">
-            <Pressable style={{ flexDirection: 'row' }} onPress={router.back} >
-                <Ionicons name="arrow-back-outline" size={20} color="#6b7280" style={{ marginRight: 8 }}/>
-                <Text color="#6b7280">Trở về</Text>
-            </Pressable>
+                <Pressable className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center" onPress={() => router.back()}>
+                    <Ionicons name="chevron-back-outline" size={20} color={"#888888"} style={{marginLeft: -2}}/>
+                </Pressable>
           <VStack space={6}>
             <VStack alignItems="center" space={1}>
               <Text className='!text-3xl !font-bold !text-primary-500 mt-20'>Quên mật khẩu</Text>
