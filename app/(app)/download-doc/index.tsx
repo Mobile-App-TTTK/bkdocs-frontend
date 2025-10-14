@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { router } from 'expo-router';
 import { Button, HStack, Image, ScrollView, Text, VStack } from 'native-base';
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Pressable, View } from 'react-native';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
@@ -39,26 +39,45 @@ export default function DownloadDoc(doc: DocProps) {
     }, []);
 
     const userAvatar = require("@/assets/images/userAvatar.jpg");
+    const [selectedImage, setSelectedImage] = useState<number>(0);
+
+    const handleImageSelect = useCallback((index: number) => {
+        setSelectedImage(index);
+        // Animate to smaller snap point (index 0)
+        bottomSheetRef.current?.snapToIndex(0);
+    }, []);
 
     return (
         <GestureHandlerRootView style={{
             flex: 1,
             backgroundColor: 'white',
         }}>
-            <View className="w-full h-24 bg-white dark:bg-black absolute z-0 flex flex-row items-end p-4">
+            <View className="w-full h-24 bg-white dark:bg-black absolute z-0 flex flex-row items-end p-4"
+                style={{
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 20,
+                    elevation: 10,
+                }}
+            >
                 <Pressable className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center" onPress={() => router.back()}>
                     <Ionicons name="chevron-back-outline" size={20} color={"#888888"} style={{marginLeft: -2}}/>
                 </Pressable>
                 <Text className="font-bold text-xl text-primary-500 flex-1 text-center">Chi tiết</Text>
-                <View className="w-8 h-8" /> {/* Spacer for proper centering */}
+                <View className="w-8 h-8" />
             </View>
 
             <Image
-                source={sampleDoc.images[0]}
+                source={sampleDoc.images[selectedImage]}
                 alt="sampleDoc"
                 resizeMode={"cover"}
                 width={"100%"}
-                height={"100%"}
+                height={"70%"}
+                marginTop={50}
                 style={{position: "absolute", zIndex: -10}}
             />
 
@@ -66,15 +85,26 @@ export default function DownloadDoc(doc: DocProps) {
                 ref={bottomSheetRef}
                 onChange={handleSheetChanges}
                 enableDynamicSizing={true}
+                snapPoints={['27%', '55%']}
+                index={1}
+                backgroundStyle={{
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: -4,
+                    },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 20,
+                    elevation: 10,
+                }}
             >
                 <BottomSheetView style={{
                         flex: 1,
                         paddingHorizontal: 36,
                     }}
                 >
-                    <VStack space={3}>
-                        <View className="h-1"></View>
-                        <View className='flex flex-row items-center gap-10'>
+                    <VStack space={4}>
+                        <View className='flex flex-row items-center gap-10 mt-2'>
                             <View className="flex-1">
                                 <Text className="font-bold text-xl overflow-ellipsis truncate">{sampleDoc.docName}</Text>
                                 <HStack>
@@ -109,17 +139,29 @@ export default function DownloadDoc(doc: DocProps) {
                         <ScrollView horizontal className="space-x-5" showsHorizontalScrollIndicator={false}>
                             {
                                 sampleDoc.images.map((image, index) => (
-                                    <Image source={image} width={70} height={70} alt={"Images"} key={index} className="rounded-lg mr-2 border-1 border-gray-300"/>
+                                    <Pressable onPress={() => handleImageSelect(index)} key={index}>
+                                        <Image 
+                                            source={image} 
+                                            width={70} 
+                                            height={70} 
+                                            alt={"Images"} 
+                                            borderRadius="lg"
+                                            marginRight={2}
+                                            className="transition-all"
+                                            borderWidth={selectedImage === index ? 3 : 1}
+                                            borderColor={selectedImage === index ? "primary.500" : "gray.300"}
+                                        />
+                                    </Pressable>
                                 ))
                             }
                         </ScrollView>
 
-                        <View>
-                            <Text className="font-bold">Mô tả</Text>
+                        <View className="mt-4">
+                            <Text className="font-bold text-lg">Mô tả</Text>
                             <Text>{sampleDoc.description}</Text>
                         </View>
 
-                        <Button className="rounded-lg">Tải về</Button>
+                        <Button className="rounded-lg mt-2">Tải về</Button>
                         <View className="h-6"></View>
                     </VStack>
                 </BottomSheetView>
