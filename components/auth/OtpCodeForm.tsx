@@ -60,14 +60,13 @@ export default function OtpCodeForm({ onSubmit, isLoading = false }: OtpCodeForm
                 showsVerticalScrollIndicator={false}
             >
                 <Box px={6} flex={1} py={8} justifyContent="center">
-                    <Pressable style={{ flexDirection: 'row' }} onPress={router.back} >
-                        <Ionicons name="arrow-back-outline" size={20} color="#6b7280" style={{ marginRight: 8 }}/>
-                        <Text color="#6b7280">Trở về</Text>
-                    </Pressable>
+                <Pressable className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center" onPress={() => router.back()}>
+                    <Ionicons name="chevron-back-outline" size={20} color={"#888888"} style={{marginLeft: -2}}/>
+                </Pressable>
                 <VStack space={6}>
                     <VStack alignItems="center" space={1}>
-                    <Text className='!text-3xl !font-bold !text-primary-500 mt-20'>Quên mật khẩu</Text>
-                    <Text className='dark:text-gray-50 text-gray-800'>Vui lòng điền email tài khoản để đặt lại mật khẩu</Text>
+                    <Text className='!text-3xl !font-bold !text-primary-500 mt-20'>Mã xác nhận</Text>
+                    <Text className='dark:text-gray-50 text-gray-800 text-center'>Chúng tôi đã gửi mã xác nhận tài khoản qua email tai.tranthanh@hcmut.edu.vn</Text>
                     </VStack>
                     
                     <FormControl>
