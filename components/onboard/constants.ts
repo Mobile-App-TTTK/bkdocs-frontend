@@ -26,3 +26,4 @@ export const slides: IOnboardSlide[] = [
     primaryCta: 'Tiếp tục',
   },
 ];
+
