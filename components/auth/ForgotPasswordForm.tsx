@@ -46,9 +46,10 @@ export default function ForgotPasswordForm({ onSubmit, isLoading = false }: Forg
         showsVerticalScrollIndicator={false}
       >
         <Box px={6} flex={1} py={8} justifyContent="center">
-                <Pressable className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center" onPress={() => router.back()}>
-                    <Ionicons name="chevron-back-outline" size={20} color={"#888888"} style={{marginLeft: -2}}/>
-                </Pressable>
+          <Pressable className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mt-10" onPress={() => router.back()}>
+              <Ionicons name="chevron-back-outline" size={20} color={"#888888"} style={{marginLeft: -2}}/>
+          </Pressable>
+
           <VStack space={6}>
             <VStack alignItems="center" space={1}>
               <Text className='!text-3xl !font-bold !text-primary-500 mt-20'>Quên mật khẩu</Text>
