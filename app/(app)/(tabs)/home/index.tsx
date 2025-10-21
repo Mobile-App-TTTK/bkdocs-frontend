@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from 'expo-router';
 import { Image, Text } from "native-base";
 import React from 'react';
-import {Dimensions, SafeAreaView, ScrollView, TouchableOpacity, View} from 'react-native';
+import {Dimensions, Pressable, ScrollView, TouchableOpacity, View} from 'react-native';
 import { interpolate, useSharedValue } from "react-native-reanimated";
 import Carousel, { ICarouselInstance, Pagination, TAnimationStyle } from "react-native-reanimated-carousel";
 
@@ -21,7 +21,7 @@ export function Card() {
     const thumbnail = require(`@/assets/images/sampleDoc7.png`);
 
     return (
-        <View className="flex flex-row gap-2 h-fit w-72 shadow-md justify-center items-center mr-6" style={{borderRadius: 20}}>
+        <View className="bg-white dark:!bg-dark-700 flex flex-row gap-2 h-fit w-72 shadow-md justify-center items-center mr-6" style={{borderRadius: 20}}>
             <Image source={thumbnail} width={100} height={100} borderLeftRadius={20} borderWidth={1} borderColor={"primary.100"} alt="User Avatar"/>
             <View className="flex-1 ml-1 mr-3">
                 <Text className="!font-semibold" numberOfLines={1} style={{ flexShrink: 1 }}>Giáo trình Giải tích 1 Đại học Bách khoa Tp.HCM</Text>
@@ -122,13 +122,13 @@ export default function HomeScreen() {
                   <Text className="!text-lg !font-medium mt-1">Đóng góp</Text>
               </View>
 
-              <View className="flex flex-col justify-center items-center">
+              <Pressable className="flex flex-col justify-center items-center" onPress={() => {router.push(ROUTES.SAVED_DOC as any)}}>
                   <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
                     <Ionicons name={"briefcase-outline"} size={32} color={"#FF3300"}/>
                   </View>
 
                   <Text className="!text-lg !font-medium mt-1">Quản lý</Text>
-              </View>
+              </Pressable>
 
               <View className="flex flex-col justify-center items-center">
                   <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">

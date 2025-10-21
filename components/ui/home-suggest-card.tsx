@@ -1,6 +1,6 @@
-import {Image, Text, View} from "native-base";
 import { Ionicons } from '@expo/vector-icons';
-import {Dimensions} from "react-native";
+import { Image, Text, View } from "native-base";
+import { Dimensions } from "react-native";
 
 export default function SuggestCard() {
     const SampleImage = require('@/assets/images/sampleDoc1.png')
@@ -11,17 +11,27 @@ export default function SuggestCard() {
     const imageHeight = aspectRatio <= 667 / 375 ? "60%" : "70%";
 
     return (
-        <View className="w-[60vw] h-[42vh] p-3 bg-white rounded-xl"
+        <View className="w-[60vw] h-[42vh] p-3 bg-white dark:!bg-dark-700 rounded-xl"
         style={{
             boxShadow: '0 2px 12px 0 rgba(0, 0, 0, 0.25)',
         }}>
             <Image source={SampleImage} resizeMode={'cover'} width={"100%"} height={imageHeight} borderRadius={6} borderColor="primary.100" borderWidth={2} alt="SampleImage"/>
 
             <View style={{padding: 5}} className="my-auto mt-2">
-                <View className="flex flex-row items-center gap-4 justify-center">
-                    <Text className="font-bold text-primary-500 text-base overflow-ellipsis truncate">Giáo trình Giải tích 1 Đại học BK</Text>
+                <View className="flex flex-row items-center gap-4">
+                    <Text 
+                        className="!font-bold !text-primary-500 !text-lg flex-1" 
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                    >
+                        Giáo trình Giải tích 1 Đại học BK
+                    </Text>
 
-                    <Text className="bg-primary-500 text-white text-sm px-2" style={{borderRadius: 6}}>pdf</Text>
+                    <View className="bg-primary-500 !text-white !text-sm px-2" style={{borderRadius: 6}}>
+                        <Text>
+                            pdf
+                        </Text>
+                    </View>
                 </View>
 
                 <View className="flex flex-row gap-2 items-center mt-2">

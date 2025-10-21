@@ -5,6 +5,7 @@ export const ROUTES = {
   SIGNUP: '/(public)/signup',
   FORGOT_PASSWORD: '/(public)/forgot-password',
   OTP_CODE: '/(public)/otp-code',
+  SAVED_DOC: '/(app)/saved-doc',
 } as const;
 
 export type AppRoute = typeof ROUTES[keyof typeof ROUTES];
