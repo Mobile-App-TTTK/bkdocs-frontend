@@ -1,4 +1,4 @@
-import { ROUTES } from '@/constants/routes';
+import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import {

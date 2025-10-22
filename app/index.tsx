@@ -1,5 +1,5 @@
-import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/contexts/AuthContext';
+import { ROUTES } from '@/utils/routes';
 import { Redirect } from 'expo-router';
 import React from 'react';
 import { View } from 'react-native';

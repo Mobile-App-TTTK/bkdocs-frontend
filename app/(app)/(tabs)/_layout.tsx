@@ -1,26 +1,40 @@
+import { useTheme } from '@/contexts/ThemeContext';
+import { Colors } from '@/utils/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
 
 export default function TabsLayout() {
+  const { isDark } = useTheme();
+  const colors = isDark ? Colors.dark : Colors.light;
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: '#FF3300',
-        tabBarInactiveTintColor: '#687076',
+        tabBarInactiveTintColor: colors.tabIconDefault,
         tabBarLabelStyle: {
           fontFamily: 'Gilroy-Medium',
         },
         tabBarStyle: {
-          backgroundColor: 'white',
+          backgroundColor: colors.background,
           height: 70,
           position: 'absolute',
           paddingTop: 5,
-          marginBottom: 10,
-          borderTopWidth: 0.3,
+          margin: 10,
+          marginBottom: 20,
           elevation: 0,
-          shadowOpacity: 0
+          shadowOpacity: 0,
+          borderRadius: 30,
+          borderTopWidth: 0,
+          boxShadow: isDark 
+            ? '0 0 10px 0 rgba(255, 255, 255, 0.1)' 
+            : '0 0 10px 0 rgba(0, 0, 0, 0.1)',
+          ...(isDark && {
+            borderWidth: 0.5,
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+          }),
         },
       }}
     >

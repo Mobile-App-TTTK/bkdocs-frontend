@@ -1,14 +1,14 @@
-import { ROUTES } from '@/constants/routes';
+import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import {
-    Box,
-    Button,
-    FormControl,
-    HStack,
-    Pressable,
-    Text,
-    VStack
+  Box,
+  Button,
+  FormControl,
+  HStack,
+  Pressable,
+  Text,
+  VStack
 } from 'native-base';
 import React, { useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';

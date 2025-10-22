@@ -1,11 +1,11 @@
 import SuggestCard from '@/components/ui/home-suggest-card';
-import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/contexts/AuthContext';
+import { ROUTES } from '@/utils/routes';
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from 'expo-router';
 import { Image, Text } from "native-base";
 import React from 'react';
-import {Dimensions, Pressable, ScrollView, TouchableOpacity, View} from 'react-native';
+import { Dimensions, Pressable, ScrollView, TouchableOpacity, View } from 'react-native';
 import { interpolate, useSharedValue } from "react-native-reanimated";
 import Carousel, { ICarouselInstance, Pagination, TAnimationStyle } from "react-native-reanimated-carousel";
 

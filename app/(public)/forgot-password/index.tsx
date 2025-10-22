@@ -1,5 +1,5 @@
 import ForgotPasswordForm from "@/components/auth/ForgotPasswordForm";
-import { ROUTES } from "@/constants/routes";
+import { ROUTES } from "@/utils/routes";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Alert, View } from "react-native";

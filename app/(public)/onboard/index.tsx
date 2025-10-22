@@ -1,6 +1,6 @@
 import { slides } from '@/components/onboard/constants';
 import { IOnboardSlide } from '@/components/onboard/interfaces';
-import { ROUTES } from '@/constants/routes';
+import { ROUTES } from '@/utils/routes';
 import { useRouter } from 'expo-router';
 import { Box, Button, HStack, Pressable, Text } from 'native-base';
 import { useRef, useState } from 'react';
