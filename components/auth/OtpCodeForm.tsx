@@ -60,7 +60,7 @@ export default function OtpCodeForm({ onSubmit, isLoading = false }: OtpCodeForm
                 showsVerticalScrollIndicator={false}
             >
                 <Box px={6} flex={1} py={8} justifyContent="center">
-                <Pressable className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center" onPress={() => router.back()}>
+                <Pressable className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mt-10" onPress={() => router.back()}>
                     <Ionicons name="chevron-back-outline" size={20} color={"#888888"} style={{marginLeft: -2}}/>
                 </Pressable>
                 <VStack space={6}>
@@ -97,6 +97,8 @@ export default function OtpCodeForm({ onSubmit, isLoading = false }: OtpCodeForm
                                 value={otp[1]}
                                 onChangeText={(text) => handleOtpChange(text, 1)}
                                 onKeyPress={(e) => handleKeyPress(e, 1)}
+                                keyboardType="number-pad"
+                                maxLength={1}
                                 placeholderTextColor="#9ca3af"
                                 style={{
                                     width: 60,
@@ -115,6 +117,8 @@ export default function OtpCodeForm({ onSubmit, isLoading = false }: OtpCodeForm
                                 value={otp[2]}
                                 onChangeText={(text) => handleOtpChange(text, 2)}
                                 onKeyPress={(e) => handleKeyPress(e, 2)}
+                                keyboardType="number-pad"
+                                maxLength={1}
                                 placeholderTextColor="#9ca3af"
                                 style={{
                                     width: 60,
@@ -133,6 +137,8 @@ export default function OtpCodeForm({ onSubmit, isLoading = false }: OtpCodeForm
                                 value={otp[3]}
                                 onChangeText={(text) => handleOtpChange(text, 3)}
                                 onKeyPress={(e) => handleKeyPress(e, 3)}
+                                keyboardType="number-pad"
+                                maxLength={1}
                                 placeholderTextColor="#9ca3af"
                                 style={{
                                     width: 60,
