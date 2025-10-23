@@ -6,13 +6,23 @@ import { ScrollView, Text, View } from 'native-base';
 import { useEffect, useRef, useState } from 'react';
 import { Image, Pressable, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useGetSuggestions } from './api';
+import { useGetSuggestions, useGetSuggestionsKeyword } from './api';
 
 export default function SearchScreen() {
   const insets = useSafeAreaInsets();
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const inputRef = useRef<TextInput>(null);
   const { data: suggestions } = useGetSuggestions();
+  const { data: suggestionsKeyword } = useGetSuggestionsKeyword(debouncedSearchQuery);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery.trim());
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, [searchQuery]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -25,6 +35,7 @@ export default function SearchScreen() {
   useFocusEffect(
     () => {
       setSearchQuery('');
+      setDebouncedSearchQuery('');
       const timeout = setTimeout(() => {
         inputRef.current?.focus();
       }, 300);
@@ -32,17 +43,11 @@ export default function SearchScreen() {
     }
   );
 
-  const handleSearch = (query?: string) => {    
-    if(query?.trim()){
-      setSearchQuery(query);
-    }
-
-    console.log('query', query);
-
-    if (query?.trim() || searchQuery.trim()) {
+  const handleSearch = (query: string) => {    
+    if (query?.trim()) {
       router.push({
         pathname: '/(app)/search-result',
-        params: { query: query?.trim() ? query : searchQuery },
+        params: { query: query.trim() },
       });
     }
   };
@@ -70,7 +75,10 @@ export default function SearchScreen() {
               onSubmitEditing={() => handleSearch(searchQuery)}
             />
             {searchQuery.length > 0 && (
-              <Pressable onPress={() => setSearchQuery('')}>
+              <Pressable onPress={() => {
+                setSearchQuery('');
+                setDebouncedSearchQuery('');
+              }}>
                 <Ionicons name="close" size={20} />
               </Pressable>
             )}
@@ -85,16 +93,16 @@ export default function SearchScreen() {
       >
         {searchQuery ? (
           <View className='flex-col gap-6'>
-            {suggestions?.map((suggestion) => (
+            {suggestionsKeyword?.map((suggestion, index) => (
               <View
-                key={suggestion.id}
-                onTouchStart={() => handleSearch(suggestion.title)}
+                key={index}
+                onTouchStart={() => handleSearch(suggestion)}
                 style={{ paddingVertical: 3 }}
               >
                 <View className='flex-row items-center justify-between gap-2'>
                   <View className='flex-row items-center gap-3'>
                     <Ionicons name="search" size={20} className='!text-gray-700 dark:!text-gray-300' />
-                    <Text numberOfLines={1} ellipsizeMode="tail" className='!text-gray-700 dark:!text-gray-300'>{suggestion.title}</Text>
+                    <Text numberOfLines={1} ellipsizeMode="tail" className='!text-gray-700 dark:!text-gray-300'>{suggestion}</Text>
                   </View>
                   <Feather name="arrow-up-left" size={20} className='!text-gray-700 dark:!text-gray-300' />
                 </View>

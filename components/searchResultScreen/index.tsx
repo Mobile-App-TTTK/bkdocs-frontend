@@ -5,9 +5,9 @@ import { Feather, Ionicons, Octicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Image, Pressable, ScrollView, Text, View } from 'native-base';
 import { useEffect, useState } from 'react';
-import { Modal, TextInput, TouchableOpacity } from 'react-native';
+import { Modal, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useGetSuggestions } from '../searchScreen/api';
+import { useGetSuggestions, useGetSuggestionsKeyword } from '../searchScreen/api';
 import { useFetchFacultiesAndSubjects, useFetchSearchResult } from './api';
 
 export default function SearchResultScreen() {
@@ -23,6 +23,17 @@ export default function SearchResultScreen() {
     const [showSuggestions, setShowSuggestions] = useState(false);
     const { data: facultiesAndSubjects } = useFetchFacultiesAndSubjects();
     const { faculties, subjects } = facultiesAndSubjects || {};
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+
+    const { data: suggestionsKeyword } = useGetSuggestionsKeyword(debouncedSearchQuery);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+        setDebouncedSearchQuery(searchQuery.trim());
+        }, 100);
+
+        return () => clearTimeout(timeout);
+    }, [searchQuery]);
 
     useEffect(() => {
         if (initialSearchQuery && initialSearchQuery.trim() !== '') {
@@ -30,13 +41,11 @@ export default function SearchResultScreen() {
         }
     }, [initialSearchQuery]);
 
-    const handleSearch = (query?: string) => {
-        const searchTerm = query?.trim() || searchQuery.trim();
+    const handleSearch = (query: string) => {
+        const searchTerm = query?.trim();
 
         if (searchTerm) {
             setShowSuggestions(false);
-
-            console.log('query', searchTerm);
 
             router.push({
                 pathname: '/(app)/search-result',
@@ -76,17 +85,22 @@ export default function SearchResultScreen() {
                         {searchQuery.length > 0 && (
                             <Pressable onPress={() => {
                                 setSearchQuery('');
+                                setDebouncedSearchQuery('');
                                 setShowSuggestions(false);
                             }}>
                                 <Ionicons name="close" size={20} className='!text-black dark:!text-white' />
                             </Pressable>
                         )}
                     </View>
-                    <Pressable onPress={() => {
-                        setFilterOptions(appliedFilters);
-                        setShowFilterModal(true);
-                    }} className="relative">
-                        <Octicons name="sliders" size={23} className='!text-black dark:!text-white' />
+                    <Pressable 
+                        onPress={() => {
+                            setFilterOptions(appliedFilters);
+                            setShowFilterModal(true);
+                        }} 
+                        className="relative pl-2 pr-2 py-2"
+                        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                    >
+                        <Octicons name="sliders" size={24} className='!text-black dark:!text-white' />
                         {Object.keys(appliedFilters || {}).length > 0 && (
                             <View className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full" />
                         )}
@@ -100,16 +114,16 @@ export default function SearchResultScreen() {
             >
                 {showSuggestions ? (
                     <View className='flex-col gap-6'>
-                        {suggestions?.map((suggestion) => (
+                        {suggestionsKeyword?.map((suggestion, index) => (
                             <View
-                                key={suggestion.id}
-                                onTouchStart={() => handleSearch(suggestion.title)}
+                                key={index}
+                                onTouchStart={() => handleSearch(suggestion)}
                                 style={{ paddingVertical: 3 }}
                             >
                                 <View className='flex-row items-center justify-between gap-2'>
                                     <View className='flex-row items-center gap-3'>
                                         <Ionicons name="search" size={20} className='!text-gray-700 dark:!text-gray-300' />
-                                        <Text className='!text-gray-700 dark:!text-gray-300'>{suggestion.title}</Text>
+                                        <Text className='!text-gray-700 dark:!text-gray-300'>{suggestion}</Text>
                                     </View>
                                     <Feather name="arrow-up-left" size={20} className='!text-gray-700 dark:!text-gray-300' />
                                 </View>
@@ -180,15 +194,16 @@ export default function SearchResultScreen() {
                 transparent={true}
                 onRequestClose={() => setShowFilterModal(false)}
             >
-                <View className="flex-1 bg-black/50 justify-end">
-                    <View className="bg-white dark:bg-dark-800 rounded-t-3xl max-h-[80%] min-h-[50%]">
+                <TouchableWithoutFeedback onPress={() => setShowFilterModal(false)}>
+                    <View className="flex-1 bg-black/50 justify-end">
+                        <TouchableWithoutFeedback onPress={() => {}}>
+                            <View className="bg-white dark:bg-dark-800 rounded-t-3xl max-h-[80%] min-h-[50%]">
                         <View className="flex-row justify-between items-center p-5 border-b border-gray-200">
                             <Text className="!text-base !font-bold text-gray-800">Bộ lọc tìm kiếm</Text>
                             <View className="flex-row items-center gap-3">
-                                {Object.keys(appliedFilters || {}).length > 0 && (
+                                {Object.keys(filterOptions || {}).length > 0 && (
                                     <TouchableOpacity
                                         onPress={() => {
-                                            setAppliedFilters({});
                                             setFilterOptions({});
                                         }}
                                         className="p-2 rounded-lg bg-red-50"
@@ -197,7 +212,7 @@ export default function SearchResultScreen() {
                                     </TouchableOpacity>
                                 )}
                                 <TouchableOpacity onPress={() => setShowFilterModal(false)}>
-                                    <Ionicons name="close" size={24} className='!text-gray-600 dark:!text-gray-400' />
+                                    <Ionicons name="close" size={30} className='!text-gray-600 dark:!text-gray-400' />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -325,8 +340,10 @@ export default function SearchResultScreen() {
                             </TouchableOpacity>
                         </View>
 
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
-                </View>
+                </TouchableWithoutFeedback>
             </Modal>
         </View >
     );
