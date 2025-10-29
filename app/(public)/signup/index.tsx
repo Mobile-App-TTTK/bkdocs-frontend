@@ -1,5 +1,5 @@
 import SignupForm from '@/components/auth/SignupForm';
-import { ROUTES } from '@/constants/routes';
+import { ROUTES } from '@/utils/routes';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Alert, View } from 'react-native';
