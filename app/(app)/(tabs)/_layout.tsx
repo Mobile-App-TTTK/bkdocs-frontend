@@ -1,12 +1,24 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { Colors } from '@/utils/theme';
 import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
+import * as DocumentPicker from 'expo-document-picker';
+import { router, Tabs } from 'expo-router';
 import React from 'react';
 
 export default function TabsLayout() {
   const { isDark } = useTheme();
   const colors = isDark ? Colors.dark : Colors.light;
+
+  const handleUpload = async () => {
+    const result = await DocumentPicker.getDocumentAsync({
+      multiple: false,
+      copyToCacheDirectory: true,
+    });
+    if (!result.canceled && result.assets?.length > 0) {
+      const picked = result.assets[0];
+      router.push({ pathname: '/(app)/upload-detail', params: { name: picked.name ?? '' } });
+    }
+  };
 
   return (
     <Tabs
@@ -48,7 +60,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="search/index"
+        name="search"
         options={{
           title: 'Tìm kiếm',
           tabBarIcon: ({ color, size, focused }) => (
@@ -64,6 +76,12 @@ export default function TabsLayout() {
             <Ionicons name={focused ? "cloud-upload" : "cloud-upload-outline"} color={color} size={size} />
           ),
         }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            handleUpload();
+          },
+        }}
       />
       <Tabs.Screen
         name="notification/index"
@@ -75,7 +93,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile/index"
+        name="profile"
         options={{
           title: 'Hồ sơ',
           tabBarIcon: ({ color, size, focused }) => (

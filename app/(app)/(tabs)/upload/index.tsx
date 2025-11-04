@@ -1,29 +1,31 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as DocumentPicker from 'expo-document-picker';
+import { router, useFocusEffect } from 'expo-router';
+import React, { useCallback } from 'react';
+import { View } from 'react-native';
 
-export default function UploadScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Upload</Text>
-      <Text style={styles.subtitle}>This is the upload screen</Text>
-    </View>
+export default function UploadPage() {
+  useFocusEffect(
+    useCallback(() => {
+      const openPicker = async () => {
+        try {
+          const result = await DocumentPicker.getDocumentAsync({ multiple: false, copyToCacheDirectory: true });
+          if (!result.canceled && result.assets && result.assets.length > 0) {
+            const picked = result.assets[0];
+            router.replace({ pathname: '/(app)/upload-detail', params: { name: picked.name ?? '', uri: picked.uri ?? '', mimeType: picked.mimeType ?? '' } });
+          } else {
+            // If user cancels, just go back to previous tab
+            router.back();
+          }
+        } catch (e) {
+          console.warn('Document picker error', e);
+          router.back();
+        }
+      };
+      openPicker();
+      return () => {};
+    }, [])
   );
+
+  return <View style={{ flex: 1, backgroundColor: 'transparent' }} />;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-  },
-});
