@@ -1,4 +1,7 @@
 export const API_LOGIN = '/auth/login';
+export const API_REGISTER_REQUEST_OTP = '/auth/register/request-otp';
+export const API_VERIFY_OTP = '/auth/verify-otp';
+export const API_REGISTER_COMPLETE = '/auth/register/complete';
 
 // documents
 export const API_DOCUMENTS = '/documents';
