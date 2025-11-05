@@ -7,9 +7,10 @@ import { KeyboardAvoidingView, Platform, Pressable, ScrollView, TextInput } from
 interface OtpCodeFormProps {
     onSubmit: (code: string) => void;
     isLoading?: boolean;
+    email?: string;
 }
 
-export default function OtpCodeForm({ onSubmit, isLoading = false }: OtpCodeFormProps) {
+export default function OtpCodeForm({ onSubmit, isLoading = false, email }: OtpCodeFormProps) {
     const [otp, setOtp] = useState(['', '', '', '']);
     const [error, setError] = useState('');
         
@@ -20,17 +21,14 @@ export default function OtpCodeForm({ onSubmit, isLoading = false }: OtpCodeForm
         useRef<TextInput>(null),
     ];
 
-    const validateForm = () => {
+    const handleSubmit = () => {
         if (otp.every(digit => digit !== '')) {
-            console.log(otp.join(''));
+            const otpCode = otp.join('');
             setError('');
+            onSubmit(otpCode); // Gọi callback với mã OTP
         } else {
             setError('Vui lòng điền đầy đủ mã OTP');
         }
-    };
-
-    const handleSubmit = () => {
-        validateForm();
     };
 
     const handleOtpChange = (text: string, index: number) => {
@@ -66,7 +64,7 @@ export default function OtpCodeForm({ onSubmit, isLoading = false }: OtpCodeForm
                 <VStack space={6}>
                     <VStack alignItems="center" space={1}>
                     <Text className='!text-3xl !font-bold !text-primary-500 mt-20'>Mã xác nhận</Text>
-                    <Text className='dark:text-gray-50 text-gray-800 text-center'>Chúng tôi đã gửi mã xác nhận tài khoản qua email tai.tranthanh@hcmut.edu.vn</Text>
+                    <Text className='dark:text-gray-50 text-gray-800 text-center'>Chúng tôi đã gửi mã xác nhận tài khoản qua email {email}</Text>
                     </VStack>
                     
                     <FormControl>

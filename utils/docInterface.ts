@@ -3,6 +3,7 @@ export interface DocProps{
     docName: string;
     uploader: string;
     subject: string;
+    faculty: string[];
     docDownload: number;
     ratings: number;
     ratingsCount:number;

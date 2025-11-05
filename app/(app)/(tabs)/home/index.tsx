@@ -41,6 +41,8 @@ export default function HomeScreen() {
   const { logout } = useAuth();
   const router = useRouter();
 
+    const [following, setFollowing] = React.useState(false);
+
     const avatar = require(`@/assets/images/userAvatar1.png`);
     const progress = useSharedValue<number>(0);
     const { width,height } = Dimensions.get("window");
@@ -100,9 +102,9 @@ export default function HomeScreen() {
               </View>
 
               <View className="flex-1"></View>
-              <View className="flex justify-center items-center w-10 h-10 rounded-full bg-primary-50">
+              <Pressable className="flex justify-center items-center w-10 h-10 rounded-full bg-primary-50" onPress={() => {router.push(ROUTES.NOTIFICATION as any)}}>
                 <Ionicons name={"notifications-outline"} size={22} color={"#FF3300"}/>
-              </View>
+              </Pressable>
           </View>
           {/*Thao tác nhanh*/}
           <View className="flex flex-row mx-6 justify-between mt-6">
@@ -185,7 +187,17 @@ export default function HomeScreen() {
           />
 
           <View>
-              <Text style={{}} className="mx-6 mt-6 !text-xl !font-bold">Tài liệu khoa Khoa học & Kỹ thuật Máy tính</Text>
+              <View className="mx-6 mt-6 !text-xl !font-bold flex flex-row items-center gap-1.5">
+                  <Text className="!text-xl !font-bold">Tài liệu khoa Máy tính</Text>
+                  <Text className="!text-xl !font-bold">•</Text>
+                  <Pressable onPress={() => {setFollowing(!following)}}>
+                      <Text className={`!text-xl !font-bold ${following ? "!text-gray-500" : "!text-primary-500"}`} >
+                          {
+                              following ? "Đang theo dõi" : "Theo dõi"
+                          }
+                      </Text>
+                  </Pressable>
+              </View>
 
               <ScrollView horizontal={true} style={{paddingVertical:15, paddingHorizontal:22}} showsVerticalScrollIndicator={false}>
                 <Card />

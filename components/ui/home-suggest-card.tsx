@@ -1,8 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from "expo-router";
 import { Image, Text, View } from "native-base";
-import { Dimensions } from "react-native";
+import { Dimensions, Pressable } from "react-native";
 
 export default function SuggestCard() {
+    const router = useRouter();
     const SampleImage = require('@/assets/images/sampleDoc1.png')
 
     const { width, height } = Dimensions.get("window");
@@ -11,7 +13,7 @@ export default function SuggestCard() {
     const imageHeight = aspectRatio <= 667 / 375 ? "60%" : "70%";
 
     return (
-        <View className="w-[60vw] h-[42vh] p-3 bg-white dark:!bg-dark-700 rounded-xl"
+        <Pressable className="w-[60vw] h-[42vh] p-3 bg-white dark:!bg-dark-700 rounded-xl" onPress={()=>{router.push("/doc-detail")}}
         style={{
             boxShadow: '0 2px 12px 0 rgba(0, 0, 0, 0.25)',
         }}>
@@ -19,16 +21,16 @@ export default function SuggestCard() {
 
             <View style={{padding: 5}} className="my-auto mt-2">
                 <View className="flex flex-row items-center gap-4">
-                    <Text 
-                        className="!font-bold !text-primary-500 !text-lg flex-1" 
+                    <Text
+                        className="!font-bold !text-primary-500 !text-lg flex-1"
                         numberOfLines={1}
                         ellipsizeMode="tail"
                     >
                         Giáo trình Giải tích 1 Đại học BK
                     </Text>
 
-                    <View className="bg-primary-500 !text-white !text-sm px-2" style={{borderRadius: 6}}>
-                        <Text>
+                    <View className="bg-primary-500 px-2" style={{borderRadius: 6}}>
+                        <Text className="!text-white !text-sm">
                             pdf
                         </Text>
                     </View>
@@ -52,6 +54,6 @@ export default function SuggestCard() {
                     </View>
                 </View>
             </View>
-        </View>
+        </Pressable>
     )
 }
