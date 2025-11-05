@@ -1,9 +1,9 @@
 import SavedDocCard from "@/components/ui/saved-doc-card";
-import {View, Text, Pressable} from "native-base";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { Pressable, Text, View } from "native-base";
+import React, { useState } from "react";
 import { ScrollView } from "react-native";
-import React, {useState} from "react";
-import {Ionicons} from "@expo/vector-icons";
-import {useRouter} from "expo-router";
 
 export default function SavedDoc() {
     const router = useRouter();
@@ -11,9 +11,20 @@ export default function SavedDoc() {
     const [scroll, setScroll] = useState(false);
     return (
         <View className="flex-1 bg-white dark:!bg-gray-900">
-            <View className="flex items-center justify-center relative !pt-16">
+            <View className="flex items-center justify-center relative !pt-[64px] bg-white dark:bg-black-700"
+                  style={{
+                      shadowColor: "#000",
+                      shadowOffset: {
+                          width: 0,
+                          height: 2,
+                      },
+                      shadowOpacity: 0.1,
+                      shadowRadius: 20,
+                      elevation: 10,
+                  }}
+            >
                 <Pressable
-                    className="!absolute top-14 left-6 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center"
+                    className="!absolute top-16 left-6 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center"
                     onPress={() => router.back()}
                 >
                     <Ionicons name="chevron-back-outline" size={24} color={"#888888"} />

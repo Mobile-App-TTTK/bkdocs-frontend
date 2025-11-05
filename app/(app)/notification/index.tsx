@@ -1,7 +1,7 @@
 import { NotificationProps } from "@/utils/notiInterface";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { Image, Text } from "native-base";
+import { Button, Image, Text } from "native-base";
 import { useState } from "react";
 import { Keyboard, Pressable, ScrollView, TouchableWithoutFeedback, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -13,7 +13,7 @@ const sampleNotification: NotificationProps[] = [
         message: "Bạn có 1 đánh giá mới",
         image: require("@/assets/images/userAvatar.jpg"),
         isRead: false,
-        createdAt: "05-11-2025 10:00",
+        createdAt: "2025-10-01",
     }, 
     {
         id: "2",
@@ -21,7 +21,7 @@ const sampleNotification: NotificationProps[] = [
         message: "Bạn có 1 đánh giá mới",
         image: require("@/assets/images/userAvatar.jpg"),
         isRead: true,
-        createdAt: "05-11-2025 10:00",
+        createdAt: "2025-10-01",
     },
     {
         id: "3",
@@ -29,7 +29,7 @@ const sampleNotification: NotificationProps[] = [
         message: "Giáo trình Hệ điều hành vừa upload",
         image: require("@/assets/images/userAvatar.jpg"),
         isRead: false,
-        createdAt: "05-11-2025 10:00",
+        createdAt: "2025-10-01",
     },
     {
         id: "4",
@@ -37,7 +37,7 @@ const sampleNotification: NotificationProps[] = [
         message: "Giáo trình Lập trình web vừa upload",
         image: require("@/assets/images/userAvatar.jpg"),
         isRead: false,
-        createdAt: "05-11-2025 10:00",
+        createdAt: "2025-10-01",
     },
     {
         id: "5",
@@ -45,7 +45,7 @@ const sampleNotification: NotificationProps[] = [
         message: "Bạn có 1 đánh giá mới",
         image: require("@/assets/images/userAvatar.jpg"),
         isRead: true,
-        createdAt: "05-11-2025 10:00",
+        createdAt: "2025-10-01",
     },
 ];
 export default function Notification() {
@@ -81,24 +81,26 @@ export default function Notification() {
                         </Pressable>
                         <Text numberOfLines={1} className="!text-2xl !font-bold !text-black dark:!text-white mb-4 w-7/12 text-center">Thông báo</Text>
                     </View>
-                    <ScrollView className="flex flex-col bg-white dark:bg-dark-900">
+                    <ScrollView className="p-6">
                         {sampleNotification.map((notification) => (
-                            <View key={notification.id} className={`flex flex-row gap-4 px-6 py-5 ${notification.isRead ? 'bg-white dark:bg-dark-800' : 'bg-primary-50 dark:bg-primary-900'}`}>
+                            <View key={notification.id} className="flex flex-row gap-4">
                                 <Image source={notification.image} width={12} height={12} alt={"User Avatar"} className="rounded-full !shadow-md"></Image>
                                 <View className="flex-1 flex-shrink">
-                                    <View className="flex flex-row justify-between items-center">
-                                      <Text className="!font-bold !text-lg">{notification.title}</Text>
-                                      <Text>{notification.createdAt}</Text>
-                                    </View>
-
+                                    <Text className="!font-bold">{notification.title}</Text>
                                     <Text>{notification.message}</Text>
+                                    <Text>{notification.createdAt}</Text>
                                 </View>
                             </View>
                         ))}
                     </ScrollView>
                 </View>
             </TouchableWithoutFeedback>
-          
+            
+            <View className="absolute bottom-10 left-0 right-0 px-[16px]">
+                <Button className="!bg-primary-500 !rounded-xl !py-4" onPress={() => {}}>
+                    <Text className="!text-white !font-bold !text-lg">Gửi đánh giá</Text>
+                </Button>
+            </View>
         </GestureHandlerRootView>
     );
 }
