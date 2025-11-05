@@ -46,7 +46,7 @@ export default function SearchScreen() {
   const handleSearch = (query: string) => {    
     if (query?.trim()) {
       router.push({
-        pathname: '/(app)/search-result',
+        pathname: '/(app)/(tabs)/search/result',
         params: { query: query.trim() },
       });
     }

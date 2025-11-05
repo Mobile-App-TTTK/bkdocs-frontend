@@ -1,6 +1,7 @@
 import { api } from '@/api/apiClient';
 import { API_LOGIN } from '@/api/apiRoutes';
 import { LoginRequestBody } from '@/models/auth.type';
+import { setLogoutHandler } from '@/utils/authEvents';
 import { ACCESS_TOKEN_KEY } from '@/utils/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
@@ -61,6 +62,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await AsyncStorage.removeItem(ACCESS_TOKEN_KEY);
   }, []);
 
+  useEffect(() => {
+    setLogoutHandler(logout);
+  }, [logout]);
+
   const value = useMemo<AuthContextValue>(() => ({
     isAuthenticated: !!token,
     isLoading,
@@ -83,5 +88,19 @@ export const useAuth = (): AuthContextValue => {
   }
   return ctx;
 };
+
+// Register logout handler for non-React contexts (e.g., axios interceptors)
+// Keep this effect outside value memoization to always have the latest logout reference.
+export const _registerAuthEvents = (() => {
+  let initialized = false;
+  return (logoutRef: () => Promise<void>) => {
+    if (!initialized) {
+      setLogoutHandler(logoutRef);
+      initialized = true;
+    } else {
+      setLogoutHandler(logoutRef);
+    }
+  };
+})();
 
 

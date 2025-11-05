@@ -2,12 +2,14 @@ import { FilterOptions } from '@/models/search.type';
 import { getBackgroundById, getDate } from '@/utils/functions';
 import { ROUTES } from '@/utils/routes';
 import { Feather, Ionicons, Octicons } from '@expo/vector-icons';
+import classNames from 'classnames';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Image, Pressable, ScrollView, Text, View } from 'native-base';
+import { Pressable, ScrollView, Text, View } from 'native-base';
 import { useEffect, useState } from 'react';
-import { Modal, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { Image, Modal, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useGetSuggestions, useGetSuggestionsKeyword } from '../searchScreen/api';
+import { filterOptionsList } from '../searchScreen/utils/constants';
 import { useFetchFacultiesAndSubjects, useFetchSearchResult } from './api';
 
 export default function SearchResultScreen() {
@@ -22,10 +24,11 @@ export default function SearchResultScreen() {
     const { data: suggestions } = useGetSuggestions();
     const [showSuggestions, setShowSuggestions] = useState(false);
     const { data: facultiesAndSubjects } = useFetchFacultiesAndSubjects();
-    const { faculties, subjects } = facultiesAndSubjects || {};
+    const { faculties } = facultiesAndSubjects || {};
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
 
     const { data: suggestionsKeyword } = useGetSuggestionsKeyword(debouncedSearchQuery);
+    const [selectedFilter, setSelectedFilter] = useState<string>('all');
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -48,7 +51,7 @@ export default function SearchResultScreen() {
             setShowSuggestions(false);
 
             router.push({
-                pathname: '/(app)/search-result',
+                pathname: '/(app)/(tabs)/search/result',
                 params: { query: searchTerm },
             });
         }
@@ -106,10 +109,22 @@ export default function SearchResultScreen() {
                         )}
                     </Pressable>
                 </View>
+
+                <View className={classNames("flex-row items-center gap-2 py-4", showSuggestions ? 'hidden' : 'block')}>
+                    {filterOptionsList.map((option) => (
+                        <TouchableOpacity 
+                            key={option.value} onPress={() => setSelectedFilter(option.value)} 
+                            className={classNames(
+                                "p-3 rounded-xl border border-gray-200 dark:border-gray-700", selectedFilter === option.value ? 'bg-primary-50 border-primary-500' : '')}
+                        >
+                            <Text className={classNames("!text-md !font-medium text-center px-2", selectedFilter === option.value ? '!text-primary-500' : '!text-gray-700 dark:!text-gray-300')}>{option.label}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
             </View>
             <ScrollView
                 className="flex-1 px-2"
-                style={{ marginTop: insets.top + 60 }}
+                style={{ marginTop: insets.top + (showSuggestions ? 60 : 110) }}
                 showsVerticalScrollIndicator={false}
             >
                 {showSuggestions ? (
@@ -177,7 +192,78 @@ export default function SearchResultScreen() {
                                     </View>
                                 </View>
                             </View>
-                        )) : (
+                        )) : selectedFilter === 'user' ? (
+                            <View className="flex-col gap-6">
+                                <TouchableOpacity
+                                    onPress={() => router.push(ROUTES.FACULTY)}
+                                >
+                                    <View className="w-full flex flex-row items-center gap-4">
+                                        <Image
+                                            source={{ uri: "https://i.pinimg.com/1200x/24/bd/d9/24bdd9ec59a9f8966722063fe7791183.jpg" }}
+                                            width={70}
+                                            height={70}
+                                            borderRadius={100}
+                                            resizeMode="cover"
+                                            alt="background"
+                                        />
+                                        <View>
+                                            <View className="flex-row items-center gap-2">
+                                                <Text className="!text-lg !font-semibold">Trần Thành Tài</Text>
+                                                <Octicons name="verified" size={20} color="#42A5F5" />
+                                                <Text className="!text-lg !font-semibold">·</Text>
+                                                <TouchableOpacity>
+                                                    <Text className="!text-blue-500 dark:!text-blue-400 !font-bold">Theo dõi</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <Text className="!text-gray-500 dark:!text-gray-400">200,9M người theo dõi · Tải lên 124 tài liệu</Text>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    onPress={() => router.push(ROUTES.SUBJECT)}
+                                >
+                                    <View className="w-full flex flex-row items-center gap-4">
+                                        <Image
+                                            source={{ uri: "https://i.pinimg.com/1200x/5a/ac/e1/5aace12a908e7de89dd6fa73ce5ce53b.jpg" }}
+                                            width={70}
+                                            height={70}
+                                            borderRadius={100}
+                                            resizeMode="cover"
+                                            alt="background"
+                                        />
+                                        <View>
+                                            <View className="flex-row items-center gap-2">
+                                                <Text className="!text-lg !font-semibold">Nguyễn Minh Khánh</Text>
+                                            </View>
+                                            <Text className="!text-gray-500 dark:!text-gray-400">Đã theo dõi</Text>
+                                            <Text className="!text-gray-500 dark:!text-gray-400">500 người theo dõi · Tải lên 124 tài liệu</Text>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+
+                                <View className="w-full flex flex-row items-center gap-4">
+                                    <Image
+                                        source={{ uri: "https://i.pinimg.com/1200x/fd/2d/98/fd2d98b5506a612231fc99a5eb00a335.jpg" }}
+                                        width={70}
+                                        height={70}
+                                        borderRadius={100}
+                                        resizeMode="cover"
+                                        alt="background"
+                                    />
+                                    <View>
+                                        <View className="flex-row items-center gap-2">
+                                            <Text className="!text-lg !font-semibold">Nguyễn Trường Thịnh</Text>
+                                            <Text className="!text-lg !font-semibold">·</Text>
+                                            <TouchableOpacity>
+                                                <Text className="!text-blue-500 dark:!text-blue-400 !font-bold">Theo dõi</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <Text className="!text-gray-500 dark:!text-gray-400">100,2K người theo dõi · Tải lên 124 tài liệu</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        ) : (
                             <View className="w-full flex items-center justify-center py-8">
                                 <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy kết quả nào</Text>
                             </View>
@@ -286,29 +372,6 @@ export default function SearchResultScreen() {
                                                 }`}
                                         >
                                             <Text className={`!font-medium ${filterOptions?.faculty === option.name
-                                                    ? '!text-primary-500'
-                                                    : '!text-gray-700'
-                                                }`}>
-                                                {option.name}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    ))}
-                                </View>
-                            </View>
-
-                            <View className="mb-6">
-                                <Text className="!text-base !font-semibold mb-3">Môn học</Text>
-                                <View className="space-y-2 flex-row flex-wrap gap-3">
-                                    {subjects?.map((option) => (
-                                        <TouchableOpacity
-                                            key={option.id}
-                                            onPress={() => setFilterOptions(prev => ({ ...prev, subject: prev?.subject === option.name ? undefined : option.name }))}
-                                            className={`p-3 rounded-xl border ${filterOptions?.subject === option.name
-                                                    ? 'bg-primary-50 border-primary-500'
-                                                    : 'bg-gray-50 border-gray-200'
-                                                }`}
-                                        >
-                                            <Text className={`!font-medium ${filterOptions?.subject === option.name
                                                     ? '!text-primary-500'
                                                     : '!text-gray-700'
                                                 }`}>

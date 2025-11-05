@@ -1,6 +1,9 @@
+import { triggerLogout } from "@/utils/authEvents";
 import { ACCESS_TOKEN_KEY } from "@/utils/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { router } from "expo-router";
+import { Alert } from "react-native";
 import { API_LOGIN } from "./apiRoutes";
 
 export const api = axios.create({
@@ -23,7 +26,13 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       await AsyncStorage.removeItem(ACCESS_TOKEN_KEY);
-      console.warn("Token expired, user logged out.");
+      try {
+        await triggerLogout();
+      } catch {}
+      Alert.alert('Phiên đăng nhập đã hết hạn', 'Vui lòng đăng nhập lại.');
+      try {
+        router.replace('/(public)/login');
+      } catch {}
     }
     return Promise.reject(error);
   }
