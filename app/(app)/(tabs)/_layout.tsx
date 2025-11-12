@@ -1,13 +1,17 @@
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAppDispatch } from '@/store/hooks';
+import { setDocumentFile } from '@/store/uploadSlice';
 import { Colors } from '@/utils/theme';
 import { Ionicons } from '@expo/vector-icons';
 import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
 import { router, Tabs } from 'expo-router';
 import React from 'react';
 
 export default function TabsLayout() {
   const { isDark } = useTheme();
   const colors = isDark ? Colors.dark : Colors.light;
+  const dispatch = useAppDispatch();
 
   const handleUpload = async () => {
     const result = await DocumentPicker.getDocumentAsync({
@@ -16,7 +20,36 @@ export default function TabsLayout() {
     });
     if (!result.canceled && result.assets?.length > 0) {
       const picked = result.assets[0];
-      router.push({ pathname: '/(app)/upload-detail', params: { name: picked.name ?? '' } });
+      console.log('Picked document from tab layout:', picked);
+      
+      let fileUri = picked.uri;
+      
+      if (fileUri.startsWith('ph://') || fileUri.startsWith('ph-upload://')) {
+        try {
+          const fileName = picked.name || 'document.pdf';
+          const cacheFile = new FileSystem.File(FileSystem.Paths.cache, fileName);
+          console.log('Copying file from photo library to cache:', fileUri, '->', cacheFile.uri);
+          
+          const sourceFile = new FileSystem.File(fileUri);
+          await sourceFile.copy(cacheFile);
+          
+          fileUri = cacheFile.uri;
+          console.log('File copied successfully to:', fileUri);
+        } catch (error) {
+          console.error('Error copying file:', error);
+          alert('Không thể copy file. Vui lòng thử lại.');
+          return;
+        }
+      }
+      
+      dispatch(setDocumentFile({
+        uri: fileUri,
+        name: picked.name ?? '',
+        mimeType: picked.mimeType ?? ''
+      }));
+      
+      console.log('Document saved to Redux store, navigating to upload-detail...');
+      router.push('/(app)/upload-detail');
     }
   };
 
@@ -51,7 +84,7 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="home/index"
+        name="home"
         options={{
           title: 'Trang chủ',
           tabBarIcon: ({ color, size, focused }) => (

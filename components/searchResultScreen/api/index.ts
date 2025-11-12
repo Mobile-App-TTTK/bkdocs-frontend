@@ -5,24 +5,28 @@ import { useQuery } from "@tanstack/react-query";
 
 export const fetchSearchResult = async (
   keyword: string,
-  filters: FilterOptions = {}
+  filters: FilterOptions = {},
+  searchFor: string = 'all'
 ) => {
   const params = {
     keyword,
+    searchFor,
     ...Object.fromEntries(
       Object.entries(filters).filter(([_, v]) => v != null && v !== '')
     ),
   };
+
+  console.log("params", params);
 
   const { data } = await api.get(API_GET_SEARCH_RESULT, { params });
   return data.data;
 };
 
 
-export const useFetchSearchResult = (query: string, filters?: FilterOptions) => {
-  return useQuery<SearchResult[]>({
-    queryKey: ["search-result", query, filters],
-    queryFn: () => fetchSearchResult(query, filters),
+export const useFetchSearchResult = (query: string, filters?: FilterOptions, searchFor?: string) => {
+  return useQuery<SearchResult>({
+    queryKey: ["search-result", query, filters, searchFor],
+    queryFn: () => fetchSearchResult(query, filters, searchFor),
     enabled: !!query && query.trim().length > 0
   });
 };

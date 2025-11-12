@@ -4,6 +4,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useSplashScreen } from '@/hooks/use-splash-screen';
+import { store } from '@/store';
 import { useAppFonts } from '@/utils/fonts';
 import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -11,6 +12,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import 'react-native-reanimated';
+import { Provider as ReduxProvider } from 'react-redux';
 import '../global.css';
 
 const queryClient = new QueryClient();
@@ -82,22 +84,24 @@ export default function RootLayout() {
   });
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <ThemeWrapper>
-          <NavigationThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <NativeBaseProvider theme={nativeBaseTheme}>
-              <AuthProvider>
-                <Stack screenOptions={{ animation: 'none', headerShown: false }}>
-                  <Stack.Screen name="index" options={{ headerShown: false }} />
-                  <Stack.Screen name="(public)" options={{ headerShown: false }} />
-                </Stack>
-                <StatusBar style="auto" />
-              </AuthProvider>
-            </NativeBaseProvider>
-          </NavigationThemeProvider>
-        </ThemeWrapper>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <ReduxProvider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <ThemeWrapper>
+            <NavigationThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+              <NativeBaseProvider theme={nativeBaseTheme}>
+                <AuthProvider>
+                  <Stack screenOptions={{ animation: 'none', headerShown: false }}>
+                    <Stack.Screen name="index" options={{ headerShown: false }} />
+                    <Stack.Screen name="(public)" options={{ headerShown: false }} />
+                  </Stack>
+                  <StatusBar style="auto" />
+                </AuthProvider>
+              </NativeBaseProvider>
+            </NavigationThemeProvider>
+          </ThemeWrapper>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </ReduxProvider>
   );
 }
