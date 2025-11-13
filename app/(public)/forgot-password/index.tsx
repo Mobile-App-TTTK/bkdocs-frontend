@@ -11,7 +11,7 @@ export default function ForgotPasswordScreen() {
         setIsLoading(true);
         try {
             router.push(ROUTES.OTP_CODE);
-        } catch (e) {
+        } catch {
             Alert.alert('Gửi mã OTP thất bại, vui lòng thử lại');
         } finally {
             setIsLoading(false);

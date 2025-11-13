@@ -1,42 +1,38 @@
+import { useFetchFacultiesAndSubjects } from '@/components/searchResultScreen/api';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setSelectedFaculties } from '@/store/uploadSlice';
 import { removeDiacritics } from '@/utils/functions';
-import { setSelectedFaculties } from '@/utils/selectionStore';
 import { Ionicons } from '@expo/vector-icons';
-import { router, useLocalSearchParams } from 'expo-router';
-import { Button, Text, View } from 'native-base';
+import { router } from 'expo-router';
+import { Button, Skeleton, Text, View } from 'native-base';
 import React, { useMemo, useState } from 'react';
 import { FlatList, Pressable, TextInput, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const FACULTIES = [
-  'Khoa Máy tính',
-  'Khoa Điện - Điện tử',
-  'Khoa Kỹ thuật Hoá học',
-  'Khoa Xây dựng',
-  'Khoa Khoa học Ứng dụng',
-  'Khoa Cơ khí',
-  'Khoa Vật liệu',
-];
-
 export default function SelectFacultyScreen() {
   const insets = useSafeAreaInsets();
-  const params = useLocalSearchParams<{ name?: string; faculties?: string }>();
+  const dispatch = useAppDispatch();
+  
+  // Get selected faculties from Redux
+  const selectedFacultiesFromRedux = useAppSelector(state => state.upload.selectedFaculties);
+  
+  const { data: facultiesData, isLoading } = useFetchFacultiesAndSubjects();
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<Record<string, boolean>>(() => {
-    try {
-      if (typeof params.faculties === 'string' && params.faculties) {
-        const list = JSON.parse(params.faculties) as string[];
-        return list.reduce<Record<string, boolean>>((acc, cur) => {
-          acc[cur] = true;
-          return acc;
-        }, {});
-      }
-    } catch {}
-    return {};
+    // Initialize from Redux state
+    return selectedFacultiesFromRedux.reduce<Record<string, boolean>>((acc, cur) => {
+      acc[cur] = true;
+      return acc;
+    }, {});
   });
 
+  const faculties = useMemo(() => {
+    return facultiesData?.faculties || [];
+  }, [facultiesData]);
+
   const filtered = useMemo(
-    () => FACULTIES.filter((f) => removeDiacritics(f).toLowerCase().includes(removeDiacritics(query).trim().toLowerCase())),
-    [query]
+    () => faculties.filter((f: any) => removeDiacritics(f.name).toLowerCase().includes(removeDiacritics(query).trim().toLowerCase())),
+    [query, faculties]
   );
 
   const selectedCount = useMemo(() => Object.values(selected).filter(Boolean).length, [selected]);
@@ -45,13 +41,13 @@ export default function SelectFacultyScreen() {
     setSelected((prev) => ({ ...prev, [name]: !prev[name] }));
   };
 
-  const allSelected = useMemo(() => FACULTIES.every((f) => selected[f]), [selected]);
+  const allSelected = useMemo(() => faculties.every((f: any) => selected[f.name]), [selected, faculties]);
   const toggleSelectAll = () => {
     if (allSelected) {
       setSelected({});
     } else {
       const next: Record<string, boolean> = {};
-      FACULTIES.forEach((f) => (next[f] = true));
+      faculties.forEach((f: any) => (next[f.name] = true));
       setSelected(next);
     }
   };
@@ -93,19 +89,35 @@ export default function SelectFacultyScreen() {
           />
         </View>
 
-        <FlatList
-          className='mt-4'
-          data={filtered}
-          keyExtractor={(item) => item}
-          renderItem={({ item }) => (
-            <Pressable onPress={() => toggle(item)} className='flex-row items-center py-5 border-b border-gray-200 dark:border-gray-700'>
-              <View className='w-6 h-6 mr-4 rounded-md border-2 border-primary-500 items-center justify-center'>
-                {selected[item] && <View className='w-4 h-4 rounded-sm bg-primary-500' />}
+        {isLoading ? (
+          <View className='mt-4'>
+            {[1, 2, 3, 4, 5].map((i) => (
+              <View key={i} className='flex-row items-center py-5 border-b border-gray-200 dark:border-gray-700'>
+                <Skeleton h="6" w="6" mr={4} rounded="md" />
+                <Skeleton.Text lines={1} w="40" />
               </View>
-              <Text className='!text-lg !text-black dark:!text-white'>{item}</Text>
-            </Pressable>
-          )}
-        />
+            ))}
+          </View>
+        ) : (
+          <FlatList
+            className='mt-4'
+            data={filtered}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <Pressable onPress={() => toggle(item.name)} className='flex-row items-center py-5 border-b border-gray-200 dark:border-gray-700'>
+                <View className='w-6 h-6 mr-4 rounded-md border-2 border-primary-500 items-center justify-center'>
+                  {selected[item.name] && <View className='w-4 h-4 rounded-sm bg-primary-500' />}
+                </View>
+                <Text className='!text-lg !text-black dark:!text-white'>{item.name}</Text>
+              </Pressable>
+            )}
+            ListEmptyComponent={
+              <View className='py-8 items-center'>
+                <Text className='!text-gray-500'>Không tìm thấy khoa nào</Text>
+              </View>
+            }
+          />
+        )}
 
         <View className='absolute left-3 right-3' style={{ bottom: insets.bottom + 12 }}>
           <Button
@@ -115,7 +127,8 @@ export default function SelectFacultyScreen() {
             isDisabled={selectedCount === 0}
             onPress={() => {
               const chosen = Object.keys(selected).filter((k) => selected[k]);
-              setSelectedFaculties(chosen);
+              // Save to Redux store
+              dispatch(setSelectedFaculties(chosen));
               router.back();
             }}
           >

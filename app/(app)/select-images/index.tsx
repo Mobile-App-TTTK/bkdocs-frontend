@@ -1,4 +1,5 @@
-import { getCoverImage, getSelectedImages, setCoverImage, setSelectedImages } from '@/utils/selectionStore';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setCoverImage, setSelectedImages } from '@/store/uploadSlice';
 import { Ionicons } from '@expo/vector-icons';
 import { Image as ExpoImage } from 'expo-image';
 import * as MediaLibrary from 'expo-media-library';
@@ -10,9 +11,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function SelectImagesScreen() {
   const insets = useSafeAreaInsets();
+  const dispatch = useAppDispatch();
   const params = useLocalSearchParams<{ single?: string }>();
   const singleMode = typeof params.single === 'string' && params.single === '1';
-  const initial = singleMode ? (getCoverImage() ? [getCoverImage() as string] : []) : getSelectedImages();
+  
+  // Get from Redux
+  const coverImageFromRedux = useAppSelector(state => state.upload.coverImage);
+  const selectedImagesFromRedux = useAppSelector(state => state.upload.selectedImages);
+  
+  const initial = singleMode ? (coverImageFromRedux ? [coverImageFromRedux] : []) : selectedImagesFromRedux;
   const [selected, setSelected] = useState<string[]>(() => [...initial]);
   const [libraryImages, setLibraryImages] = useState<string[]>([]);
 
@@ -125,9 +132,9 @@ export default function SelectImagesScreen() {
             isDisabled={selectedCount === 0}
             onPress={() => {
               if (singleMode) {
-                setCoverImage(selected[0] ?? null);
+                dispatch(setCoverImage(selected[0] ?? null));
               } else {
-                setSelectedImages(selected);
+                dispatch(setSelectedImages(selected));
               }
               router.back();
             }}

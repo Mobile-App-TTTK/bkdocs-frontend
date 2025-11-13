@@ -1,33 +1,33 @@
+import { useFetchFacultiesAndSubjects } from '@/components/searchResultScreen/api';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setSelectedLists } from '@/store/uploadSlice';
 import { removeDiacritics } from '@/utils/functions';
-import { getSelectedLists, setSelectedLists } from '@/utils/selectionStore';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Button, Text, View } from 'native-base';
+import { Button, Skeleton, Text, View } from 'native-base';
 import React, { useMemo, useState } from 'react';
 import { FlatList, Pressable, TextInput, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const LISTS = [
-  'Slide bài giảng',
-  'Giáo trình môn học',
-  'Bài tập rèn luyện',
-  'Quizz',
-  'Đề thi giữa kỳ',
-  'Đề thi cuối kỳ',
-];
-
 export default function SelectListScreen() {
   const insets = useSafeAreaInsets();
+  const dispatch = useAppDispatch();
+  const selectedListsFromRedux = useAppSelector(state => state.upload.selectedLists);
+  
+  const { data: facultiesData, isLoading } = useFetchFacultiesAndSubjects();
   const [query, setQuery] = useState('');
-  const initial = getSelectedLists();
-  const [selected, setSelected] = useState<string | null>(() => initial[0] ?? null);
+  const [selected, setSelected] = useState<string | null>(() => selectedListsFromRedux[0] ?? null);
+
+  const documentTypes = useMemo(() => {
+    return facultiesData?.documentTypes || [];
+  }, [facultiesData]);
 
   const filtered = useMemo(
-    () => LISTS.filter((f) => removeDiacritics(f).toLowerCase().includes(removeDiacritics(query).trim().toLowerCase())),
-    [query]
+    () => documentTypes.filter((f: any) => removeDiacritics(f.name).toLowerCase().includes(removeDiacritics(query).trim().toLowerCase())),
+    [query, documentTypes]
   );
 
-  const selectedCount = useMemo(() => (selected ? 1 : 0), [selected]);
+  // const selectedCount = useMemo(() => (selected ? 1 : 0), [selected]);
 
   const toggle = (name: string) => setSelected((prev) => (prev === name ? null : name));
 
@@ -54,24 +54,40 @@ export default function SelectListScreen() {
           />
         </View>
 
-        <FlatList
-          className='mt-4'
-          data={filtered}
-          keyExtractor={(item) => item}
-          renderItem={({ item }) => (
-            <Pressable onPress={() => toggle(item)} className='flex-row items-center py-5 border-b border-gray-200 dark:border-gray-700'>
-              <View className='w-6 h-6 mr-4 rounded-full border-2 border-primary-500 items-center justify-center'>
-                {selected === item && <View className='w-3.5 h-3.5 rounded-full bg-primary-500' />}
+        {isLoading ? (
+          <View className='mt-4'>
+            {[1, 2, 3, 4, 5].map((i) => (
+              <View key={i} className='flex-row items-center py-5 border-b border-gray-200 dark:border-gray-700'>
+                <Skeleton h="6" w="6" mr={4} rounded="full" />
+                <Skeleton.Text lines={1} w="40" />
               </View>
-              <Text className='!text-lg !text-black dark:!text-white'>{item}</Text>
-            </Pressable>
-          )}
-        />
+            ))}
+          </View>
+        ) : (
+          <FlatList
+            className='mt-4'
+            data={filtered}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <Pressable onPress={() => toggle(item.name)} className='flex-row items-center py-5 border-b border-gray-200 dark:border-gray-700'>
+                <View className='w-6 h-6 mr-4 rounded-full border-2 border-primary-500 items-center justify-center'>
+                  {selected === item.name && <View className='w-3.5 h-3.5 rounded-full bg-primary-500' />}
+                </View>
+                <Text className='!text-lg !text-black dark:!text-white'>{item.name}</Text>
+              </Pressable>
+            )}
+            ListEmptyComponent={
+              <View className='py-8 items-center'>
+                <Text className='!text-gray-500'>Không tìm thấy loại tài liệu nào</Text>
+              </View>
+            }
+          />
+        )}
 
         <View className='absolute left-3 right-3' style={{ bottom: insets.bottom + 12 }}>
           <Button className='!rounded-2xl !py-4' bg='primary.500' isDisabled={!selected} _disabled={{ bg: 'gray.300' }} onPress={() => {
             const chosen = selected ? [selected] : [];
-            setSelectedLists(chosen);
+            dispatch(setSelectedLists(chosen));
             router.back();
           }}>
             <Text className='!text-white !font-semibold !text-lg'>Lưu</Text>

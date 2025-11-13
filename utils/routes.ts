@@ -10,7 +10,7 @@ export const ROUTES = {
   WRITE_COMMENT: '/(app)/write-comment',
   ALL_COMMENT: '/(app)/all-comment',
   NOTIFICATION: '/(app)/(tabs)/notification',
-  FACULTY: '/(app)/faculity',
+  FACULTY: '/(app)/faculty',
   SUBJECT: '/(app)/subject',
   UPLOAD_DETAIL: '/(app)/upload-detail',
   SELECT_FACULTY: '/(app)/select-faculty',
@@ -21,6 +21,7 @@ export const ROUTES = {
   ME: '/(app)/(tabs)/profile/me',
   EDIT_PROFILE: '/(app)/(tabs)/profile/edit',
   FOLLOWING: '/(app)/(tabs)/profile/following',
+  USER_PROFILE: '/(app)/profile/[id]',
 } as const;
 
 export type AppRoute = typeof ROUTES[keyof typeof ROUTES];
