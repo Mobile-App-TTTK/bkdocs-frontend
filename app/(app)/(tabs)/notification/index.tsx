@@ -1,8 +1,11 @@
+import { api } from "@/api/apiClient";
+import { API_NOTIFICATIONS } from "@/api/apiRoutes";
+import { Notification } from "@/models/notification.type";
 import { NotificationProps } from "@/utils/notiInterface";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { Image, Text } from "native-base";
-import { useState } from "react";
+import { Button, Image, Text } from "native-base";
+import { useEffect, useState } from "react";
 import { Keyboard, Pressable, ScrollView, TouchableWithoutFeedback, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
@@ -13,7 +16,7 @@ const sampleNotification: NotificationProps[] = [
         message: "Bạn có 1 đánh giá mới",
         image: require("@/assets/images/userAvatar.jpg"),
         isRead: false,
-        createdAt: "05-11-2025 10:00",
+        createdAt: "2025-10-01",
     }, 
     {
         id: "2",
@@ -21,7 +24,7 @@ const sampleNotification: NotificationProps[] = [
         message: "Bạn có 1 đánh giá mới",
         image: require("@/assets/images/userAvatar.jpg"),
         isRead: true,
-        createdAt: "05-11-2025 10:00",
+        createdAt: "2025-10-01",
     },
     {
         id: "3",
@@ -29,7 +32,7 @@ const sampleNotification: NotificationProps[] = [
         message: "Giáo trình Hệ điều hành vừa upload",
         image: require("@/assets/images/userAvatar.jpg"),
         isRead: false,
-        createdAt: "05-11-2025 10:00",
+        createdAt: "2025-10-01",
     },
     {
         id: "4",
@@ -37,7 +40,7 @@ const sampleNotification: NotificationProps[] = [
         message: "Giáo trình Lập trình web vừa upload",
         image: require("@/assets/images/userAvatar.jpg"),
         isRead: false,
-        createdAt: "05-11-2025 10:00",
+        createdAt: "2025-10-01",
     },
     {
         id: "5",
@@ -45,15 +48,52 @@ const sampleNotification: NotificationProps[] = [
         message: "Bạn có 1 đánh giá mới",
         image: require("@/assets/images/userAvatar.jpg"),
         isRead: true,
-        createdAt: "05-11-2025 10:00",
+        createdAt: "2025-10-01",
     },
 ];
-export default function Notification() {
+export default function NotificationPage() {
     const colorScheme = useColorScheme();
     const isDarkMode = colorScheme === 'dark';
-    
-    const [star, setStar] = useState<number>(0);
-    const [content, setContent] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [page, setPage] = useState<number>(1);
+    const [limit, setLimit] = useState<number>(10);
+    const [notifications, setNotifications] = useState<Notification[]>([]);
+
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            try {
+                setIsLoading(true);
+                console.log('Fetching notifications...');
+                console.log('API URL:', API_NOTIFICATIONS);
+                console.log('Params:', { page, limit });
+                const response = await api.get(API_NOTIFICATIONS, {
+                    params: {
+                        page,
+                        limit,
+                    },
+                });
+
+                console.log('Notifications:', response.data);
+
+                const Notifications: Notification[] = response.data?.data?.notifications || [];
+                setNotifications(Notifications);
+
+                console.log('Response status:', response.status);
+                console.log('Response data:', JSON.stringify(response.data, null, 2));
+
+            } catch (error) {
+                console.error('Error fetching notifications:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+    fetchNotifications();
+    }, [page]);
+
+    const loadMoreNotifications = () => {
+        setPage(prevPage => prevPage + 1);
+    }
 
     return (
         <GestureHandlerRootView style={{
@@ -81,24 +121,31 @@ export default function Notification() {
                         </Pressable>
                         <Text numberOfLines={1} className="!text-2xl !font-bold !text-black dark:!text-white mb-4 w-7/12 text-center">Thông báo</Text>
                     </View>
-                    <ScrollView className="flex flex-col bg-white dark:bg-dark-900">
-                        {sampleNotification.map((notification) => (
-                            <View key={notification.id} className={`flex flex-row gap-4 px-6 py-5 ${notification.isRead ? 'bg-white dark:bg-dark-800' : 'bg-primary-50 dark:bg-primary-900'}`}>
-                                <Image source={notification.image} width={12} height={12} alt={"User Avatar"} className="rounded-full !shadow-md"></Image>
+                    <ScrollView className="p-6">
+                        {notifications.length === 0 && (
+                            <View className="flex flex-col flex-1 items-center justify-center">
+                                <Text className="!text-gray-500 !font-bold !text-xl">Không có thông báo</Text>
+                            </View>
+                        )}
+                        {notifications.length > 0 && notifications.map((notification) => (
+                            <View key={notification.id} className="flex flex-row gap-4">
+                                <Image source={{ uri: notification.image }} width={12} height={12} alt={"User Avatar"} className="rounded-full !shadow-md"></Image>
                                 <View className="flex-1 flex-shrink">
-                                    <View className="flex flex-row justify-between items-center">
-                                      <Text className="!font-bold !text-lg">{notification.title}</Text>
-                                      <Text>{notification.createdAt}</Text>
-                                    </View>
-
+                                    <Text className="!font-bold">{notification.title}</Text>
                                     <Text>{notification.message}</Text>
+                                    <Text>{notification.createdAt}</Text>
                                 </View>
                             </View>
                         ))}
                     </ScrollView>
                 </View>
             </TouchableWithoutFeedback>
-          
+            
+            <View className="absolute bottom-10 left-0 right-0 px-[16px]">
+                <Button className="!bg-primary-500 !rounded-xl !py-4" onPress={() => {}}>
+                    <Text className="!text-white !font-bold !text-lg">Gửi đánh giá</Text>
+                </Button>
+            </View>
         </GestureHandlerRootView>
     );
 }

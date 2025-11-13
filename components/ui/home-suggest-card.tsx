@@ -1,23 +1,69 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from "expo-router";
 import { Image, Text, View } from "native-base";
-import { Dimensions, Pressable } from "react-native";
+import { useRef } from 'react';
+import { Dimensions, GestureResponderEvent, ImageSourcePropType, Pressable } from "react-native";
 
-export default function SuggestCard() {
+export default function SuggestCard({title, image, subject, downloadCount, uploadDate, type}: {title: string, image: string | number, subject: string, downloadCount: number, uploadDate: string, type: string}) {
     const router = useRouter();
-    const SampleImage = require('@/assets/images/sampleDoc1.png')
+
+    const touchStartPos = useRef({ x: 0, y: 0 });
+    const isSwiping = useRef(false);
 
     const { width, height } = Dimensions.get("window");
     const aspectRatio = height / width;
 
     const imageHeight = aspectRatio <= 667 / 375 ? "60%" : "70%";
 
+    const handleTouchStart = (e: GestureResponderEvent) => {
+        touchStartPos.current = {
+            x: e.nativeEvent.pageX,
+            y: e.nativeEvent.pageY
+        };
+        isSwiping.current = false;
+    };
+
+    const handleTouchMove = (e: GestureResponderEvent) => {
+        const dx = Math.abs(e.nativeEvent.pageX - touchStartPos.current.x);
+        const dy = Math.abs(e.nativeEvent.pageY - touchStartPos.current.y);
+        
+        if (dx > 10 || dy > 10) {
+            isSwiping.current = true;
+        }
+    };
+
+    const handlePress = () => {
+        if (!isSwiping.current) {
+            router.push("/doc-detail");
+        }
+    };
+
+    // Normalize source: nếu truyền string -> chuyển thành { uri: string }
+    // nếu truyền number (require) -> dùng trực tiếp
+    const normalizedSource: ImageSourcePropType | undefined = (() => {
+        if (!image) return undefined;
+    
+        if (typeof image === 'string') {
+        const trimmed = image.trim();
+        if (trimmed === "") return undefined;
+        // ở đây TS chắc chắn image là string => uri: string an toàn
+        return { uri: trimmed };
+        }
+    
+        // nếu không phải string, coi là number (require(...)) hoặc object phù hợp
+        return image as ImageSourcePropType;
+    })();
+
     return (
-        <Pressable className="w-[60vw] h-[42vh] p-3 bg-white dark:!bg-dark-700 rounded-xl" onPress={()=>{router.push("/doc-detail")}}
-        style={{
-            boxShadow: '0 2px 12px 0 rgba(0, 0, 0, 0.25)',
-        }}>
-            <Image source={SampleImage} resizeMode={'cover'} width={"100%"} height={imageHeight} borderRadius={6} borderColor="primary.100" borderWidth={2} alt="SampleImage"/>
+        <Pressable className="w-[60vw] h-[42vh] p-3 bg-white dark:!bg-dark-700 rounded-xl"
+            style={{
+                boxShadow: '0 2px 12px 0 rgba(0, 0, 0, 0.25)',
+            }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onPress={handlePress}
+        >
+            <Image source={normalizedSource} resizeMode={'cover'} width={"100%"} height={imageHeight} borderRadius={6} borderColor="primary.100" borderWidth={2} alt="SampleImage"/>
 
             <View style={{padding: 5}} className="my-auto mt-2">
                 <View className="flex flex-row items-center gap-4">
@@ -26,31 +72,31 @@ export default function SuggestCard() {
                         numberOfLines={1}
                         ellipsizeMode="tail"
                     >
-                        Giáo trình Giải tích 1 Đại học BK
+                        {title}
                     </Text>
 
                     <View className="bg-primary-500 px-2" style={{borderRadius: 6}}>
                         <Text className="!text-white !text-sm">
-                            pdf
+                            {type}
                         </Text>
                     </View>
                 </View>
 
                 <View className="flex flex-row gap-2 items-center mt-2">
                     <Ionicons name="book-outline" size={20} color="#6b7280"></Ionicons>
-                    <Text className="font-semibold text-sm text-gray-500">Giải tích 1</Text>
+                    <Text className="font-semibold text-sm text-gray-500">{subject}</Text>
                 </View>
 
                 <View className="flex flex-row mt-1">
                     <View className="flex flex-row items-center gap-2">
                         <Ionicons name="calendar-clear-outline" size={20} color="#6b7280"></Ionicons>
-                        <Text className="font-semibold text-sm text-gray-500">dd/mm/yyyy</Text>
+                        <Text className="font-semibold text-sm text-gray-500">{uploadDate}</Text>
                     </View>
 
                     <View className="flex-1"></View>
                     <View className="flex flex-row items-center gap-2">
                         <Ionicons name="download-outline" size={20} color="#6b7280"></Ionicons>
-                        <Text className="font-semibold text-sm text-gray-500">1234</Text>
+                        <Text className="font-semibold text-sm text-gray-500">{downloadCount}</Text>
                     </View>
                 </View>
             </View>

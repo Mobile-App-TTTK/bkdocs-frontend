@@ -33,7 +33,7 @@ export default function OtpCodeScreen() {
             
             const { name, email, password } = JSON.parse(tempData);
 
-            console.log('🚀 Step 1: Verifying OTP...');
+            console.log('Step 1: Verifying OTP...');
             // Bước 2: Verify OTP và nhận reset-token
             const verifyResponse = await api.post(API_VERIFY_OTP, {
                 email,
@@ -41,13 +41,13 @@ export default function OtpCodeScreen() {
             });
 
             const resetToken = verifyResponse.data?.data?.token;
-            console.log('✅ OTP verified, received token:', resetToken ? 'yes' : 'no');
+            console.log('OTP verified, received token:', resetToken ? 'yes' : 'no');
 
             if (!resetToken) {
                 throw new Error('Không nhận được token từ server');
             }
 
-            console.log('🚀 Step 2: Completing registration...');
+            console.log('Step 2: Completing registration...');
             // Bước 3: Complete registration với reset-token
             await api.post(API_REGISTER_COMPLETE, {
                 name,
@@ -56,7 +56,7 @@ export default function OtpCodeScreen() {
                 token: resetToken // Dùng reset-token từ bước verify
             });
 
-            console.log('✅ Registration completed successfully');
+            console.log('Registration completed successfully');
             
             // Xóa thông tin tạm
             await AsyncStorage.removeItem('signup_temp_data');
@@ -66,8 +66,8 @@ export default function OtpCodeScreen() {
                 { text: 'OK', onPress: () => router.replace(ROUTES.LOGIN) }
             ]);
         } catch (error: any) {
-            console.error('❌ Registration failed:', error);
-            console.error('❌ Error response:', error.response?.data);
+            console.error('Registration failed:', error);
+            console.error('Error response:', error.response?.data);
             
             const message = error?.response?.data?.message || 'Xác thực OTP thất bại';
             Alert.alert('Lỗi', message);
