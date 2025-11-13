@@ -31,10 +31,10 @@ export default function LoginScreen() {
       // Chuyển sang trang OTP
       router.push(ROUTES.OTP_CODE);
     } catch (error: any) {
-      console.error('❌ OTP request failed:', error);
-      console.error('❌ Error response:', error.response);
-      console.error('❌ Error message:', error.message);
-      console.error('❌ Error config:', error.config);
+      console.error('OTP request failed:', error);
+      console.error('Error response:', error.response);
+      console.error('Error message:', error.message);
+      console.error('Error config:', error.config);
       
       const message = error?.response?.data?.message || 'Gửi mã OTP thất bại';
       Alert.alert('Lỗi', message);
