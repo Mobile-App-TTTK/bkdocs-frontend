@@ -22,7 +22,7 @@ export const ROUTES = {
   EDIT_PROFILE: '/(app)/(tabs)/profile/edit',
   FOLLOWING: '/(app)/(tabs)/profile/following',
   USER_PROFILE: '/(app)/profile/[id]',
-} as const;
+} as const; 
 
 export type AppRoute = typeof ROUTES[keyof typeof ROUTES];
 
