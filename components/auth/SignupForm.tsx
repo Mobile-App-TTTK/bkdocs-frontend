@@ -115,7 +115,8 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                             flex: 1,
                             fontSize: 16,
                             color: '#000000',
-                            fontFamily: 'Gilroy-Regular'
+                            fontFamily: 'Gilroy-Regular',
+                            height: '100%'
                         }}
                     />
                 </View>
@@ -155,7 +156,8 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                             flex: 1,
                             fontSize: 16,
                             color: '#000000',
-                            fontFamily: 'Gilroy-Regular'
+                            fontFamily: 'Gilroy-Regular',
+                            height: '100%'
                         }}
                         />
                     </View>
@@ -194,7 +196,8 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                     flex: 1,
                     fontSize: 16,
                     color: '#000000',
-                    fontFamily: 'Gilroy-Regular'
+                    fontFamily: 'Gilroy-Regular',
+                    height: '100%',
                   }}
                 />
                 <TouchableOpacity 
@@ -246,7 +249,8 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                     flex: 1,
                     fontSize: 16,
                     color: '#000000',
-                    fontFamily: 'Gilroy-Regular'
+                    fontFamily: 'Gilroy-Regular',
+                    height: '100%'
                   }}
                 />
                 <TouchableOpacity 

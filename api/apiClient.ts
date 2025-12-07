@@ -1,7 +1,10 @@
+import { triggerLogout } from "@/utils/authEvents";
 import { ACCESS_TOKEN_KEY } from "@/utils/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { API_LOGIN } from "./apiRoutes";
+import { router } from "expo-router";
+import { Alert } from "react-native";
+import { API_LOGIN, API_REGISTER_COMPLETE, API_REGISTER_REQUEST_OTP, API_VERIFY_OTP } from "./apiRoutes";
 
 export const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
@@ -22,8 +25,24 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      await AsyncStorage.removeItem(ACCESS_TOKEN_KEY);
-      console.warn("Token expired, user logged out.");
+      // Bỏ qua logic logout/redirect cho các endpoint auth
+      const requestUrl = error.config?.url || '';
+      const isAuthEndpoint = 
+        requestUrl.includes(API_LOGIN) ||
+        requestUrl.includes(API_REGISTER_REQUEST_OTP) ||
+        requestUrl.includes(API_VERIFY_OTP) ||
+        requestUrl.includes(API_REGISTER_COMPLETE);
+      
+      if (!isAuthEndpoint) {
+        await AsyncStorage.removeItem(ACCESS_TOKEN_KEY);
+        try {
+          await triggerLogout();
+        } catch {}
+        Alert.alert('Phiên đăng nhập đã hết hạn', 'Vui lòng đăng nhập lại.');
+        try {
+          router.replace('/(public)/login');
+        } catch {}
+      }
     }
     return Promise.reject(error);
   }

@@ -1,11 +1,10 @@
-import { getBackgroundById } from '@/utils/functions';
-import { ROUTES } from '@/utils/routes';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { router, useFocusEffect } from 'expo-router';
-import { ScrollView, Text, View } from 'native-base';
+import { ScrollView, Skeleton, Text, View } from 'native-base';
 import { useEffect, useRef, useState } from 'react';
-import { Image, Pressable, TextInput } from 'react-native';
+import { Pressable, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import SubjectCard from '../SubjectCard';
 import { useGetSuggestions, useGetSuggestionsKeyword } from './api';
 
 export default function SearchScreen() {
@@ -13,8 +12,10 @@ export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const inputRef = useRef<TextInput>(null);
-  const { data: suggestions } = useGetSuggestions();
+  const { data: suggestions, isLoading: isLoadingSuggestions } = useGetSuggestions();
   const { data: suggestionsKeyword } = useGetSuggestionsKeyword(debouncedSearchQuery);
+
+  console.log("suggestions: ", suggestions);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -38,7 +39,7 @@ export default function SearchScreen() {
       setDebouncedSearchQuery('');
       const timeout = setTimeout(() => {
         inputRef.current?.focus();
-      }, 300);
+      }, 500);
       return () => clearTimeout(timeout);
     }
   );
@@ -46,7 +47,7 @@ export default function SearchScreen() {
   const handleSearch = (query: string) => {    
     if (query?.trim()) {
       router.push({
-        pathname: '/(app)/search-result',
+        pathname: '/(app)/(tabs)/search/result',
         params: { query: query.trim() },
       });
     }
@@ -93,7 +94,7 @@ export default function SearchScreen() {
       >
         {searchQuery ? (
           <View className='flex-col gap-6'>
-            {suggestionsKeyword?.map((suggestion, index) => (
+            {(Array.isArray(suggestionsKeyword) ? suggestionsKeyword : []).map((suggestion, index) => (
               <View
                 key={index}
                 onTouchStart={() => handleSearch(suggestion)}
@@ -113,24 +114,21 @@ export default function SearchScreen() {
           <View>
             <Text className='!font-semibold'>Môn học gợi ý</Text>
             <View className="flex-row flex-wrap justify-between mt-2 mb-4">
-              {suggestions?.map((item, index) => (
-                <View
-                  onTouchStart={() => router.push(ROUTES.DOWNLOAD_DOC)}
-                  key={index}
-                  className="!rounded-2xl !p-0 !bg-gray-50 dark:!bg-dark-700 w-[48%] mb-4 border border-gray-200 dark:border-gray-700"
-                >
-                  <Image
-                    source={getBackgroundById(item.id.toString())}
-                    className="w-full h-20 rounded-t-xl"
-                    resizeMode="cover"
-                  />
-                  <View className='p-3'>
-                    <Text className="!font-semibold">{item.title}</Text>
-                    <Text className="!text-sm mt-1">
-                      {item.downloadCount} lượt tải xuống
-                    </Text>
+
+              {isLoadingSuggestions ? (
+                Array.from({ length: 4 }).map((_, index: number) => (
+                  <View key={index} className='w-[48%] mb-4'>
+                    <Skeleton h="32" rounded="xl" />
                   </View>
-                </View>
+                ))
+              ) : (Array.isArray(suggestions) ? suggestions : []).map((item, index) => (
+                <SubjectCard
+                  key={index}
+                  id={item.id}
+                  name={item.name}
+                  count={item.count}
+                  downloadUrl={item.downloadUrl}
+                />
               ))}
             </View>
           </View>

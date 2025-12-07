@@ -1,20 +1,50 @@
+import { api } from '@/api/apiClient';
+import { API_GET_SUGGESTIONS } from '@/api/apiRoutes';
 import SuggestCard from '@/components/ui/home-suggest-card';
 import { useAuth } from '@/contexts/AuthContext';
+import { Suggestion } from '@/models/suggest.type';
 import { ROUTES } from '@/utils/routes';
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from 'expo-router';
 import { Image, Text } from "native-base";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, Pressable, ScrollView, TouchableOpacity, View } from 'react-native';
 import { interpolate, useSharedValue } from "react-native-reanimated";
 import Carousel, { ICarouselInstance, Pagination, TAnimationStyle } from "react-native-reanimated-carousel";
 
-const defaultDataWith6Colors = [
-    "#B0604D",
-    "#899F9C",
-    "#B3C680",
-    "#5C6265",
-    "#F5D399",
+const fallbackSuggestDoc = [
+    {
+        title: "Giáo trình Giải tích 1 Đại học Bách khoa Tp.HCM",
+        image: require("@/assets/images/sampleDoc1.png"),
+        subject: "Giải tích 1",
+        downloadCount: 1234,
+        uploadDate: "dd/mm/yyyy",
+        type: "pdf"
+    },
+    {
+        title: "Giáo trình Giải tích 2 Đại học Bách khoa Tp.HCM",
+        image: require("@/assets/images/sampleDoc2.png"),
+        subject: "Giải tích 2",
+        downloadCount: 1234,
+        uploadDate: "dd/mm/yyyy",
+        type: "pdf"
+    },
+    {
+        title: "Giáo trình Hệ thống số Đại học Bách khoa Tp.HCM",
+        image: require("@/assets/images/sampleDoc3.png"),
+        subject: "Hệ thống số",
+        downloadCount: 1234,
+        uploadDate: "dd/mm/yyyy",
+        type: "pdf"
+    },
+    {
+        title: "Giáo trình Giải tích 1 Đại học Bách khoa Tp.HCM",
+        image: require("@/assets/images/sampleDoc1.png"),
+        subject: "Giải tích 1",
+        downloadCount: 1234,
+        uploadDate: "dd/mm/yyyy",
+        type: "pdf"
+    },
 ];
 
 export function Card() {
@@ -41,6 +71,65 @@ export default function HomeScreen() {
   const { logout } = useAuth();
   const router = useRouter();
 
+    const [following, setFollowing] = useState(false);
+    const [suggestDoc, setSuggestDoc] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    
+
+    useEffect(() => {
+        const fetchSuggestion = async () => {
+            try {
+                setIsLoading(true);
+                console.log('🚀 Fetching suggestions...');
+                console.log('📍 Full URL:', `${process.env.EXPO_PUBLIC_API_URL}${API_GET_SUGGESTIONS}`);
+                
+                const response = await api.get(API_GET_SUGGESTIONS);
+                
+                // Log toàn bộ response
+                console.log('📦 Full API Response:', JSON.stringify(response.data, null, 2));
+                console.log('📦 Response status:', response.status);
+                console.log('📦 Response headers:', response.headers);
+                
+                const documents: Suggestion[] = response.data?.data?.documents || [];
+                console.log('📄 Documents:', documents);
+                console.log('📄 Documents count:', documents.length);
+    
+                // Nếu data là array trực tiếp thay vì nested
+                if (Array.isArray(response.data?.data)) {
+                    console.log('⚠️ Data is direct array, not nested in documents');
+                    console.log('⚠️ Array content:', response.data.data);
+                }
+
+                if (documents.length === 0) {
+                    console.log('⚠️ No documents from API, using fallback');
+                    setSuggestDoc(fallbackSuggestDoc);
+                    setIsLoading(false);
+                    return; // ❗ QUAN TRỌNG: return để không chạy code phía dưới
+                }
+                
+                const mappedDoc = documents.map((doc) => ({
+                    id: doc.id,
+                    title: doc.title,
+                    image: doc.thumbnailUrl,
+                    subject: doc.subject,
+                    downloadCount: doc.downloadCount,
+                    uploadDate: doc.uploadDate,
+                    type: doc.fileType,
+                }));
+
+                setSuggestDoc(mappedDoc);
+            } 
+            catch (error) {
+                console.error('Error fetching suggestions:', error);
+                setSuggestDoc(fallbackSuggestDoc);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchSuggestion();
+    }, []);
+    
     const avatar = require(`@/assets/images/userAvatar1.png`);
     const progress = useSharedValue<number>(0);
     const { width,height } = Dimensions.get("window");
@@ -100,9 +189,9 @@ export default function HomeScreen() {
               </View>
 
               <View className="flex-1"></View>
-              <View className="flex justify-center items-center w-10 h-10 rounded-full bg-primary-50">
+              <Pressable className="flex justify-center items-center w-10 h-10 rounded-full bg-primary-50" onPress={() => {router.push(ROUTES.NOTIFICATION as any)}}>
                 <Ionicons name={"notifications-outline"} size={22} color={"#FF3300"}/>
-              </View>
+              </Pressable>
           </View>
           {/*Thao tác nhanh*/}
           <View className="flex flex-row mx-6 justify-between mt-6">
@@ -144,7 +233,7 @@ export default function HomeScreen() {
           <View>
               <Carousel
                   autoPlayInterval={2000}
-                  data={defaultDataWith6Colors}
+                  data={suggestDoc}
                   height={height*0.46}
                   loop={true}
                   pagingEnabled={true}
@@ -153,7 +242,6 @@ export default function HomeScreen() {
                   style={{
                       marginHorizontal: 'auto',
                       width: width,
-                      paddingTop: 15
                   }}
                   mode="parallax"
                   modeConfig={{
@@ -163,7 +251,7 @@ export default function HomeScreen() {
                   onProgressChange={progress}
                   renderItem={({ item }) => (
                       <View style={{ alignItems: "center", justifyContent: "center", width: width }}>
-                          <SuggestCard />
+                        <SuggestCard title={item.title} image={item.image} subject={item.subject} downloadCount={item.downloadCount} uploadDate={item.uploadDate} type={item.type} />
                       </View>
                   )}
                   customAnimation={animationStyle}
@@ -172,7 +260,7 @@ export default function HomeScreen() {
 
           <Pagination.Basic
               progress={progress}
-              data={defaultDataWith6Colors}
+              data={suggestDoc}
               dotStyle={{
                   borderRadius: 100,
                   height: 8,
@@ -185,7 +273,17 @@ export default function HomeScreen() {
           />
 
           <View>
-              <Text style={{}} className="mx-6 mt-6 !text-xl !font-bold">Tài liệu khoa Khoa học & Kỹ thuật Máy tính</Text>
+              <View className="mx-6 mt-6 !text-xl !font-bold flex flex-row items-center gap-1.5">
+                  <Text className="!text-xl !font-bold">Tài liệu khoa Máy tính</Text>
+                  <Text className="!text-xl !font-bold">•</Text>
+                  <Pressable onPress={() => {setFollowing(!following)}}>
+                      <Text className={`!text-xl !font-bold ${following ? "!text-gray-500" : "!text-primary-500"}`} >
+                          {
+                              following ? "Bỏ theo dõi" : "Theo dõi"
+                          }
+                      </Text>
+                  </Pressable>
+              </View>
 
               <ScrollView horizontal={true} style={{paddingVertical:15, paddingHorizontal:22}} showsVerticalScrollIndicator={false}>
                 <Card />

@@ -1,13 +1,18 @@
 import { FilterOptions } from '@/models/search.type';
-import { getBackgroundById, getDate } from '@/utils/functions';
-import { ROUTES } from '@/utils/routes';
+import { SearchFileType, SearchSortOption } from '@/utils/constants';
 import { Feather, Ionicons, Octicons } from '@expo/vector-icons';
+import classNames from 'classnames';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Image, Pressable, ScrollView, Text, View } from 'native-base';
+import { Pressable, ScrollView, Skeleton, Text, View } from 'native-base';
 import { useEffect, useState } from 'react';
 import { Modal, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useGetSuggestions, useGetSuggestionsKeyword } from '../searchScreen/api';
+import DocumentCard from '../DocumentCard';
+import FacultyCard from '../FacultyCard';
+import { useGetSuggestionsKeyword } from '../searchScreen/api';
+import { filterOptionsList } from '../searchScreen/utils/constants';
+import SubjectCard from '../SubjectCard';
+import UserCard from '../UserCard';
 import { useFetchFacultiesAndSubjects, useFetchSearchResult } from './api';
 
 export default function SearchResultScreen() {
@@ -18,14 +23,17 @@ export default function SearchResultScreen() {
     const [showFilterModal, setShowFilterModal] = useState(false);
     const [filterOptions, setFilterOptions] = useState<FilterOptions>();
     const [appliedFilters, setAppliedFilters] = useState<FilterOptions>();
-    const { data: searchResult } = useFetchSearchResult(initialSearchQuery, appliedFilters);
-    const { data: suggestions } = useGetSuggestions();
+    const [selectedFilter, setSelectedFilter] = useState<string>('all');
+    const { data: searchResult, isFetching: isFetchingSearchResult } = useFetchSearchResult(initialSearchQuery, appliedFilters);
+    const { documents, users, subjects, faculties: searchFaculties } = searchResult || {};
     const [showSuggestions, setShowSuggestions] = useState(false);
     const { data: facultiesAndSubjects } = useFetchFacultiesAndSubjects();
-    const { faculties, subjects } = facultiesAndSubjects || {};
+    const { faculties } = facultiesAndSubjects || {};
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
 
     const { data: suggestionsKeyword } = useGetSuggestionsKeyword(debouncedSearchQuery);
+
+    console.log("searchResult: ", searchResult);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -48,7 +56,7 @@ export default function SearchResultScreen() {
             setShowSuggestions(false);
 
             router.push({
-                pathname: '/(app)/search-result',
+                pathname: '/(app)/(tabs)/search/result',
                 params: { query: searchTerm },
             });
         }
@@ -106,10 +114,22 @@ export default function SearchResultScreen() {
                         )}
                     </Pressable>
                 </View>
+
+                <View className={classNames("flex-row items-center gap-2 py-4", showSuggestions ? 'hidden' : 'block')}>
+                    {filterOptionsList.map((option) => (
+                        <TouchableOpacity 
+                            key={option.value} onPress={() => setSelectedFilter(option.value)} 
+                            className={classNames(
+                                "p-3 rounded-xl border border-gray-200 dark:border-gray-700", selectedFilter === option.value ? 'bg-primary-50 border-primary-500' : '')}
+                        >
+                            <Text className={classNames("!text-md !font-medium text-center px-2", selectedFilter === option.value ? '!text-primary-500' : '!text-gray-700 dark:!text-gray-300')}>{option.label}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
             </View>
             <ScrollView
                 className="flex-1 px-2"
-                style={{ marginTop: insets.top + 60 }}
+                style={{ marginTop: insets.top + (showSuggestions ? 60 : 110) }}
                 showsVerticalScrollIndicator={false}
             >
                 {showSuggestions ? (
@@ -131,53 +151,143 @@ export default function SearchResultScreen() {
                         ))}
                     </View>
                 ) : (
-                    <View className="flex-row flex-wrap justify-between mt-4 mb-4">
-                        {searchResult && searchResult.length > 0 ? searchResult.map((item, index) => (
-                            <View
-                                onTouchStart={() => router.push(ROUTES.DOWNLOAD_DOC)}
-                                key={index}
-                                className="!rounded-2xl !p-0 !bg-gray-50 dark:!bg-dark-700 w-[48%] mb-4 border border-gray-200 dark:border-gray-700"
-                            >
-                                <Image
-                                    source={getBackgroundById(item.id)}
-                                    className="w-full h-24 rounded-t-xl"
-                                    resizeMode="cover"
-                                    alt="background"
-                                />
-                                <View className='p-3'>
-                                    <View className='flex-row items-center justify-between mb-1 gap-2'>
-                                        <Text
-                                            className="!font-semibold flex-1"
-                                            numberOfLines={1}
-                                            ellipsizeMode="tail"
-                                        >
-                                            {item.title}
-                                        </Text>
-
-                                        <View className='bg-primary-500 !py-[2px] !px-[5px] !rounded-lg'>
-                                            <Text className='!text-white !text-xs'>
-                                                {item.fileKey.split('.').pop()}
-                                            </Text>
-                                        </View>
+                    <View className='pb-20'>
+                        { (selectedFilter === 'all' ? (Array.isArray(users) && users?.length > 0) : selectedFilter === 'user') && (
+                            <View className='pt-4'>
+                                <Text className="!text-lg !font-semibold">Người dùng</Text>
+                                {isFetchingSearchResult ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4 gap-6">
+                                        {Array.from({ length: 4 }).map((_, index: number) => (
+                                            <View key={index} className='w-full flex flex-row items-center gap-3'>
+                                                <Skeleton h="16" w="16" rounded="full" />
+                                                <View className='flex-1'>
+                                                    <Skeleton.Text px="4" lines={2} />
+                                                </View>
+                                            </View>
+                                        ))}
                                     </View>
-
-                                    <View className='flex-row items-center gap-2'>
-                                        <Ionicons name="book-outline" size={16} className='!text-gray-500 dark:!text-gray-400' />
-                                        <Text className="!text-gray-500 dark:!text-gray-400">{item.subject?.name || 'Không xác định'}</Text>
+                                ) : Array.isArray(users) && users?.length > 0 ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4 gap-6">
+                                        {users.map((user, index) => (
+                                            <UserCard
+                                                key={index}
+                                                id={user.id}
+                                                name={user.name}
+                                                image_key={user.image_url}
+                                                followersCount={user.followersCount}
+                                                documentsCount={user.documentsCount}
+                                                isFollowing={user.isFollowing}
+                                            />
+                                        ))}
                                     </View>
-                                    <View className='flex-row items-center justify-between mt-1'>
-                                        <View className='flex-row items-center gap-2'>
-                                            <Ionicons name="calendar-outline" size={16} className='!text-gray-500 dark:!text-gray-400' />
-                                            <Text className="!text-gray-500 dark:!text-gray-400">{getDate(item.uploadDate)}</Text>
-                                        </View>
-                                        <View className='flex-row items-center gap-2'>
-                                            <Ionicons name="download-outline" size={16} className='!text-gray-500 dark:!text-gray-400' />
-                                            <Text className="!text-gray-500 dark:!text-gray-400">{item.downloadCount}</Text>
-                                        </View>
+                                ) : (
+                                    <View className="w-full flex items-center justify-center py-4">
+                                        <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy người dùng</Text>
                                     </View>
-                                </View>
+                                )}
                             </View>
-                        )) : (
+                        ) }
+                        { (selectedFilter === 'all' ? (Array.isArray(documents) && documents?.length > 0) : selectedFilter === 'document') && (
+                            <View className='pt-4'>
+                                <Text className="!text-lg !font-semibold">Tài liệu</Text>
+                                {isFetchingSearchResult ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4">
+                                        {Array.from({ length: 4 }).map((_, index: number) => (
+                                            <View key={index} className='w-[48%] mb-4'>
+                                                <Skeleton h="24" w="100%" rounded="xl" />
+                                                <Skeleton.Text px="3" lines={2} mt="2" />
+                                            </View>
+                                        ))}
+                                    </View>
+                                ) : Array.isArray(documents) && documents?.length > 0 ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4">
+                                        {documents.map((item, index) => (
+                                            <DocumentCard
+                                                key={index}
+                                                id={item.id}
+                                                title={item.title}
+                                                downloadCount={item.downloadCount}
+                                                uploadDate={item.uploadDate}
+                                                subject={item.subject?.name}
+                                                faculty={item.faculty?.name}
+                                                thumbnail={item.thumbnail}
+                                                score={item.score}
+                                                type={item.type}
+                                            />
+                                        ))}
+                                    </View>
+                                ) : (
+                                    <View className="w-full flex items-center justify-center py-4">
+                                        <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy tài liệu</Text>
+                                    </View>
+                                )}
+                            </View> 
+                        )}
+                        { (selectedFilter === 'all' ? (Array.isArray(searchFaculties) && searchFaculties?.length > 0) : selectedFilter === 'faculty') && (
+                            <View className='pt-4'>
+                                <Text className="!text-lg !font-semibold">Khoa</Text>
+                                {isFetchingSearchResult ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4">
+                                        {Array.from({ length: 4 }).map((_, index: number) => (
+                                            <View key={index} className='w-[48%] mb-4'>
+                                                <Skeleton h="24" w="100%" rounded="xl" />
+                                                <Skeleton.Text px="3" lines={1} mt="2" />
+                                            </View>
+                                        ))}
+                                    </View>
+                                ) : Array.isArray(searchFaculties) && searchFaculties?.length > 0 ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4">
+                                        {searchFaculties.map((item, index) => (
+                                            <FacultyCard
+                                                key={index}
+                                                id={item.id}
+                                                name={item.name}
+                                                count={item.count}
+                                                downloadUrl={item.image_url}
+                                            />
+                                        ))}
+                                    </View>
+                                ) : (
+                                    <View className="w-full flex items-center justify-center py-4">
+                                        <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy khoa</Text>
+                                    </View>
+                                )}
+                            </View> 
+                        )}
+
+                        { (selectedFilter === 'all' ? (Array.isArray(subjects) && subjects?.length > 0) : selectedFilter === 'subject') && (
+                            <View className='pt-4'>
+                                <Text className="!text-lg !font-semibold">Môn học</Text>
+                                {isFetchingSearchResult ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4">
+                                        {Array.from({ length: 4 }).map((_, index: number) => (
+                                            <View key={index} className='w-[48%] mb-4'>
+                                                <Skeleton h="24" w="100%" rounded="xl" />
+                                                <Skeleton.Text px="3" lines={1} mt="2" />
+                                            </View>
+                                        ))}
+                                    </View>
+                                ) : Array.isArray(subjects) && subjects?.length > 0 ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4">
+                                        {subjects.map((item, index) => (
+                                            <SubjectCard
+                                                key={index}
+                                                id={item.id}
+                                                name={item.name}
+                                                count={item.count}
+                                                downloadUrl={item.image_url}
+                                            />
+                                        ))}
+                                    </View>
+                                ) : (
+                                    <View className="w-full flex items-center justify-center py-4">
+                                        <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy môn học</Text>
+                                    </View>
+                                )}
+                            </View> 
+                        )}
+                        
+                        {(!Array.isArray(users) || users?.length === 0) && (!Array.isArray(documents) || documents?.length === 0) && (!Array.isArray(searchFaculties) || searchFaculties?.length === 0) && (!Array.isArray(subjects) || subjects?.length === 0) && !isFetchingSearchResult && (
                             <View className="w-full flex items-center justify-center py-8">
                                 <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy kết quả nào</Text>
                             </View>
@@ -222,19 +332,19 @@ export default function SearchResultScreen() {
                                 <Text className="!text-base !font-semibold mb-3">Sắp xếp theo</Text>
                                 <View className="space-y-2 flex-row flex-wrap gap-3">
                                     {[
-                                        { value: 'newest', label: 'Mới nhất' },
-                                        { value: 'oldest', label: 'Cũ nhất' },
-                                        { value: 'mostDownloaded', label: 'Tải nhiều nhất' }
+                                        { value: SearchSortOption.NEWEST, label: 'Mới nhất' },
+                                        { value: SearchSortOption.OLDEST, label: 'Cũ nhất' },
+                                        { value: SearchSortOption.DOWNLOAD_COUNT, label: 'Tải nhiều nhất' }
                                     ].map((option) => (
                                         <TouchableOpacity
                                             key={option.value}
-                                            onPress={() => setFilterOptions(prev => ({ ...prev, sortBy: prev?.sortBy === option.value ? undefined : option.value }))}
-                                            className={`p-3 rounded-xl border ${filterOptions?.sortBy === option.value
+                                            onPress={() => setFilterOptions(prev => ({ ...prev, sort: prev?.sort === option.value ? undefined : option.value }))}
+                                            className={`p-3 rounded-xl border ${filterOptions?.sort === option.value
                                                     ? 'bg-primary-50 border-primary-500'
                                                     : 'bg-gray-50 border-gray-200'
                                                 }`}
                                         >
-                                            <Text className={`!font-medium ${filterOptions?.sortBy === option.value
+                                            <Text className={`!font-medium ${filterOptions?.sort === option.value
                                                     ? '!text-primary-500'
                                                     : '!text-gray-700'
                                                 }`}>
@@ -249,20 +359,20 @@ export default function SearchResultScreen() {
                                 <Text className="!text-base !font-semibold mb-3">Loại tài liệu</Text>
                                 <View className="space-y-2 flex-row flex-wrap gap-3">
                                     {[
-                                        { value: 'all', label: 'Tất cả' },
-                                        { value: 'pdf', label: 'PDF' },
-                                        { value: 'doc', label: 'Word' },
-                                        { value: 'ppt', label: 'PowerPoint' }
+                                        { value: SearchFileType.PDF, label: 'PDF' },
+                                        { value: SearchFileType.WORD, label: 'Word' },
+                                        { value: SearchFileType.POWERPOINT, label: 'PowerPoint' },
+                                        { value: SearchFileType.IMAGE, label: 'Hình ảnh' },
                                     ].map((option) => (
                                         <TouchableOpacity
                                             key={option.value}
-                                            onPress={() => setFilterOptions(prev => ({ ...prev, fileType: prev?.fileType === option.value ? undefined : option.value }))}
-                                            className={`p-3 rounded-xl border ${filterOptions?.fileType === option.value
+                                            onPress={() => setFilterOptions(prev => ({ ...prev, type: prev?.type === option.value ? undefined : option.value }))}
+                                            className={`p-3 rounded-xl border ${filterOptions?.type === option.value
                                                     ? 'bg-primary-50 border-primary-500'
                                                     : 'bg-gray-50 border-gray-200'
                                                 }`}
                                         >
-                                            <Text className={`!font-medium ${filterOptions?.fileType === option.value
+                                            <Text className={`!font-medium ${filterOptions?.type === option.value
                                                     ? '!text-primary-500'
                                                     : '!text-gray-700'
                                                 }`}>
@@ -286,29 +396,6 @@ export default function SearchResultScreen() {
                                                 }`}
                                         >
                                             <Text className={`!font-medium ${filterOptions?.faculty === option.name
-                                                    ? '!text-primary-500'
-                                                    : '!text-gray-700'
-                                                }`}>
-                                                {option.name}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    ))}
-                                </View>
-                            </View>
-
-                            <View className="mb-6">
-                                <Text className="!text-base !font-semibold mb-3">Môn học</Text>
-                                <View className="space-y-2 flex-row flex-wrap gap-3">
-                                    {subjects?.map((option) => (
-                                        <TouchableOpacity
-                                            key={option.id}
-                                            onPress={() => setFilterOptions(prev => ({ ...prev, subject: prev?.subject === option.name ? undefined : option.name }))}
-                                            className={`p-3 rounded-xl border ${filterOptions?.subject === option.name
-                                                    ? 'bg-primary-50 border-primary-500'
-                                                    : 'bg-gray-50 border-gray-200'
-                                                }`}
-                                        >
-                                            <Text className={`!font-medium ${filterOptions?.subject === option.name
                                                     ? '!text-primary-500'
                                                     : '!text-gray-700'
                                                 }`}>
