@@ -181,9 +181,9 @@ export default function ProfileScreen() {
             />
             <MenuItem
               icon="mail-outline"
-              label="Trợ giúp"
+              label="Chatbot AI"
               onPress={() => {
-                // Handle navigation to help
+                router.push(ROUTES.CHATBOT);
               }}
             />
           </View>

@@ -1,32 +1,30 @@
-import { getBackgroundById, getDate } from '@/utils/functions';
-import { ROUTES } from '@/utils/routes';
+import { SubjectDocument, SubjectTypeList } from '@/models/subject.type';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ScrollView, Skeleton, Spinner, Text, View } from 'native-base';
+import { useMemo } from 'react';
 import { Alert, Image, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import DocumentCard from '../DocumentCard';
 import { useFetchSubjectInfo, useSubscribeSubject, useUnsubscribeSubject } from './api';
-
-type DocCard = {
-    id: string;
-    title: string;
-    uploadDate: string;
-    downloadCount: number;
-    fileKey: string;
-};
-
-const mockDocs: DocCard[] = [
-    { id: '1', title: 'Tên tài liệu', uploadDate: '2025-05-21', downloadCount: 1234, fileKey: 'slide.pdf' },
-    { id: '2', title: 'Tên tài liệu', uploadDate: '2025-04-10', downloadCount: 1234, fileKey: 'pdf.pdf' },
-];
 
 export default function SubjectScreen() {
     const insets = useSafeAreaInsets();
     const { id: localId } = useLocalSearchParams<{ id?: string }>();
     const { data: subjectInfo, isLoading } = useFetchSubjectInfo(localId);
     
+    console.log("localId: ", localId);
+
+    console.log("subjectInfo: ", subjectInfo);
+    
     const subscribeSubjectMutation = useSubscribeSubject(localId);
     const unsubscribeSubjectMutation = useUnsubscribeSubject(localId);
+
+    // Lấy typeList từ subjectInfo
+    const typeList = useMemo(() => {
+        if (!subjectInfo) return [];
+        return subjectInfo.typeList || subjectInfo.types || [];
+    }, [subjectInfo]);
 
     const handleToggleFollowSubject = () => {
         if (!localId) return;
@@ -120,51 +118,53 @@ export default function SubjectScreen() {
                                             ? '!text-gray-700 dark:!text-gray-300' 
                                             : '!text-white'
                                     }`}>
-                                        {subjectInfo.isFollowingSubject ? 'Đang theo dõi' : 'Theo dõi'}
+                                        {subjectInfo.isFollowingSubject ? 'Bỏ theo dõi' : 'Theo dõi'}
                                     </Text>
                                 )}
                             </TouchableOpacity>
                         </View>
 
                         <View className='mt-6'>
-                            <View className='flex-row items-center justify-between mb-3'>
-                                <Text className='!text-xl !font-bold'>Tài liệu</Text>
-                            </View>
+                 
 
-                            <View className='flex-row flex-wrap justify-between'>
-                                {mockDocs.map((item) => (
-                            <View
-                                key={`slide-${item.id}`}
-                                className="!rounded-2xl !p-0 !bg-gray-50 dark:!bg-dark-700 w-[48%] mb-4 border border-gray-200 dark:border-gray-700"
-                            >
-                                <TouchableOpacity onPress={() => router.push(ROUTES.DOWNLOAD_DOC)}>
-                                    <Image
-                                        source={getBackgroundById(item.id)}
-                                        className="w-full h-24 rounded-t-xl"
-                                        resizeMode="cover"
-                                    />
-                                    <View className='p-3'>
-                                        <View className='flex-row items-center justify-between mb-1 gap-2'>
-                                            <Text className="!font-semibold flex-1" numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
-                                            <View className='bg-primary-500 !py-[2px] !px-[5px] !rounded-lg'>
-                                                <Text className='!text-white !text-xs'>{item.fileKey.split('.').pop()}</Text>
+                            {typeList.length > 0 ? (
+                                <View className='space-y-6'>
+                                    {typeList.map((typeItem: SubjectTypeList, typeIndex: number) => {
+                                        if (!typeItem.documents || typeItem.documents.length === 0) {
+                                            return null;
+                                        }
+                                        return (
+                                            <View key={typeIndex} className='mb-6'>
+                                                <Text className='!text-xl !font-semibold mb-3'>
+                                                    {typeItem.name}
+                                                </Text>
+                                                <View className='flex-row flex-wrap justify-between'>
+                                                    {typeItem.documents.map((item: SubjectDocument) => (
+                                                        <DocumentCard
+                                                            key={item.id}
+                                                            id={item.id}
+                                                            title={item.title}
+                                                            downloadCount={item.downloadCount}
+                                                            uploadDate={item.uploadDate}
+                                                            thumbnail={item.thumbnail}
+                                                            score={item.score || 0}
+                                                            type={item.type}
+                                                            subject={item.subject?.name}
+                                                            faculty={item.faculty?.name}
+                                                        />
+                                                    ))}
+                                                </View>
                                             </View>
-                                        </View>
-                                        <View className='flex-row items-center justify-between mt-1'>
-                                            <View className='flex-row items-center gap-2'>
-                                                <Ionicons name="calendar-outline" size={16} className='!text-gray-500 dark:!text-gray-400' />
-                                                <Text className="!text-gray-500 dark:!text-gray-400">{getDate(item.uploadDate)}</Text>
-                                            </View>
-                                            <View className='flex-row items-center gap-2'>
-                                                <Ionicons name="download-outline" size={16} className='!text-gray-500 dark:!text-gray-400' />
-                                                <Text className="!text-gray-500 dark:!text-gray-400">{item.downloadCount}</Text>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                        ))}
-                            </View>
+                                        );
+                                    })}
+                                </View>
+                            ) : (
+                                <View className='py-8 items-center'>
+                                    <Text className='!text-gray-500 dark:!text-gray-400'>
+                                        Chưa có tài liệu nào
+                                    </Text>
+                                </View>
+                            )}
                         </View>
                     </>
                 ) : (

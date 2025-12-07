@@ -78,8 +78,8 @@ export default function SelectFacultyScreen() {
         </View>
 
 
-      <View className='flex-1 px-3' style={{ marginTop: insets.top + 60 }}>
-        <View className='bg-gray-100 dark:bg-dark-800 rounded-xl px-3 py-2'>
+      <View className='flex-1' style={{ marginTop: insets.top + 60 }}>
+        <View className='bg-gray-100 dark:bg-dark-800 rounded-xl px-3 py-2 mx-3'>
           <TextInput
             placeholder='Tìm kiếm khoa'
             placeholderTextColor={'#9CA3AF'}
@@ -90,7 +90,7 @@ export default function SelectFacultyScreen() {
         </View>
 
         {isLoading ? (
-          <View className='mt-4'>
+          <View className='mt-4 px-3'>
             {[1, 2, 3, 4, 5].map((i) => (
               <View key={i} className='flex-row items-center py-5 border-b border-gray-200 dark:border-gray-700'>
                 <Skeleton h="6" w="6" mr={4} rounded="md" />
@@ -100,9 +100,10 @@ export default function SelectFacultyScreen() {
           </View>
         ) : (
           <FlatList
-            className='mt-4'
+            className='mt-4 px-3'
             data={filtered}
             keyExtractor={(item) => item.id}
+            contentContainerStyle={{ paddingBottom: 100 }}
             renderItem={({ item }) => (
               <Pressable onPress={() => toggle(item.name)} className='flex-row items-center py-5 border-b border-gray-200 dark:border-gray-700'>
                 <View className='w-6 h-6 mr-4 rounded-md border-2 border-primary-500 items-center justify-center'>

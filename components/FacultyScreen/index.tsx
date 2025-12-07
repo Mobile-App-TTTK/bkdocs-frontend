@@ -1,3 +1,4 @@
+import { DocumentItem, Subject } from '@/models/faculty.type';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ScrollView, Skeleton, Spinner, Text, View } from 'native-base';
@@ -133,15 +134,15 @@ export default function FacultyScreen() {
                                             ? '!text-gray-700 dark:!text-gray-300' 
                                             : '!text-white'
                                     }`}>
-                                        {facultyInfo.isFollowingFaculty ? 'Đang theo dõi' : 'Theo dõi'}
+                                        {facultyInfo.isFollowingFaculty ? 'Bỏ theo dõi' : 'Theo dõi'}
                                     </Text>
                                 )}
                             </TouchableOpacity>
                         </View>
 
                         {facultyInfo.subjects && facultyInfo.subjects.length > 0 ? (
-                            facultyInfo.subjects.map((subject, subjectIndex) => (
-                                <View key={`subject-${subjectIndex}`} className='mt-6'>
+                            facultyInfo.subjects.map((subject: Subject) => (
+                                <View key={subject.id} className='mt-6'>
                                     <View className='flex-row items-center justify-between mb-3'>
                                         <Text className='!text-xl !font-bold'>{subject.name}</Text>
                                         <TouchableOpacity 
@@ -156,7 +157,7 @@ export default function FacultyScreen() {
                                                         ? '!text-gray-600 dark:!text-gray-400' 
                                                         : '!text-blue-500'
                                                 }`}>
-                                                    {subject.isFollowing ? 'Đang theo dõi' : 'Theo dõi'}
+                                                    {subject.isFollowing ? 'Bỏ theo dõi' : 'Theo dõi'}
                                                 </Text>
                                             )}
                                         </TouchableOpacity>
@@ -164,14 +165,14 @@ export default function FacultyScreen() {
 
                                     {subject.documents && subject.documents.length > 0 ? (
                                         <View className='flex-row flex-wrap justify-between'>
-                                            {subject.documents.map((doc) => (
+                                            {subject.documents.map((doc: DocumentItem) => (
                                                 <DocumentCard
                                                     key={doc.id}
                                                     id={doc.id}
                                                     title={doc.title}
                                                     downloadCount={doc.downloadCount}
                                                     uploadDate={doc.uploadDate}
-                                                    subject={""}
+                                                    subject={subject.name}
                                                     faculty={facultyInfo.name}
                                                     thumbnail={doc.thumbnail}
                                                     score={doc.score || 0}

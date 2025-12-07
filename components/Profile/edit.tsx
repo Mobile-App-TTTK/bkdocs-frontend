@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { Image, Spinner, Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { Alert, Modal, ScrollView, TouchableOpacity } from 'react-native';
+import { Alert, KeyboardAvoidingView, Modal, Platform, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFetchUserProfile, useUpdateProfile } from './api';
 
@@ -54,26 +54,54 @@ export default function EditProfileScreen() {
     };
 
     const handleSave = async () => {
-        if (!fullName.trim()) {
+        // Validate tên
+        const trimmedName = fullName.trim();
+        if (!trimmedName) {
             Alert.alert('Lỗi', 'Vui lòng nhập họ và tên');
             return;
         }
 
-        if (!enrollmentYear.trim()) {
+        if (trimmedName.length < 2) {
+            Alert.alert('Lỗi', 'Họ và tên phải có ít nhất 2 ký tự');
+            return;
+        }
+
+        if (trimmedName.length > 50) {
+            Alert.alert('Lỗi', 'Họ và tên không được vượt quá 50 ký tự');
+            return;
+        }
+
+        // Validate niên khoá
+        const trimmedYear = enrollmentYear.trim();
+        if (!trimmedYear) {
             Alert.alert('Lỗi', 'Vui lòng nhập niên khoá');
+            return;
+        }
+
+        const yearNumber = parseInt(trimmedYear);
+        if (isNaN(yearNumber)) {
+            Alert.alert('Lỗi', 'Niên khoá phải là số');
+            return;
+        }
+
+        const currentYear = new Date().getFullYear();
+        const minYear = 2000;
+
+        if (yearNumber < minYear || yearNumber > currentYear) {
+            Alert.alert('Lỗi', `Niên khoá phải từ ${minYear} đến ${currentYear}`);
             return;
         }
 
         try {
             await updateProfileMutation.mutateAsync({
-                name: fullName,
+                name: trimmedName,
                 facultyId: selectedFacultyId || undefined,
-                intakeYear: parseInt(enrollmentYear) || undefined,
+                intakeYear: yearNumber,
                 avatar: newAvatarFile,
             });
 
             Alert.alert('Thành công', 'Đã cập nhật thông tin hồ sơ');
-            router.back();
+            // router.back();
         } catch (error: any) {
             Alert.alert('Lỗi', error?.response?.data?.message || 'Không thể cập nhật hồ sơ');
         }
@@ -128,40 +156,50 @@ export default function EditProfileScreen() {
 
     return (
         <SafeAreaView className="flex-1 bg-white dark:!bg-dark-900" edges={['top']}>
-            <View className="flex-row items-center justify-between px-6 pt-4 pb-2">
-                <TouchableOpacity
-                    onPress={() => router.back()}
-                    className="w-12 h-12 rounded-full bg-gray-100 dark:bg-dark-800 items-center justify-center"
-                    activeOpacity={0.7}
-                >
-                    <Ionicons name="chevron-back-outline" size={24} color="#888" />
-                </TouchableOpacity>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                className="flex-1"
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+            >
+                <View className="flex-row items-center justify-between px-6 pt-4 pb-2">
+                    <TouchableOpacity
+                        onPress={() => router.back()}
+                        className="w-12 h-12 rounded-full bg-gray-100 dark:bg-dark-800 items-center justify-center"
+                        activeOpacity={0.7}
+                    >
+                        <Ionicons name="chevron-back-outline" size={24} color="#888" />
+                    </TouchableOpacity>
 
-                <Text
-                    className="!text-xl !font-bold text-black dark:text-white"
-                    style={{ fontFamily: 'Gilroy-Bold' }}
-                >
-                    Chỉnh sửa hồ sơ
-                </Text>
+                    <Text
+                        className="!text-xl !font-bold text-black dark:text-white"
+                        style={{ fontFamily: 'Gilroy-Bold' }}
+                    >
+                        Chỉnh sửa hồ sơ
+                    </Text>
 
-                <TouchableOpacity
-                    onPress={handleSave}
-                    activeOpacity={0.7}
-                    disabled={updateProfileMutation.isPending}
-                >
-                    {updateProfileMutation.isPending ? (
-                        <Spinner color="primary.500" size="sm" />
-                    ) : (
-                        <Text
-                            className="!text-base !font-semibold !text-primary-500"
-                        >
-                            Lưu
-                        </Text>
-                    )}
-                </TouchableOpacity>
-            </View>
+                    <TouchableOpacity
+                        onPress={handleSave}
+                        activeOpacity={0.7}
+                        disabled={updateProfileMutation.isPending}
+                    >
+                        {updateProfileMutation.isPending ? (
+                            <Spinner color="primary.500" size="sm" />
+                        ) : (
+                            <Text
+                                className="!text-base !font-semibold !text-primary-500"
+                            >
+                                Lưu
+                            </Text>
+                        )}
+                    </TouchableOpacity>
+                </View>
 
-            <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+                <ScrollView
+                    className="flex-1"
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="handled"
+                    contentContainerStyle={{ paddingBottom: 20 }}
+                >
                 <View className="items-center px-6 pt-6 pb-8">
                     <View
                         className="w-32 h-32 rounded-full overflow-hidden mb-4"
@@ -229,12 +267,19 @@ export default function EditProfileScreen() {
                     <FormField
                         label="Niên khoá"
                         value={enrollmentYear}
-                        onChangeText={setEnrollmentYear}
+                        onChangeText={(text) => {
+                            // Chỉ cho phép số và giới hạn tối đa 4 chữ số
+                            const numericValue = text.replace(/[^0-9]/g, '');
+                            if (numericValue.length <= 4) {
+                                setEnrollmentYear(numericValue);
+                            }
+                        }}
                         placeholder="Nhập niên khoá"
                         keyboardType="numeric"
                     />
                 </View>
-            </ScrollView>
+                </ScrollView>
+            </KeyboardAvoidingView>
 
             <Modal
                 visible={showFacultyModal}

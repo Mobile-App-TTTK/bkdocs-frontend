@@ -2,6 +2,7 @@ import SplashScreen from '@/components/splash-screen';
 import ThemeWrapper from '@/components/theme-wrapper';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { UserProvider } from '@/contexts/UserContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useSplashScreen } from '@/hooks/use-splash-screen';
 import { store } from '@/store';
@@ -91,11 +92,13 @@ export default function RootLayout() {
             <NavigationThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
               <NativeBaseProvider theme={nativeBaseTheme}>
                 <AuthProvider>
-                  <Stack screenOptions={{ animation: 'none', headerShown: false }}>
-                    <Stack.Screen name="index" options={{ headerShown: false }} />
-                    <Stack.Screen name="(public)" options={{ headerShown: false }} />
-                  </Stack>
-                  <StatusBar style="auto" />
+                  <UserProvider>
+                    <Stack screenOptions={{ animation: 'none', headerShown: false }}>
+                      <Stack.Screen name="index" options={{ headerShown: false }} />
+                      <Stack.Screen name="(public)" options={{ headerShown: false }} />
+                    </Stack>
+                    <StatusBar style="auto" />
+                  </UserProvider>
                 </AuthProvider>
               </NativeBaseProvider>
             </NavigationThemeProvider>

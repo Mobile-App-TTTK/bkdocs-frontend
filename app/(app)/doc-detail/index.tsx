@@ -192,7 +192,7 @@ export default function DownloadDoc(doc: DocProps) {
                                                 <Pressable onPress={() => setFollowing(!following)} className="!text-xl !font-bold !text-gray-500">
                                                     <Text className={`!text-xl !font-bold ${following ? "!text-gray-500" : "!text-primary-500"}`}>
                                                         {
-                                                            following ? "Đang theo dõi" : "Theo dõi"
+                                                            following ? "Bỏ theo dõi" : "Theo dõi"
                                                         }
                                                     </Text>
                                                 </Pressable>

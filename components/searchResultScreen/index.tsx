@@ -152,85 +152,138 @@ export default function SearchResultScreen() {
                     </View>
                 ) : (
                     <View className='pb-20'>
-                        { (selectedFilter === 'all' || selectedFilter === 'user') && Array.isArray(users) &&  users?.length > 0 && (
+                        { (selectedFilter === 'all' ? (Array.isArray(users) && users?.length > 0) : selectedFilter === 'user') && (
                             <View className='pt-4'>
                                 <Text className="!text-lg !font-semibold">Người dùng</Text>
-                                <View className="flex-row flex-wrap justify-between mt-4 mb-4 gap-6">
-                                    {isFetchingSearchResult ? (
-                                       Array.from({ length: 4 }).map((_, index: number) => (
+                                {isFetchingSearchResult ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4 gap-6">
+                                        {Array.from({ length: 4 }).map((_, index: number) => (
                                             <View key={index} className='w-full flex flex-row items-center gap-3'>
                                                 <Skeleton h="16" w="16" rounded="full" />
                                                 <View className='flex-1'>
                                                     <Skeleton.Text px="4" lines={2} />
                                                 </View>
                                             </View>
-                                        ))
-                                    ) : users.map((user, index) => (
-                                        <UserCard
-                                            key={index}
-                                            id={user.id}
-                                            name={user.name}
-                                            image_key={user.image_key}
-                                            followersCount={user.followersCount}
-                                            documentsCount={user.documentsCount}
-                                            isFollowing={user.isFollowing}
-                                        />
-                                    ))}
-                                </View>
+                                        ))}
+                                    </View>
+                                ) : Array.isArray(users) && users?.length > 0 ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4 gap-6">
+                                        {users.map((user, index) => (
+                                            <UserCard
+                                                key={index}
+                                                id={user.id}
+                                                name={user.name}
+                                                image_key={user.image_url}
+                                                followersCount={user.followersCount}
+                                                documentsCount={user.documentsCount}
+                                                isFollowing={user.isFollowing}
+                                            />
+                                        ))}
+                                    </View>
+                                ) : (
+                                    <View className="w-full flex items-center justify-center py-4">
+                                        <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy người dùng</Text>
+                                    </View>
+                                )}
                             </View>
                         ) }
-                        { (selectedFilter === 'all' || selectedFilter === 'document') && Array.isArray(documents) &&  documents?.length > 0 && (
+                        { (selectedFilter === 'all' ? (Array.isArray(documents) && documents?.length > 0) : selectedFilter === 'document') && (
                             <View className='pt-4'>
                                 <Text className="!text-lg !font-semibold">Tài liệu</Text>
-                                <View className="flex-row flex-wrap justify-between mt-4 mb-4">
-                                {documents.map((item, index) => (
-                                    <DocumentCard
-                                        key={index}
-                                        id={item.id}
-                                        title={item.title}
-                                        downloadCount={item.downloadCount}
-                                        uploadDate={item.uploadDate}
-                                        subject={item.subject.name}
-                                        faculty={item.faculty.name}
-                                        thumbnail={item.thumbnail}
-                                        score={item.score}
-                                        type={item.type}
-                                    />
-                                ))}
-                                </View>
+                                {isFetchingSearchResult ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4">
+                                        {Array.from({ length: 4 }).map((_, index: number) => (
+                                            <View key={index} className='w-[48%] mb-4'>
+                                                <Skeleton h="24" w="100%" rounded="xl" />
+                                                <Skeleton.Text px="3" lines={2} mt="2" />
+                                            </View>
+                                        ))}
+                                    </View>
+                                ) : Array.isArray(documents) && documents?.length > 0 ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4">
+                                        {documents.map((item, index) => (
+                                            <DocumentCard
+                                                key={index}
+                                                id={item.id}
+                                                title={item.title}
+                                                downloadCount={item.downloadCount}
+                                                uploadDate={item.uploadDate}
+                                                subject={item.subject?.name}
+                                                faculty={item.faculty?.name}
+                                                thumbnail={item.thumbnail}
+                                                score={item.score}
+                                                type={item.type}
+                                            />
+                                        ))}
+                                    </View>
+                                ) : (
+                                    <View className="w-full flex items-center justify-center py-4">
+                                        <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy tài liệu</Text>
+                                    </View>
+                                )}
                             </View> 
                         )}
-                        { (selectedFilter === 'all' || selectedFilter === 'faculty') && Array.isArray(searchFaculties) &&  searchFaculties?.length > 0 && (
+                        { (selectedFilter === 'all' ? (Array.isArray(searchFaculties) && searchFaculties?.length > 0) : selectedFilter === 'faculty') && (
                             <View className='pt-4'>
                                 <Text className="!text-lg !font-semibold">Khoa</Text>
-                                <View className="flex-row flex-wrap justify-between mt-4 mb-4">
-                                {searchFaculties.map((item, index) => (
-                                    <FacultyCard
-                                        key={index}
-                                        id={item.id}
-                                        name={item.name}
-                                        count={item.count}
-                                        downloadUrl={item.image_url}
-                                    />
-                                ))}
-                                </View>
+                                {isFetchingSearchResult ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4">
+                                        {Array.from({ length: 4 }).map((_, index: number) => (
+                                            <View key={index} className='w-[48%] mb-4'>
+                                                <Skeleton h="24" w="100%" rounded="xl" />
+                                                <Skeleton.Text px="3" lines={1} mt="2" />
+                                            </View>
+                                        ))}
+                                    </View>
+                                ) : Array.isArray(searchFaculties) && searchFaculties?.length > 0 ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4">
+                                        {searchFaculties.map((item, index) => (
+                                            <FacultyCard
+                                                key={index}
+                                                id={item.id}
+                                                name={item.name}
+                                                count={item.count}
+                                                downloadUrl={item.image_url}
+                                            />
+                                        ))}
+                                    </View>
+                                ) : (
+                                    <View className="w-full flex items-center justify-center py-4">
+                                        <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy khoa</Text>
+                                    </View>
+                                )}
                             </View> 
                         )}
 
-                        { (selectedFilter === 'all' || selectedFilter === 'subject') && Array.isArray(subjects) &&  subjects?.length > 0 && (
+                        { (selectedFilter === 'all' ? (Array.isArray(subjects) && subjects?.length > 0) : selectedFilter === 'subject') && (
                             <View className='pt-4'>
                                 <Text className="!text-lg !font-semibold">Môn học</Text>
-                                <View className="flex-row flex-wrap justify-between mt-4 mb-4">
-                                {subjects.map((item, index) => (
-                                    <SubjectCard
-                                        key={index}
-                                        id={item.id}
-                                        name={item.name}
-                                        count={item.count}
-                                        downloadUrl={item.image_url}
-                                    />
-                                ))}
-                                </View>
+                                {isFetchingSearchResult ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4">
+                                        {Array.from({ length: 4 }).map((_, index: number) => (
+                                            <View key={index} className='w-[48%] mb-4'>
+                                                <Skeleton h="24" w="100%" rounded="xl" />
+                                                <Skeleton.Text px="3" lines={1} mt="2" />
+                                            </View>
+                                        ))}
+                                    </View>
+                                ) : Array.isArray(subjects) && subjects?.length > 0 ? (
+                                    <View className="flex-row flex-wrap justify-between mt-4 mb-4">
+                                        {subjects.map((item, index) => (
+                                            <SubjectCard
+                                                key={index}
+                                                id={item.id}
+                                                name={item.name}
+                                                count={item.count}
+                                                downloadUrl={item.image_url}
+                                            />
+                                        ))}
+                                    </View>
+                                ) : (
+                                    <View className="w-full flex items-center justify-center py-4">
+                                        <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy môn học</Text>
+                                    </View>
+                                )}
                             </View> 
                         )}
                         

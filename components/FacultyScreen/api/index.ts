@@ -17,12 +17,12 @@ export const useFetchFacultyInfo = (facultyId: string | undefined) => {
 };
 
 export const subscribeFaculty = async (facultyId: string) => {
-  const res = await api.post(`${API_SUBSCRIBE_FACULTY}/${facultyId}/subscribe`);
+  const res = await api.post(`${API_SUBSCRIBE_FACULTY}/${facultyId}/subscription`);
   return res.data;
 };
 
 export const unsubscribeFaculty = async (facultyId: string) => {
-  const res = await api.delete(`${API_UNSUBSCRIBE_FACULTY}/${facultyId}/unsubcribe`);
+  const res = await api.delete(`${API_UNSUBSCRIBE_FACULTY}/${facultyId}/subscription`);
   return res.data;
 };
 
@@ -49,7 +49,7 @@ export const useUnsubscribeFaculty = (facultyId: string | undefined) => {
 };
 
 export const subscribeSubject = async (subjectId: string) => {
-  const res = await api.post(`${API_SUBSCRIBE_SUBJECT}/${subjectId}/subscribe`);
+  const res = await api.post(`${API_SUBSCRIBE_SUBJECT}/${subjectId}/subscription`);
   return res.data;
 }
 
@@ -65,7 +65,7 @@ export const useSubscribeSubject = () => {
 }
 
 export const unsubscribeSubject = async (subjectId: string) => {
-  const res = await api.delete(`${API_UNSUBSCRIBE_SUBJECT}/${subjectId}/unsubcribe`);
+  const res = await api.delete(`${API_UNSUBSCRIBE_SUBJECT}/${subjectId}/subscription`);
   return res.data;
 }
 

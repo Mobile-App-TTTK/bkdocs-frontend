@@ -1,15 +1,19 @@
+import FacultyCard from "@/components/FacultyCard";
+import { useFetchFollowList } from "@/components/Profile/api";
 import { filterOptionsList } from "@/components/searchScreen/utils/constants";
-import { getBackgroundById } from "@/utils/functions";
-import { ROUTES } from "@/utils/routes";
-import { Ionicons, Octicons } from "@expo/vector-icons";
+import SubjectCard from "@/components/SubjectCard";
+import UserCard from "@/components/UserCard";
+import { Ionicons } from "@expo/vector-icons";
 import classNames from "classnames";
 import { router } from "expo-router";
+import { Skeleton, Text, View } from "native-base";
 import { useState } from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function FollowingScreen() {
     const [selectedFilter, setSelectedFilter] = useState<string>('all');
+    const { data: followList, isLoading } = useFetchFollowList();
 
     return (
         <SafeAreaView className="flex-1 bg-white dark:!bg-dark-900" edges={['top']}>
@@ -44,101 +48,102 @@ export default function FollowingScreen() {
             </View>
 
             <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-                <View className="flex-row flex-wrap justify-between mt-2 mb-10 px-4">
-                    <Text className="!text-lg !font-bold text-gray-800 dark:text-white">Người dùng</Text>
-                    <View className="flex-col gap-6">
-                        <TouchableOpacity
-                            onPress={() => router.push(ROUTES.FACULTY)}
-                        >
-                            <View className="w-full flex flex-row items-center gap-4">
-                                <Image
-                                    source={{ uri: "https://i.pinimg.com/1200x/24/bd/d9/24bdd9ec59a9f8966722063fe7791183.jpg" }}
-                                    width={70}
-                                    height={70}
-                                    borderRadius={100}
-                                    resizeMode="cover"
-                                    alt="background"
-                                />
-                                <View>
-                                    <View className="flex-row items-center gap-2">
-                                        <Text className="!text-lg !font-semibold">Trần Thành Tài</Text>
-                                        <Octicons name="verified" size={20} color="#42A5F5" />
-                                        <Text className="!text-lg !font-semibold">·</Text>
-                                        <TouchableOpacity>
-                                            <Text className="!text-blue-500 dark:!text-blue-400 !font-bold">Theo dõi</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <Text className="!text-gray-500 dark:!text-gray-400 !font-[Gilroy-Regular]">200,9M người theo dõi · Tải lên 124 tài liệu</Text>
+                {isLoading ? (
+                    <View className="px-4 py-8">
+                        {Array.from({ length: 3 }).map((_, index) => (
+                            <View key={index} className="flex-row items-center gap-4 mb-6">
+                                <Skeleton h="16" w="16" rounded="full" />
+                                <View className="flex-1">
+                                    <Skeleton.Text lines={2} />
                                 </View>
                             </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={() => router.push(ROUTES.SUBJECT)}
-                        >
-                            <View className="w-full flex flex-row items-center gap-4">
-                                <Image
-                                    source={{ uri: "https://i.pinimg.com/1200x/5a/ac/e1/5aace12a908e7de89dd6fa73ce5ce53b.jpg" }}
-                                    width={70}
-                                    height={70}
-                                    borderRadius={100}
-                                    resizeMode="cover"
-                                    alt="background"
-                                />
-                                <View>
-                                    <View className="flex-row items-center gap-2">
-                                        <Text className="!text-lg !font-semibold">Nguyễn Minh Khánh</Text>
-                                    </View>
-                                    <Text className="!text-gray-500 dark:!text-gray-400 !font-[Gilroy-Regular]">Đã theo dõi</Text>
-                                    <Text className="!text-gray-500 dark:!text-gray-400 !font-[Gilroy-Regular]">500 người theo dõi · Tải lên 124 tài liệu</Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-
-                        <View className="w-full flex flex-row items-center gap-4">
-                            <Image
-                                source={{ uri: "https://i.pinimg.com/1200x/fd/2d/98/fd2d98b5506a612231fc99a5eb00a335.jpg" }}
-                                width={70}
-                                height={70}
-                                borderRadius={100}
-                                resizeMode="cover"
-                                alt="background"
-                            />
-                            <View>
-                                <View className="flex-row items-center gap-2">
-                                    <Text className="!text-lg !font-semibold">Nguyễn Trường Thịnh</Text>
-                                    <Text className="!text-lg !font-semibold">·</Text>
-                                    <TouchableOpacity>
-                                        <Text className="!text-blue-500 dark:!text-blue-400 !font-bold">Theo dõi</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <Text className="!text-gray-500 dark:!text-gray-400 !font-[Gilroy-Regular]">100,2K người theo dõi · Tải lên 124 tài liệu</Text>
-                            </View>
-                        </View>
-                    </View>
-                    <Text className="!text-lg !font-bold text-gray-800 dark:text-white py-2">Khoa</Text>
-                    <View className="flex-row flex-wrap justify-between mt-2 mb-4">
-                        {Array.from({ length: 4 }).map((_, index) => (
-                             <TouchableOpacity
-                                onPress={() => router.push(ROUTES.DOWNLOAD_DOC)}
-                                key={index}
-                                className="!rounded-2xl !p-0 !bg-gray-50 dark:!bg-dark-700 w-[48%] mb-4 border border-gray-200 dark:border-gray-700"
-                            >
-                                <Image
-                                source={getBackgroundById(index.toString())}
-                                className="w-full h-20 rounded-t-xl"
-                                resizeMode="cover"
-                                />
-                                <View className='p-3'>
-                                <Text className="!font-semibold">Khoa</Text>
-                                <Text className="!text-sm mt-1 font-[Gilroy-Regular]">
-                                    100 tài liệu
-                                </Text>
-                                </View>
-                            </TouchableOpacity>
                         ))}
                     </View>
-                </View>
+                ) : followList ? (
+                    <View className="px-4 pb-4">
+                        {/* Users Section */}
+                        {(selectedFilter === 'all' || selectedFilter === 'user') && 
+                         followList.followingUsers && followList.followingUsers.length > 0 && (
+                            <View className="mt-4 mb-4">
+                                <Text className="!text-lg !font-bold text-gray-800 dark:text-white mb-4">
+                                    Người dùng
+                                </Text>
+                                <View className="flex-col gap-6">
+                                    {followList.followingUsers.map((user) => (
+                                        <UserCard
+                                            key={user.id}
+                                            id={user.id}
+                                            name={user.name}
+                                            image_key={user.imageUrl}
+                                            followersCount={0}
+                                            documentsCount={user.documentCount}
+                                            isFollowing={true}
+                                        />
+                                    ))}
+                                </View>
+                            </View>
+                        )}
+
+                        {/* Faculties Section */}
+                        {(selectedFilter === 'all' || selectedFilter === 'faculty') && 
+                         followList.subscribedFacultyIds && followList.subscribedFacultyIds.length > 0 && (
+                            <View className="mb-4">
+                                <Text className="!text-lg !font-bold text-gray-800 dark:text-white mb-4">
+                                    Khoa
+                                </Text>
+                                <View className="flex-row flex-wrap justify-between">
+                                    {followList.subscribedFacultyIds.map((faculty) => (
+                                        <FacultyCard
+                                            key={faculty.id}
+                                            id={faculty.id}
+                                            name={faculty.name}
+                                            count={faculty.documentCount}
+                                            downloadUrl={faculty.imageUrl}
+                                        />
+                                    ))}
+                                </View>
+                            </View>
+                        )}
+
+                        {/* Subjects Section */}
+                        {(selectedFilter === 'all' || selectedFilter === 'subject') && 
+                         followList.subscribedSubjectIds && followList.subscribedSubjectIds.length > 0 && (
+                            <View className="mb-4">
+                                <Text className="!text-lg !font-bold text-gray-800 dark:text-white mb-4">
+                                    Môn học
+                                </Text>
+                                <View className="flex-row flex-wrap justify-between">
+                                    {followList.subscribedSubjectIds.map((subject) => (
+                                        <SubjectCard
+                                            key={subject.id}
+                                            id={subject.id}
+                                            name={subject.name}
+                                            count={subject.documentCount}
+                                            downloadUrl={subject.imageUrl}
+                                        />
+                                    ))}
+                                </View>
+                            </View>
+                        )}
+
+                        {/* Empty State */}
+                        {(!followList.followingUsers || followList.followingUsers.length === 0) &&
+                         (!followList.subscribedFacultyIds || followList.subscribedFacultyIds.length === 0) &&
+                         (!followList.subscribedSubjectIds || followList.subscribedSubjectIds.length === 0) && (
+                            <View className="py-16 items-center">
+                                <Text className="!text-gray-500 dark:!text-gray-400">
+                                    Chưa theo dõi ai hoặc khoa/môn học nào
+                                </Text>
+                            </View>
+                        )}
+                    </View>
+                ) : (
+                    <View className="py-16 items-center">
+                        <Text className="!text-gray-500 dark:!text-gray-400">
+                            Không thể tải dữ liệu
+                        </Text>
+                    </View>
+                )}
             </ScrollView>
         </SafeAreaView>
     );

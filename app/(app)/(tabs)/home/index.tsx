@@ -279,7 +279,7 @@ export default function HomeScreen() {
                   <Pressable onPress={() => {setFollowing(!following)}}>
                       <Text className={`!text-xl !font-bold ${following ? "!text-gray-500" : "!text-primary-500"}`} >
                           {
-                              following ? "Đang theo dõi" : "Theo dõi"
+                              following ? "Bỏ theo dõi" : "Theo dõi"
                           }
                       </Text>
                   </Pressable>

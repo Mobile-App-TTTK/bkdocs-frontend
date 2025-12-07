@@ -10,3 +10,30 @@ export type UserProfile = {
   numberFollowers: number;
   participationDays: number;
 };
+
+export type FollowingUser = {
+  id: string;
+  name: string;
+  documentCount: number;
+  imageUrl: string;
+};
+
+export type SubscribedFaculty = {
+  id: string;
+  name: string;
+  documentCount: number;
+  imageUrl: string;
+};
+
+export type SubscribedSubject = {
+  id: string;
+  name: string;
+  documentCount: number;
+  imageUrl: string;
+};
+
+export type FollowListResponse = {
+  followingUsers: FollowingUser[];
+  subscribedFacultyIds: SubscribedFaculty[];
+  subscribedSubjectIds: SubscribedSubject[];
+};

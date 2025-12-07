@@ -17,12 +17,12 @@ export const useFetchSubjectInfo = (subjectId: string | undefined) => {
 };
 
 export const subscribeSubject = async (subjectId: string) => {
-  const res = await api.post(`${API_SUBSCRIBE_SUBJECT}/${subjectId}/subscribe`);
+  const res = await api.post(`${API_SUBSCRIBE_SUBJECT}/${subjectId}/subscription`);
   return res.data;
 };
 
 export const unsubscribeSubject = async (subjectId: string) => {
-  const res = await api.delete(`${API_UNSUBSCRIBE_SUBJECT}/${subjectId}/unsubcribe`);
+  const res = await api.delete(`${API_UNSUBSCRIBE_SUBJECT}/${subjectId}/subscription`);
   return res.data;
 };
 

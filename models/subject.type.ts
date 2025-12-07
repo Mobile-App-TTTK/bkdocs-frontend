@@ -4,8 +4,14 @@ export type SubjectInfo = {
   document_count: number;
   followers_count: number;
   isFollowingSubject: boolean;
-  types: SubjectType[];
+  typeList: SubjectTypeList[];
+  types?: SubjectType[];
 }
+
+export type SubjectTypeList = {
+  name: string;
+  documents: SubjectDocument[];
+};
 
 export type SubjectType = {
   id: string;
@@ -21,4 +27,10 @@ export type SubjectDocument = {
   thumbnail: string;
   score: number | null;
   type: 'pdf' | 'docx' | 'pptx' | string;
+  subject?: {
+    name: string;
+  };
+  faculty?: {
+    name: string;
+  };
 };

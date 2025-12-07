@@ -48,7 +48,7 @@ export type Document = {
 export type SearchUser = {
     id: string;
     name: string;
-    image_key: string;
+    image_url: string;
     followersCount: number;
     documentsCount: number;
     isFollowing: boolean;

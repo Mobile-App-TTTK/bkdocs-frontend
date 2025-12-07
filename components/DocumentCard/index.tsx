@@ -52,7 +52,7 @@ export default function DocumentCard(props: IDocumentCardProps) {
                 <View className="flex-row items-center justify-between w-full">
                     <View className="flex-row items-center gap-2">
                         <Ionicons name="book-outline" size={16} className="!text-gray-500 dark:!text-gray-400" />
-                        <Text className="!text-gray-500 dark:!text-gray-400" numberOfLines={1} ellipsizeMode="tail">{subject || 'Không xác định'}</Text>
+                        <Text className="!text-gray-500 dark:!text-gray-400" numberOfLines={1} ellipsizeMode="tail">{subject || '___'}</Text>
                     </View>
                     <View className="flex-row items-center gap-2">
                         <Ionicons name="star" size={16} className="!text-yellow-500" />

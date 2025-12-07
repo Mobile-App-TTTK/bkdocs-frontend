@@ -1,7 +1,7 @@
 import { api } from "@/api/apiClient";
-import { API_UPDATE_PROFILE, API_USER_DOCUMENTS, API_USER_PROFILE } from "@/api/apiRoutes";
+import { API_FOLLOW_LIST, API_UPDATE_PROFILE, API_USER_DOCUMENTS, API_USER_PROFILE, API_USER_PROFILE_BY_ID } from "@/api/apiRoutes";
 import { UserDocument } from "@/models/document.type";
-import { UserProfile } from "@/models/user.type";
+import { FollowListResponse, UserProfile } from "@/models/user.type";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const fetchUserProfile = async () => {
@@ -9,10 +9,23 @@ export const fetchUserProfile = async () => {
   return res.data.data;
 };
 
-export const useFetchUserProfile = () => {
+export const useFetchUserProfile = () => {  
   return useQuery<UserProfile>({
     queryKey: ["user-profile"],
     queryFn: fetchUserProfile,
+  });
+};
+
+export const fetchUserProfileById = async (userId: string) => {
+  const res = await api.get(API_USER_PROFILE_BY_ID(userId));
+  return res.data.data;
+};
+
+export const useFetchUserProfileById = (userId: string) => {
+  return useQuery<UserProfile>({
+    queryKey: ["user-profile", userId],
+    queryFn: () => fetchUserProfileById(userId),
+    enabled: !!userId,
   });
 };
 
@@ -93,5 +106,21 @@ export const useUpdateProfile = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user-profile"] });
     },
+  });
+};
+
+export const fetchFollowList = async (): Promise<FollowListResponse> => {
+  const res = await api.get(API_FOLLOW_LIST);
+  const data = res.data.data;
+  if (Array.isArray(data) && data.length > 0) {
+    return data[0] as FollowListResponse;
+  }
+  return data as FollowListResponse;
+};
+
+export const useFetchFollowList = () => {
+  return useQuery<FollowListResponse>({
+    queryKey: ["follow-list"],
+    queryFn: fetchFollowList,
   });
 };
