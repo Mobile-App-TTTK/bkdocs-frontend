@@ -12,6 +12,14 @@ export const API_SUGGEST_KEYWORDS = `${API_DOCUMENTS}/suggestion/keyword`;
 export const API_GET_INFORMATION_FACULTY = `${API_DOCUMENTS}/faculty`;
 export const API_GET_INFORMATION_SUBJECT = `${API_DOCUMENTS}/subject`;
 export const API_UPLOAD_DOCUMENT = `${API_DOCUMENTS}`;
+export const API_GET_SUGGESTIONS = `${API_DOCUMENTS}/suggestions/top-downloads`;
+export const API_GET_DOCUMENT_DETAIL = (id: string) => `${API_DOCUMENTS}/${id}`;
+
+//rates
+export const API_RATES = '/rates'
+export const API_GET_DOC_RATINGS = (id: string) => `${API_RATES}/document/${id}/reviews`;
+export const API_GET_DOC_RECENT_RATINGS = (id: string) => `${API_RATES}/document/${id}/reviews/recent`;
+export const API_RATE_STAT = `${API_RATES}/statistics`;
 
 // notifications
 export const API_NOTIFICATIONS = '/notifications';

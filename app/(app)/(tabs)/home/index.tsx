@@ -2,13 +2,14 @@ import { api } from '@/api/apiClient';
 import { API_GET_SUGGESTIONS } from '@/api/apiRoutes';
 import SuggestCard from '@/components/ui/home-suggest-card';
 import { useAuth } from '@/contexts/AuthContext';
+import { useUser } from '@/contexts/UserContext';
 import { Suggestion } from '@/models/suggest.type';
 import { ROUTES } from '@/utils/routes';
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from 'expo-router';
 import { Image, Text } from "native-base";
 import React, { useEffect, useState } from 'react';
-import { Dimensions, Pressable, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Pressable, ScrollView, View } from 'react-native';
 import { interpolate, useSharedValue } from "react-native-reanimated";
 import Carousel, { ICarouselInstance, Pagination, TAnimationStyle } from "react-native-reanimated-carousel";
 
@@ -68,13 +69,14 @@ export function Card() {
 }
 
 export default function HomeScreen() {
-  const { logout } = useAuth();
-  const router = useRouter();
+
+    const { logout } = useAuth();
+    const router = useRouter();
+    const { userProfile, isLoading: isLoadingUser } = useUser();
 
     const [following, setFollowing] = useState(false);
     const [suggestDoc, setSuggestDoc] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    
 
     useEffect(() => {
         const fetchSuggestion = async () => {
@@ -85,38 +87,37 @@ export default function HomeScreen() {
                 
                 const response = await api.get(API_GET_SUGGESTIONS);
                 
-                // Log toàn bộ response
                 console.log('📦 Full API Response:', JSON.stringify(response.data, null, 2));
                 console.log('📦 Response status:', response.status);
                 console.log('📦 Response headers:', response.headers);
                 
-                const documents: Suggestion[] = response.data?.data?.documents || [];
+                // ✅ Hỗ trợ cả 2 dạng trả về:
+                // - data.data = [] (array trực tiếp)
+                // - data.data.documents = [] (nested)
+                const rawData = response.data?.data;
+                const documents: Suggestion[] = Array.isArray(rawData)
+                  ? rawData
+                  : (rawData?.documents ?? []);
+                
                 console.log('📄 Documents:', documents);
                 console.log('📄 Documents count:', documents.length);
-    
-                // Nếu data là array trực tiếp thay vì nested
-                if (Array.isArray(response.data?.data)) {
-                    console.log('⚠️ Data is direct array, not nested in documents');
-                    console.log('⚠️ Array content:', response.data.data);
-                }
-
+                
                 if (documents.length === 0) {
-                    console.log('⚠️ No documents from API, using fallback');
-                    setSuggestDoc(fallbackSuggestDoc);
-                    setIsLoading(false);
-                    return; // ❗ QUAN TRỌNG: return để không chạy code phía dưới
+                  console.log('⚠️ No documents from API, using fallback');
+                  setSuggestDoc(fallbackSuggestDoc);
+                  return;
                 }
                 
                 const mappedDoc = documents.map((doc) => ({
-                    id: doc.id,
-                    title: doc.title,
-                    image: doc.thumbnailUrl,
-                    subject: doc.subject,
-                    downloadCount: doc.downloadCount,
-                    uploadDate: doc.uploadDate,
-                    type: doc.fileType,
+                  id: doc.id,
+                  title: doc.title,
+                  image: doc.thumbnailUrl,
+                  subject: doc.subject,
+                  downloadCount: doc.downloadCount,
+                  uploadDate: doc.uploadDate,
+                  type: doc.fileType,
                 }));
-
+                
                 setSuggestDoc(mappedDoc);
             } 
             catch (error) {
@@ -137,10 +138,7 @@ export default function HomeScreen() {
 
     const onPressPagination = (index: number) => {
         ref.current?.scrollTo({
-            /**
-             * Calculate the difference between the current index and the target index
-             * to ensure that the carousel scrolls to the nearest index
-             */
+
             count: index - progress.value,
             animated: true,
         });
@@ -173,7 +171,15 @@ export default function HomeScreen() {
           {/*Profile người dùng*/}
           <View className="flex flex-row justify-center items-center mx-6 mt-6">
               <View className="flex flex-row gap-3 items-center">
-                <Image source={avatar} width={50} height={50} borderRadius={100} className="shadow-md" resizeMode={'cover'} alt="User Avatar"/>
+                <Image 
+                source={userProfile?.imageUrl ? { uri: userProfile.imageUrl } : avatar}
+                width={50} 
+                height={50} 
+                borderRadius={100} 
+                className="shadow-md" 
+                resizeMode={'cover'} 
+                alt="User Avatar"
+                />
                   <View>
                       <Text className="font-medium">
                           Xin chào,
@@ -183,7 +189,7 @@ export default function HomeScreen() {
                           lineHeight: 30,
                           fontFamily: "Gilroy-Bold"
                       }}>
-                          TÊN NGƯỜI DÙNG
+                          {userProfile?.name.toUpperCase() || 'TÊN NGƯỜI DÙNG'}
                       </Text>
                   </View>
               </View>
@@ -251,7 +257,7 @@ export default function HomeScreen() {
                   onProgressChange={progress}
                   renderItem={({ item }) => (
                       <View style={{ alignItems: "center", justifyContent: "center", width: width }}>
-                        <SuggestCard title={item.title} image={item.image} subject={item.subject} downloadCount={item.downloadCount} uploadDate={item.uploadDate} type={item.type} />
+                        <SuggestCard id={item.id.toString()} title={item.title} image={item.image} subject={item.subject} downloadCount={item.downloadCount} uploadDate={item.uploadDate} type={item.type} />
                       </View>
                   )}
                   customAnimation={animationStyle}
@@ -285,29 +291,11 @@ export default function HomeScreen() {
                   </Pressable>
               </View>
 
-              <ScrollView horizontal={true} style={{paddingVertical:15, paddingHorizontal:22}} showsVerticalScrollIndicator={false}>
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+              <ScrollView horizontal={false} style={{paddingVertical:15, paddingHorizontal:22}} showsVerticalScrollIndicator={false}>
+
               </ScrollView>
           </View>
-          <Text style={{ fontSize: 16, color: '#444', marginBottom: 24 }}>
-              Bạn đã đăng nhập thành công.
-            </Text>
-
-              <TouchableOpacity
-              onPress={async () => {
-                await logout();
-                router.replace(ROUTES.LOGIN);
-              }}
-              style={{ backgroundColor: '#ff3b30', paddingVertical: 14, borderRadius: 12, alignItems: 'center' }}
-            >
-              <Text style={{ color: '#fff', fontSize: 16, fontWeight: '600' }}>Đăng xuất</Text>
-            </TouchableOpacity>
-
+          <View className='h-32'></View>
       </View>
     </ScrollView>
   );
