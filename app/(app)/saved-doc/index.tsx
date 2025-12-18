@@ -1,17 +1,56 @@
+import { api } from "@/api/apiClient";
+import { API_GET_DOWNLOADED_DOC } from "@/api/apiRoutes";
+import { useFetchUserProfile } from "@/components/Profile/api";
 import SavedDocCard from "@/components/ui/saved-doc-card";
+import { UserDocument } from "@/models/document.type";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Pressable, Text, View } from "native-base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
+
+type ApiDownloadedDoc = {
+    id: string;
+    title: string;
+    uploadDate: string;
+    subject: string;
+    thumbnailUrl: string;
+    type: string;
+}
 
 export default function SavedDoc() {
     const router = useRouter();
 
     const [scroll, setScroll] = useState(false);
+    const [downloadedDocs, setDownloadedDocs] = useState<UserDocument[]>([]);
+    const [loading, setLoading] = useState(false);
+
+    const {data: userProfile, isLoading: isLoadingUserProfile, error: errorUserProfile} = useFetchUserProfile();
+    useEffect(() => {
+        let cancelled = false;
+
+        (
+            async () => {
+                try {
+                    setLoading(true);
+                    const res = await api.get(API_GET_DOWNLOADED_DOC(userProfile?.id || ''));
+                    const data = res.data?.data;
+                    setDownloadedDocs(data);
+
+                    if (!cancelled) setLoading(false);
+                } finally {
+                    if (!cancelled) setLoading(false);
+                }
+                return () => {
+                    cancelled = true;
+                };
+            }
+        )();
+    }, [userProfile?.id]);
+
     return (
         <View className="flex-1 bg-white dark:!bg-gray-900">
-            <View className="flex items-center justify-center relative !pt-[64px] bg-white dark:bg-black-700"
+            <View className="flex items-center justify-center relative !pt-[64px] bg-white dark:!bg-gray-700 "
                   style={{
                       shadowColor: "#000",
                       shadowOffset: {
@@ -34,14 +73,11 @@ export default function SavedDoc() {
 
             <ScrollView className="p-6">
                 <View className="flex flex-col gap-6 mb-8">
-                    <SavedDocCard />
-                    <SavedDocCard />
-                    <SavedDocCard />
-                    <SavedDocCard />
-                    <SavedDocCard />
-                    <SavedDocCard />
-                    <SavedDocCard />
-                    <SavedDocCard />
+                    {
+                        downloadedDocs.map((doc) => (
+                            <SavedDocCard key={doc.id} id={doc.id} title={doc.title} uploadDate={doc.uploadDate} subject={doc.subject} thumbnailUrl={doc.thumbnailUrl} type={doc.documentType} />
+                        ))
+                    }
                 </View>
             </ScrollView>
         </View>

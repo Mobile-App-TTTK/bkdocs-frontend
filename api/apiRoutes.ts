@@ -14,7 +14,8 @@ export const API_GET_INFORMATION_SUBJECT = `${API_DOCUMENTS}/subject`;
 export const API_UPLOAD_DOCUMENT = `${API_DOCUMENTS}`;
 export const API_GET_SUGGESTIONS = `${API_DOCUMENTS}/suggestions/top-downloads`;
 export const API_GET_DOCUMENT_DETAIL = (id: string) => `${API_DOCUMENTS}/${id}`;
-
+export const API_DOWNLOAD_DOCUMENT = (id: string) => `${API_DOCUMENTS}/${id}/download`;
+export const API_GET_DOWNLOADED_DOC = (id: string) => `${API_DOCUMENTS}/${id}/documents`;
 //rates
 export const API_RATES = '/rates'
 export const API_GET_DOC_RATINGS = (id: string) => `${API_RATES}/document/${id}/reviews`;

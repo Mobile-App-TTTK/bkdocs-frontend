@@ -1,5 +1,8 @@
 import { api } from '@/api/apiClient';
-import { API_GET_SUGGESTIONS } from '@/api/apiRoutes';
+import { API_GET_INFORMATION_FACULTY, API_GET_SUGGESTIONS } from '@/api/apiRoutes';
+import DocumentCard from '@/components/DocumentCard';
+import { useFetchFacultyInfo, useSubscribeFaculty, useUnsubscribeFaculty } from '@/components/FacultyScreen/api';
+import { useFetchFacultiesAndSubjects } from "@/components/searchResultScreen/api";
 import SuggestCard from '@/components/ui/home-suggest-card';
 import { useAuth } from '@/contexts/AuthContext';
 import { useUser } from '@/contexts/UserContext';
@@ -7,9 +10,9 @@ import { Suggestion } from '@/models/suggest.type';
 import { ROUTES } from '@/utils/routes';
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from 'expo-router';
-import { Image, Text } from "native-base";
+import { Image, Spinner, Text } from "native-base";
 import React, { useEffect, useState } from 'react';
-import { Dimensions, Pressable, ScrollView, View } from 'react-native';
+import { Alert, Dimensions, Pressable, ScrollView, View } from 'react-native';
 import { interpolate, useSharedValue } from "react-native-reanimated";
 import Carousel, { ICarouselInstance, Pagination, TAnimationStyle } from "react-native-reanimated-carousel";
 
@@ -68,16 +71,90 @@ export function Card() {
     )
 }
 
+function FacultySection({ facultyId, fallbackName }: { facultyId: string; fallbackName: string }) {
+    const { data: facultyInfo, isLoading } = useFetchFacultyInfo(facultyId);
+  
+    const subscribeFacultyMutation = useSubscribeFaculty(facultyId);
+    const unsubscribeFacultyMutation = useUnsubscribeFaculty(facultyId);
+  
+    const isFollowing = !!facultyInfo?.isFollowingFaculty;
+    const isFollowLoading = subscribeFacultyMutation.isPending || unsubscribeFacultyMutation.isPending;
+  
+    const handleToggleFollowFaculty = () => {
+      if (isFollowing) {
+        unsubscribeFacultyMutation.mutate(facultyId, {
+          onError: () => {
+            Alert.alert("Lỗi", "Không thể hủy theo dõi khoa", [{ text: "OK" }]);
+          },
+        });
+      } else {
+        subscribeFacultyMutation.mutate(facultyId, {
+          onError: () => {
+            Alert.alert("Lỗi", "Không thể theo dõi khoa", [{ text: "OK" }]);
+          },
+        });
+      }
+    };
+  
+    // pull up to 6 docs like your old logic, but keep subject name
+    const docs =
+      (facultyInfo?.subjects ?? [])
+        .flatMap((s: any) => (s?.documents ?? []).map((d: any) => ({ ...d, __subjectName: s?.name })))
+        .slice(0, 6);
+  
+    return (
+      <View>
+        <View className="mx-6 mt-6 !text-xl !font-bold flex flex-row items-center gap-1.5">
+          <Text className="!text-xl !font-bold">{facultyInfo?.name ?? fallbackName}</Text>
+          <Text className="!text-xl !font-bold">•</Text>
+  
+          <Pressable onPress={handleToggleFollowFaculty} disabled={isLoading || isFollowLoading}>
+            {isFollowLoading ? (
+              <Spinner size="sm" color="primary.500" />
+            ) : (
+              <Text className={`!text-xl !font-bold ${isFollowing ? "!text-gray-500" : "!text-primary-500"}`}>
+                {isFollowing ? "Bỏ theo dõi" : "Theo dõi"}
+              </Text>
+            )}
+          </Pressable>
+        </View>
+  
+        <View className="flex-row flex-wrap justify-between px-6 mt-3">
+          {docs.map((doc: any) => (
+            <DocumentCard
+              key={doc.id}
+              id={doc.id}
+              title={doc.title}
+              downloadCount={doc.downloadCount}
+              uploadDate={doc.uploadDate}
+              subject={doc.__subjectName}
+              thumbnail={doc.thumbnail || doc.thumbnailUrl || ""}
+              score={doc.score || 0}
+              type={doc.type || doc.fileType || ""}
+            />
+          ))}
+        </View>
+      </View>
+    );
+  }  
+
 export default function HomeScreen() {
 
     const { logout } = useAuth();
     const router = useRouter();
     const { userProfile, isLoading: isLoadingUser } = useUser();
 
-    const [following, setFollowing] = useState(false);
     const [suggestDoc, setSuggestDoc] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [docsByFaculty, setDocsByFaculty] = useState<Record<string, any[]>>({});
+    const [loadingFacultyDocs, setLoadingFacultyDocs] = useState(false);
+    
+    const { data: facultiesData, isLoading: isLoadingFaculties } = useFetchFacultiesAndSubjects();
+    const faculties = facultiesData?.faculties ?? [];
 
+    const subscribeFacultyMutation = useSubscribeFaculty(facultiesData?.faculties[0].id);
+    const unsubscribeFacultyMutation = useUnsubscribeFaculty(facultiesData?.faculties[0].id);
+    
     useEffect(() => {
         const fetchSuggestion = async () => {
             try {
@@ -90,10 +167,7 @@ export default function HomeScreen() {
                 console.log('📦 Full API Response:', JSON.stringify(response.data, null, 2));
                 console.log('📦 Response status:', response.status);
                 console.log('📦 Response headers:', response.headers);
-                
-                // ✅ Hỗ trợ cả 2 dạng trả về:
-                // - data.data = [] (array trực tiếp)
-                // - data.data.documents = [] (nested)
+                    
                 const rawData = response.data?.data;
                 const documents: Suggestion[] = Array.isArray(rawData)
                   ? rawData
@@ -125,6 +199,7 @@ export default function HomeScreen() {
                 setSuggestDoc(fallbackSuggestDoc);
             } finally {
                 setIsLoading(false);
+                console.log("faculties", faculties);
             }
         }
 
@@ -163,6 +238,42 @@ export default function HomeScreen() {
             marginTop
         };
     }, []);
+
+    useEffect(() => {
+        if (faculties.length === 0) return;
+      
+        let cancelled = false;
+      
+        (async () => {
+          setLoadingFacultyDocs(true);
+          try {
+            const pairs = await Promise.all(
+              faculties.map(async (f: any) => {
+                const res = await api.get(`${API_GET_INFORMATION_FACULTY}/${f.id}`);
+                const info = res.data?.data;
+      
+                // API faculty trả về subjects[], mỗi subject có documents[]
+                const docs = (info?.subjects ?? [])
+                  .flatMap((s: any) => s?.documents ?? [])
+                  .slice(0, 6);
+      
+                return [f.id, docs] as const;
+              })
+            );
+      
+            if (!cancelled) {
+              setDocsByFaculty(Object.fromEntries(pairs));
+            }
+          } finally {
+            if (!cancelled) setLoadingFacultyDocs(false);
+          }
+        })();
+      
+        return () => {
+          cancelled = true;
+        };
+      }, [faculties]);
+  
 
     return (
     <ScrollView className="flex-1 !bg-white dark:!bg-dark-900 pt-14">
@@ -279,17 +390,10 @@ export default function HomeScreen() {
           />
 
           <View>
-              <View className="mx-6 mt-6 !text-xl !font-bold flex flex-row items-center gap-1.5">
-                  <Text className="!text-xl !font-bold">Tài liệu khoa Máy tính</Text>
-                  <Text className="!text-xl !font-bold">•</Text>
-                  <Pressable onPress={() => {setFollowing(!following)}}>
-                      <Text className={`!text-xl !font-bold ${following ? "!text-gray-500" : "!text-primary-500"}`} >
-                          {
-                              following ? "Bỏ theo dõi" : "Theo dõi"
-                          }
-                      </Text>
-                  </Pressable>
-              </View>
+            {faculties.map((faculty: any) => (
+                <FacultySection key={faculty.id} facultyId={faculty.id} fallbackName={faculty.name} />
+            ))}
+
 
               <ScrollView horizontal={false} style={{paddingVertical:15, paddingHorizontal:22}} showsVerticalScrollIndicator={false}>
 

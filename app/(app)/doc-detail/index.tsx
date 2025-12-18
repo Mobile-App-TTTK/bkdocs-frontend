@@ -1,5 +1,5 @@
 import { api } from '@/api/apiClient';
-import { API_GET_DOC_RATINGS, API_GET_DOCUMENT_DETAIL } from '@/api/apiRoutes';
+import { API_DOWNLOAD_DOCUMENT, API_GET_DOC_RATINGS, API_GET_DOCUMENT_DETAIL } from '@/api/apiRoutes';
 import { useFetchUserProfile, useFetchUserProfileById } from '@/components/Profile/api';
 import { CommentProps } from '@/utils/commentInterface';
 import { DocProps } from '@/utils/docInterface';
@@ -7,10 +7,12 @@ import { ROUTES } from '@/utils/routes';
 import { Colors } from '@/utils/theme';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import * as FileSystem from "expo-file-system";
 import { router, useLocalSearchParams } from 'expo-router';
+import * as Sharing from "expo-sharing";
 import { Button, Image, ScrollView, Text, VStack } from 'native-base';
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Pressable, useColorScheme, View } from 'react-native';
+import { Alert, Linking, Pressable, useColorScheme, View } from 'react-native';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 type ApiDocDetail = {
@@ -112,10 +114,11 @@ export default function DownloadDoc() {
     const [loading, setLoading] = useState(false);
     const [selectedImage, setSelectedImage] = useState<number>(0);
     const [docRecentRatings, setDocRecentRatings] = useState<ApiDocRating[]>([]);
+    const [isDownloading, setIsDownloading] = useState(false);
 
     useEffect(() => {
         if (!id) return;
-    
+        
         let cancelled = false;
         (async () => {
           try {
@@ -178,6 +181,62 @@ export default function DownloadDoc() {
     }, []);
 
     const [following, setFollowing] = useState(false);
+
+    const handleDownload = async () => {
+        if (!id) return;
+        if (isDownloading) return;
+      
+        setIsDownloading(true);
+
+        try {
+          const res = await api.get(API_DOWNLOAD_DOCUMENT(id));
+          const data = res.data?.data;
+      
+          const downloadUrl =
+            (typeof data === "string" ? data : undefined) ??
+            data?.downloadUrl ??
+            data?.url ??
+            data?.fileUrl ??
+            (docDetail as any)?.downloadUrl ??
+            (docDetail as any)?.fileUrl;
+      
+          if (!downloadUrl || typeof downloadUrl !== "string") {
+            Alert.alert("Lỗi", "Không lấy được link tải về từ server.");
+            return;
+          }
+      
+          const safeTitle = (docDetail?.title ?? "document")
+            .replace(/[<>:"/\\|?*\x00-\x1F]/g, "_")
+            .slice(0, 80);
+
+        const extMatch = downloadUrl.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+        const ext = extMatch?.[1] ? `.${extMatch[1]}` : ".pdf";
+      
+        const destFile = new FileSystem.File(FileSystem.Paths.document, `${safeTitle}${ext}`);
+
+        // Xóa file cũ nếu đã tồn tại
+        if (destFile.exists) {
+          destFile.delete();
+        }
+        
+        const downloadedFile = await FileSystem.File.downloadFileAsync(downloadUrl, destFile);
+        const uri = downloadedFile.uri;
+        
+        // Mở share sheet để user lưu về máy / mở bằng app khác
+        if (await Sharing.isAvailableAsync()) {
+          await Sharing.shareAsync(uri);
+        } else {
+          await Linking.openURL(uri);
+        }
+              
+        } catch (error) {
+          console.error("Error downloading document", error);
+          Alert.alert("Lỗi", "Tải về thất bại. Vui lòng thử lại.");
+        } finally {
+          setIsDownloading(false);
+        }
+      };
+
     return (
         <GestureHandlerRootView style={{
             flex: 1,
@@ -330,7 +389,11 @@ export default function DownloadDoc() {
                                 <Text className="!font-bold !text-xl">Gửi đánh giá và nhận xét</Text>
                                 <View className='flex flex-row items-center gap-1 mt-2'>
                                     <Image source={userAvatar} width={12} height={12} alt={"User Avatar"} className="rounded-full !shadow-md"/>
-                                    <Pressable className='flex flex-row gap-1 ml-1' onPress={() => router.push(ROUTES.WRITE_COMMENT as any)}>
+                                    <Pressable className='flex flex-row gap-1 ml-1' onPress={() => router.push({
+                                            pathname: ROUTES.WRITE_COMMENT,
+                                            params: {id: id}
+                                        } as any
+                                    )}>
                                         <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
                                         <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
                                         <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
@@ -392,6 +455,7 @@ export default function DownloadDoc() {
                 <Button 
                     className="!rounded-xl h-14 absolute z-10 bottom-[150px]"
                     style={{ left: 32, right: 32 }}
+                    onPress={handleDownload}
                 >
                     <Text className="!text-xl !font-bold !text-white">Tải về</Text>
                 </Button>

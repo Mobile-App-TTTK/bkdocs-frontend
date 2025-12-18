@@ -3,9 +3,9 @@ import { API_NOTIFICATIONS } from "@/api/apiRoutes";
 import { Notification } from "@/models/notification.type";
 import { NotificationProps } from "@/utils/notiInterface";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { Button, Image, Text } from "native-base";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Keyboard, Pressable, ScrollView, TouchableWithoutFeedback, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
@@ -59,37 +59,48 @@ export default function NotificationPage() {
     const [limit, setLimit] = useState<number>(10);
     const [notifications, setNotifications] = useState<Notification[]>([]);
 
-    useEffect(() => {
-        const fetchNotifications = async () => {
-            try {
-                setIsLoading(true);
-                console.log('Fetching notifications...');
-                console.log('API URL:', API_NOTIFICATIONS);
-                console.log('Params:', { page, limit });
-                const response = await api.get(API_NOTIFICATIONS, {
-                    params: {
-                        page,
-                        limit,
-                    },
-                });
+    const fetchNotifications = useCallback(async () => {
+        try {
+          setIsLoading(true);
+      
+          console.log("[NOTI] fetching...", {
+            url: API_NOTIFICATIONS,
+            page,
+            limit,
+          });
+      
+          const response = await api.get(API_NOTIFICATIONS, {
+            params: { page, limit },
+          });
+      
+          console.log("[NOTI] status:", response.status);
+          console.log("[NOTI] raw response:", JSON.stringify(response.data, null, 2));
+      
+          const raw = response.data?.data;
 
-                console.log('Notifications:', response.data);
-
-                const Notifications: Notification[] = response.data?.data?.notifications || [];
-                setNotifications(Notifications);
-
-                console.log('Response status:', response.status);
-                console.log('Response data:', JSON.stringify(response.data, null, 2));
-
-            } catch (error) {
-                console.error('Error fetching notifications:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-    fetchNotifications();
-    }, [page]);
+          // backend đang trả list ở raw.data (không phải raw.notifications)
+          const list = raw?.data ?? [];
+          
+          console.log("[NOTI] parsed list length:", Array.isArray(list) ? list.length : "not-array");
+          console.log("[NOTI] parsed list:", list);
+          
+          setNotifications(Array.isArray(list) ? list : []);
+        } catch (error: any) {
+          console.log("[NOTI] error message:", error?.message);
+          console.log("[NOTI] error response:", JSON.stringify(error?.response?.data, null, 2));
+          console.log("[NOTI] error status:", error?.response?.status);
+        } finally {
+          setIsLoading(false);
+        }
+      }, [page, limit]);
+    
+      useFocusEffect(
+        useCallback(() => {
+          console.log("[NOTI] screen focused -> refetch");
+          fetchNotifications();
+          return () => console.log("[NOTI] screen unfocused");
+        }, [fetchNotifications])
+      );
 
     const loadMoreNotifications = () => {
         setPage(prevPage => prevPage + 1);
@@ -101,7 +112,7 @@ export default function NotificationPage() {
         }} className="bg-white dark:bg-dark-900 justify-center">
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                 <View className="flex-1">
-                    <View className="items-center justify-center relative !pt-[64px] bg-white dark:bg-black "
+                    <View className="items-center justify-center relative !pt-[64px] bg-white dark:bg-dark-700 "
                         style={{
                             shadowColor: "#000",
                             shadowOffset: {
