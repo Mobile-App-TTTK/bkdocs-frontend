@@ -1,4 +1,5 @@
-import { API_GET_DOC_RATINGS } from "@/api/apiRoutes";
+import { api } from "@/api/apiClient";
+import { API_GET_DOC_RATINGS, API_GET_DOCUMENT_DETAIL } from "@/api/apiRoutes";
 import { useFetchUserProfile } from "@/components/Profile/api";
 import { ACCESS_TOKEN_KEY } from "@/utils/constants";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,7 +8,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { router, useLocalSearchParams } from "expo-router";
 import { Button, Image, Text } from "native-base";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, Keyboard, Pressable, TextInput, TouchableWithoutFeedback, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
@@ -31,6 +32,7 @@ export default function WriteComment() {
     
     const [score, setScore] = useState<number>(0);
     const [comment, setComment] = useState<string>("");
+    const [docTitle, setDocTitle] = useState<string>("");
 
     const submitComment = async () => {
         try {
@@ -129,7 +131,7 @@ export default function WriteComment() {
         const result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ["images"],
           allowsMultipleSelection: true,
-          selectionLimit: 2 - imageUris.length,
+          selectionLimit: 1 - imageUris.length,
           quality: 0.8,
         });
       
@@ -144,6 +146,23 @@ export default function WriteComment() {
         setImageUris(prev => prev.filter(u => u !== uri));
       };
 
+      useEffect(() => {
+        if (!id) return;
+        
+        let cancelled = false;
+        (async () => {
+            try {
+                const res = await api.get(API_GET_DOCUMENT_DETAIL(id));
+                const data = res.data?.data;
+                if (!cancelled) setDocTitle(data?.title ?? "");
+            } catch (e) {
+                console.log("Error fetching doc detail", e);
+            }
+        })();
+    
+        return () => { cancelled = true; };
+    }, [id]);
+    
     return (
         <GestureHandlerRootView style={{
             flex: 1,
@@ -168,7 +187,7 @@ export default function WriteComment() {
                         >
                             <Ionicons name="chevron-back-outline" size={24} color={"#888888"} />
                         </Pressable>
-                        <Text numberOfLines={1} className="!text-2xl !font-bold !text-black dark:!text-white mb-4 w-7/12 text-center">Giáo trình chính thức Giải tích 1</Text>
+                        <Text numberOfLines={1} className="!text-2xl !font-bold !text-black dark:!text-white mb-4 w-7/12 text-center">{docTitle || "Đang tải..."}</Text>
                     </View>
 
                     <View className="flex flex-col gap-6 mt-6 px-[16px]">
@@ -216,7 +235,7 @@ export default function WriteComment() {
                         />
 
                         <Button className="!bg-primary-50 !rounded-xl !py-4" onPress={pickImages} colorScheme="primary">
-                            <Text className="!text-primary-500 !font-bold !text-lg">Thêm ảnh (tối đa 2 ảnh)</Text>
+                            <Text className="!text-primary-500 !font-bold !text-lg">Thêm ảnh (tối đa 1 ảnh)</Text>
                         </Button>
 
                         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12, marginTop: 8 }}>

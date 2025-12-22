@@ -1,5 +1,5 @@
 import { api } from '@/api/apiClient';
-import { API_DOWNLOAD_DOCUMENT, API_GET_DOC_RATINGS, API_GET_DOCUMENT_DETAIL } from '@/api/apiRoutes';
+import { API_DOWNLOAD_DOCUMENT, API_GET_DOC_RATINGS, API_GET_DOC_RECENT_RATINGS, API_GET_DOCUMENT_DETAIL } from '@/api/apiRoutes';
 import { useFetchUserProfile, useFetchUserProfileById } from '@/components/Profile/api';
 import { CommentProps } from '@/utils/commentInterface';
 import { DocProps } from '@/utils/docInterface';
@@ -37,7 +37,7 @@ type ApiDocDetail = {
 type ApiDocRating = {
     userName: string;
     score: number;
-    imageUrl: any[];
+    imageUrl: string | null;
     comment: any;
     rateAt: any;
 }
@@ -114,6 +114,8 @@ export default function DownloadDoc() {
     const [loading, setLoading] = useState(false);
     const [selectedImage, setSelectedImage] = useState<number>(0);
     const [docRecentRatings, setDocRecentRatings] = useState<ApiDocRating[]>([]);
+    const [ratingsCount, setRatingsCount] = useState<number>(0);
+    const [ratingsAverage, setRatingsAverage] = useState<number>(0);
     const [isDownloading, setIsDownloading] = useState(false);
 
     useEffect(() => {
@@ -138,22 +140,29 @@ export default function DownloadDoc() {
     
     useEffect(() => {
         if (!id) return;
-
+    
         let cancelled = false;
-        (
-            async () => {
-                try {
-                    const res = await api.get(API_GET_DOC_RATINGS(id));
-                    const data = res.data?.data;
-                    if (!cancelled) setDocRecentRatings(data);
-                } finally {
-                    if (!cancelled) setLoading(false);
+        (async () => {
+            try {
+                const res = await api.get(API_GET_DOC_RECENT_RATINGS(id), {
+                    params: { k: 5 }
+                });
+                const res1 = await api.get(API_GET_DOC_RATINGS(id));
+                const data = res.data?.data;
+                const data1 = res1.data?.data;
+                if (!cancelled) {
+                    setDocRecentRatings(data ?? []);
+                    setRatingsCount(data1?.length ?? 0);
+                    setRatingsAverage(data1?.reduce((acc: number, comment: ApiDocRating) => acc + comment.score, 0) / data1?.length);
                 }
-                return () => {
-                    cancelled = true;
-                };
+            } finally {
+                if (!cancelled) setLoading(false);
             }
-        )
+        })();
+    
+        return () => {
+            cancelled = true;
+        };
     }, [id]);
 
     const [currentSnapIndex, setCurrentSnapIndex] = useState<number>(1);
@@ -308,7 +317,7 @@ export default function DownloadDoc() {
                             scrollEnabled={currentSnapIndex === 2}
                             showsVerticalScrollIndicator={false}
                             style={{
-                                paddingBottom: docRecentRatings.length > 0 ? 24 : 600,
+                                paddingBottom: 600,
                                 marginBottom: 24,
                             }}
                         >
@@ -327,7 +336,9 @@ export default function DownloadDoc() {
 
                                         <View className="flex flex-row items-center justify-center gap-1">
                                             <Ionicons name="star-outline" size={18} color={isDarkMode ? "white" : "gray.500"} />
-                                            <Text>{docDetail?.score ?? 0} ({docDetail?.ratingsCount ?? 0})</Text>
+                                            <Text>{docRecentRatings.length > 0 
+                                            ? (docRecentRatings.reduce((acc, comment) => acc + comment.score, 0) / docRecentRatings.length).toFixed(1) 
+                                            : 0} ({docRecentRatings.length ?? 0})</Text>
                                         </View>
                                     </View>
 
@@ -405,9 +416,9 @@ export default function DownloadDoc() {
 
                             <View className="flex flex-row items-center justify-between mt-4">
                                 <View className="flex flex-row items-center gap-1">
-                                    <Text className="!font-bold !text-xl">Đánh giá ({docDetail?.ratingsCount ?? 0})</Text>
+                                    <Text className="!font-bold !text-xl">Đánh giá ({ratingsCount ?? 0})</Text>
                                     <Text className="!text-xl !font-bold">•</Text>
-                                    <Text className=" !text-xl">{docDetail?.score ?? 0}</Text>
+                                    <Text className=" !text-xl">{ratingsAverage ? ratingsAverage.toFixed(1) : 0}</Text>
                                     <Ionicons name="star" size={20} color={"#FFD336"} className='mb-1' />
                                 </View>
 
@@ -423,7 +434,13 @@ export default function DownloadDoc() {
                                     {
                                         docRecentRatings.map((comment, index) => (
                                             <View key={index} className='flex flex-row gap-4'>
-                                                <Image source={comment.imageUrl} width={12} height={12} alt={"User Avatar"} className="rounded-full !shadow-md"></Image>
+                                                <Image 
+                                                    source={require("@/assets/images/userAvatar.jpg")} 
+                                                    width={12} 
+                                                    height={12} 
+                                                    alt={"User Avatar"} 
+                                                    className="rounded-full !shadow-md"
+                                                />
                                                 <View className='flex-1 flex-shrink'>
                                                     <Text className='!font-bold'>{comment.userName}</Text>
                                                     <View className='flex flex-row items-center gap-1'>
@@ -436,9 +453,15 @@ export default function DownloadDoc() {
                                                     <Text className='mt-2'>{comment.comment}</Text>
                                                     <View className='flex flex-row gap-2 flex-wrap mt-2'>
                                                         {
-                                                            comment.imageUrl?.map((image, index) => (
-                                                                <Image source={image} width={12} height={12} alt={"Image"} className="rounded-md !shadow-md" key={index}></Image>
-                                                            ))
+                                                            comment.imageUrl && (
+                                                                <Image 
+                                                                    source={{ uri: comment.imageUrl }} 
+                                                                    width={12} 
+                                                                    height={12} 
+                                                                    alt={"Image"} 
+                                                                    className="rounded-md !shadow-md"
+                                                                />
+                                                            )
                                                         }
                                                     </View>
                                                 </View>
