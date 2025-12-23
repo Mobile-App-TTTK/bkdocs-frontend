@@ -22,7 +22,12 @@ export default function DocumentCard(props: IDocumentCardProps) {
 
     return (
         <TouchableOpacity
-            onPress={() => router.push(ROUTES.DOWNLOAD_DOC)}
+            onPress={() =>
+                router.push({
+                pathname: ROUTES.DOWNLOAD_DOC as any,
+                params: { id },
+                } as any)
+            }
             activeOpacity={0.7}
             className="!rounded-2xl !p-0 !bg-gray-50 dark:!bg-dark-700 w-[48%] mb-4 border border-gray-200 dark:border-gray-700"
         >

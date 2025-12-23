@@ -1,10 +1,20 @@
+import { api } from '@/api/apiClient';
+import { API_GET_DOC_RATINGS } from '@/api/apiRoutes';
 import { CommentProps } from '@/utils/commentInterface';
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Image, Text } from "native-base";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Pressable, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+type ApiDocRating = {
+    userName: string;
+    score: number;
+    imageUrl: string | null;
+    comment: any;
+    rateAt: any;
+}
 
 const sampleComment: CommentProps[] = [
     {
@@ -47,9 +57,32 @@ export default function AllComment() {
     const colorScheme = useColorScheme();
     const isDarkMode = colorScheme === 'dark';
     
+    const params = useLocalSearchParams<{ id?: string }>();
+    const id = typeof params.id === 'string' ? params.id : params.id?.[0];
+
     const [star, setStar] = useState<number>(0);
     const [content, setContent] = useState<string>("");
+    const [ratings, setRatings] = useState<ApiDocRating[]>([]);
+    const [loading, setLoading] = useState(false);
+    
+    useEffect(() => {
+        if (!id) return;
 
+        let cancelled = false;
+        (
+            async () => {
+                try {
+                    const res = await api.get(API_GET_DOC_RATINGS(id));
+                    const data = res.data?.data;
+                    if (!cancelled) {
+                        setRatings(data ?? []);
+                    }
+                } finally {
+                    if (!cancelled) setLoading(false);
+                }
+            }
+        )();
+    }, [id])
     return (
         <GestureHandlerRootView style={{
             flex: 1,
@@ -76,32 +109,46 @@ export default function AllComment() {
                         <Text numberOfLines={1} className="!text-2xl !font-bold !text-black dark:!text-white mb-4 w-7/12 text-center">Giáo trình chính thức Giải tích 1</Text>
                     </View>
 
-                    <View className='flex flex-col gap-6 p-4'>
-                        {
-                            sampleComment.map((comment, index) => (
-                                <View key={index} className='flex flex-row gap-4'>
-                                    <Image source={comment.commenterAvatar} width={12} height={12} alt={"User Avatar"} className="rounded-full !shadow-md"></Image>
-                                    <View className='flex-1 flex-shrink'>
-                                        <Text className='!font-bold'>{comment.commenterName}</Text>
-                                        <View className='flex flex-row items-center gap-1'>
-                                            {
-                                                Array.from({ length: comment.star }).map((_, index) => (
-                                                    <Ionicons name="star" size={20} color={"#FFD336"} key={index} />
-                                                ))
-                                            }
-                                        </View>
-                                        <Text className='mt-2'>{comment.content}</Text>
-                                        <View className='flex flex-row gap-2 flex-wrap mt-2'>
-                                            {
-                                                comment.images?.map((image, index) => (
-                                                    <Image source={image} width={12} height={12} alt={"Image"} className="rounded-md !shadow-md" key={index}></Image>
-                                                ))
-                                            }
+                    <View className="mt-4 mb-24">
+                        <View className="flex flex-col gap-6">
+                            {
+                                ratings.map((comment, index) => (
+                                    <View key={index} className='flex flex-row gap-4'>
+                                        <Image 
+                                            source={require("@/assets/images/userAvatar.jpg")} 
+                                            width={12} 
+                                            height={12} 
+                                            alt={"User Avatar"} 
+                                            className="rounded-full !shadow-md"
+                                        />
+                                        <View className='flex-1 flex-shrink'>
+                                            <Text className='!font-bold'>{comment.userName}</Text>
+                                            <View className='flex flex-row items-center gap-1'>
+                                                {
+                                                    Array.from({ length: comment.score }).map((_, index) => (
+                                                        <Ionicons name="star" size={20} color={"#FFD336"} key={index} />
+                                                    ))
+                                                }
+                                            </View>
+                                            <Text className='mt-2'>{comment.comment}</Text>
+                                            <View className='flex flex-row gap-2 flex-wrap mt-2'>
+                                                {
+                                                    comment.imageUrl && (
+                                                        <Image 
+                                                            source={{ uri: comment.imageUrl }} 
+                                                            width={12} 
+                                                            height={12} 
+                                                            alt={"Image"} 
+                                                            className="rounded-md !shadow-md"
+                                                        />
+                                                    )
+                                                }
+                                            </View>
                                         </View>
                                     </View>
-                                </View>
-                            ))
-                        }
+                                ))
+                            }
+                        </View>
                     </View>
                 </View>
         </GestureHandlerRootView>

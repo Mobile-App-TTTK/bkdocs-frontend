@@ -1,10 +1,11 @@
+import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from "expo-router";
 import { Image, Text, View } from "native-base";
 import { useRef } from 'react';
 import { Dimensions, GestureResponderEvent, ImageSourcePropType, Pressable } from "react-native";
 
-export default function SuggestCard({title, image, subject, downloadCount, uploadDate, type}: {title: string, image: string | number, subject: string, downloadCount: number, uploadDate: string, type: string}) {
+export default function SuggestCard({id, title, image, subject, downloadCount, uploadDate, type}: {id: string, title: string, image: string | number, subject: string, downloadCount: number, uploadDate: string, type: string}) {
     const router = useRouter();
 
     const touchStartPos = useRef({ x: 0, y: 0 });
@@ -23,6 +24,26 @@ export default function SuggestCard({title, image, subject, downloadCount, uploa
         isSwiping.current = false;
     };
 
+    const formatUploadDate = (input?: string) => {
+        const s = String(input ?? "").trim();
+        if (!s) return "";
+
+        const pad2 = (n: string | number) => String(n).padStart(2, "0");
+
+        const dmy = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+        if (dmy) {
+            const [, dd, mm, yyyy] = dmy;
+            return `${pad2(dd)}-${pad2(mm)}-${yyyy}`;
+        }
+
+        const d = new Date(s);
+        if (!Number.isNaN(d.getTime())) {
+            return `${pad2(d.getDate())}-${pad2(d.getMonth() + 1)}-${d.getFullYear()}`;
+        }
+
+        return s;
+    };
+
     const handleTouchMove = (e: GestureResponderEvent) => {
         const dx = Math.abs(e.nativeEvent.pageX - touchStartPos.current.x);
         const dy = Math.abs(e.nativeEvent.pageY - touchStartPos.current.y);
@@ -34,23 +55,24 @@ export default function SuggestCard({title, image, subject, downloadCount, uploa
 
     const handlePress = () => {
         if (!isSwiping.current) {
-            router.push("/doc-detail");
+            router.push({
+                pathname: ROUTES.DOWNLOAD_DOC as any,
+                params: {
+                    id: id,
+                },
+            });
         }
     };
 
-    // Normalize source: nếu truyền string -> chuyển thành { uri: string }
-    // nếu truyền number (require) -> dùng trực tiếp
     const normalizedSource: ImageSourcePropType | undefined = (() => {
         if (!image) return undefined;
     
         if (typeof image === 'string') {
         const trimmed = image.trim();
         if (trimmed === "") return undefined;
-        // ở đây TS chắc chắn image là string => uri: string an toàn
         return { uri: trimmed };
         }
     
-        // nếu không phải string, coi là number (require(...)) hoặc object phù hợp
         return image as ImageSourcePropType;
     })();
 
@@ -63,7 +85,26 @@ export default function SuggestCard({title, image, subject, downloadCount, uploa
             onTouchMove={handleTouchMove}
             onPress={handlePress}
         >
-            <Image source={normalizedSource} resizeMode={'cover'} width={"100%"} height={imageHeight} borderRadius={6} borderColor="primary.100" borderWidth={2} alt="SampleImage"/>
+            <Image
+                source={normalizedSource}
+                resizeMode={'cover'}
+                width={"100%"}
+                height={imageHeight}
+                borderRadius={6}
+                borderColor="primary.100"
+                borderWidth={2}
+                alt="SampleImage"
+                onError={(e) => {
+                    console.warn("[SuggestCard] image load failed", {
+                    imageProp: image,
+                    normalizedSource,
+                    error: e?.nativeEvent, // { error?: string }
+                    });
+                }}
+                onLoad={() => {
+                    console.log("[SuggestCard] image loaded", { imageProp: image, normalizedSource });
+                }}
+            />
 
             <View style={{padding: 5}} className="my-auto mt-2">
                 <View className="flex flex-row items-center gap-4">
@@ -75,7 +116,7 @@ export default function SuggestCard({title, image, subject, downloadCount, uploa
                         {title}
                     </Text>
 
-                    <View className="bg-primary-500 px-2" style={{borderRadius: 6}}>
+                    <View className="bg-primary-500 px-2 py-[2px]" style={{borderRadius: 6}}>
                         <Text className="!text-white !text-sm">
                             {type}
                         </Text>
@@ -87,10 +128,10 @@ export default function SuggestCard({title, image, subject, downloadCount, uploa
                     <Text className="font-semibold text-sm text-gray-500">{subject}</Text>
                 </View>
 
-                <View className="flex flex-row mt-1">
+                <View className="flex flex-row mt-2">
                     <View className="flex flex-row items-center gap-2">
                         <Ionicons name="calendar-clear-outline" size={20} color="#6b7280"></Ionicons>
-                        <Text className="font-semibold text-sm text-gray-500">{uploadDate}</Text>
+                        <Text className="font-semibold text-sm text-gray-500">{formatUploadDate(uploadDate)}</Text>
                     </View>
 
                     <View className="flex-1"></View>
