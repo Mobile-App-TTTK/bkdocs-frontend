@@ -2,6 +2,7 @@ import { api } from "@/api/apiClient";
 import { API_GET_DOC_RATINGS, API_GET_DOCUMENT_DETAIL } from "@/api/apiRoutes";
 import { useFetchUserProfile } from "@/components/Profile/api";
 import { ACCESS_TOKEN_KEY } from "@/utils/constants";
+import { Colors } from "@/utils/theme";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
@@ -169,7 +170,7 @@ export default function WriteComment() {
         }} className="bg-white dark:bg-dark-900 justify-center">
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                 <View className="flex-1">
-                    <View className="items-center justify-center relative !pt-[64px] bg-white dark:bg-black "
+                    <View className="items-center justify-center relative !pt-[64px]"
                         style={{
                             shadowColor: "#000",
                             shadowOffset: {
@@ -179,6 +180,7 @@ export default function WriteComment() {
                             shadowOpacity: 0.1,
                             shadowRadius: 20,
                             elevation: 10,
+                            backgroundColor: isDarkMode ? Colors.dark.background : Colors.light.background
                         }}
                     >
                         <Pressable

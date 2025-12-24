@@ -28,7 +28,7 @@ export const API_SUBSCRIBE_FACULTY = `${API_NOTIFICATIONS}/faculty`;
 export const API_UNSUBSCRIBE_FACULTY = `${API_NOTIFICATIONS}/faculty`;
 export const API_SUBSCRIBE_SUBJECT = `${API_NOTIFICATIONS}/subject`;
 export const API_UNSUBSCRIBE_SUBJECT = `${API_NOTIFICATIONS}/subject`;
-export const API_MARK_NOTIFICATION_AS_READ = (id: string) => `${API_NOTIFICATIONS}/${id}/mark-as-read`;
+export const API_MARK_NOTIFICATION_AS_READ = (id: string) => `${API_NOTIFICATIONS}/${id}`;
 
 // users
 export const API_USERS = '/users';
