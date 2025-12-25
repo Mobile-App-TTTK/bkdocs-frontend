@@ -1,6 +1,6 @@
 export const API_LOGIN = '/auth/login';
-export const API_REQUEST_OTP = '/auth/register/request-otp';
-export const API_VERIFY_OTP = '/auth/verify-otp';
+export const API_REQUEST_OTP = '/auth/otp';
+export const API_VERIFY_OTP = '/auth/otp/verify';
 export const API_REGISTER_COMPLETE = '/auth/register/complete';
 export const API_PASSWORD_RESET_REQUEST = '/auth/password-reset';
 export const API_PASSWORD_RESET = '/auth/password'; 

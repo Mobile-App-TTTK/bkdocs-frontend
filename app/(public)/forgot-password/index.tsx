@@ -13,8 +13,10 @@ export default function ForgotPasswordScreen() {
     const handleSubmit = async (email: string) => {
         setIsLoading(true);
         try {
-            // Gọi endpoint riêng cho password reset
             await api.post(API_PASSWORD_RESET_REQUEST, { email });
+            
+            // Clear any leftover signup data to avoid flow confusion
+            await AsyncStorage.removeItem('signup_temp_data');
             
             await AsyncStorage.setItem('forgot_password_temp_data', JSON.stringify({
                 email,
