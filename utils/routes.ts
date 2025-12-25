@@ -5,6 +5,7 @@ export const ROUTES = {
   SIGNUP: '/(public)/signup',
   FORGOT_PASSWORD: '/(public)/forgot-password',
   OTP_CODE: '/(public)/otp-code',
+  NEW_PASSWORD: '/(public)/new-password',
   SAVED_DOC: '/(app)/saved-doc',
   DOWNLOAD_DOC: '/(app)/doc-detail',
   WRITE_COMMENT: '/(app)/write-comment',
@@ -23,6 +24,7 @@ export const ROUTES = {
   FOLLOWING: '/(app)/(tabs)/profile/following',
   USER_PROFILE: '/(app)/profile/[id]',
   CHATBOT: '/(app)/chatbot',
+  SEARCH: '/(app)/(tabs)/search',
 } as const; 
 
 export type AppRoute = typeof ROUTES[keyof typeof ROUTES];

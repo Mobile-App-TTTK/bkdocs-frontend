@@ -120,19 +120,26 @@ function FacultySection({ facultyId, fallbackName }: { facultyId: string; fallba
         </View>
   
         <View className="flex-row flex-wrap justify-between px-6 mt-3">
-          {docs.map((doc: any) => (
-            <DocumentCard
-              key={doc.id}
-              id={doc.id}
-              title={doc.title}
-              downloadCount={doc.downloadCount}
-              uploadDate={doc.uploadDate}
-              subject={doc.__subjectName}
-              thumbnail={doc.thumbnail || doc.thumbnailUrl || ""}
-              score={doc.score || 0}
-              type={doc.type || doc.fileType || ""}
-            />
-          ))}
+          {
+            docs.length > 0 ? (
+              docs.map((doc: any) => (
+                <DocumentCard
+                  key={doc.id}
+                  id={doc.id}
+                  title={doc.title}
+                  downloadCount={doc.downloadCount}
+                  uploadDate={doc.uploadDate}
+                  subject={doc.__subjectName}
+                  thumbnail={doc.thumbnail || doc.thumbnailUrl || ""}
+                  score={doc.score || 0}
+                  type={doc.type || doc.fileType || ""}
+                />
+              ))) : (
+              <Text className="!text-gray-500 dark:!text-gray-400">
+                Chưa có tài liệu nào
+              </Text>
+            )
+          }
         </View>
       </View>
     );
@@ -312,21 +319,21 @@ export default function HomeScreen() {
           </View>
           {/*Thao tác nhanh*/}
           <View className="flex flex-row mx-6 justify-between mt-6">
-              <View className="flex flex-col justify-center items-center">
+              <Pressable className="flex flex-col justify-center items-center" onPress={() => {router.push(ROUTES.SEARCH as any)}}>
                   <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
                     <Ionicons name={"search-outline"} size={32} color={"#FF3300"}/>
                   </View>
 
                   <Text className="!text-lg !font-medium mt-1">Tìm kiếm</Text>
-              </View>
+              </Pressable>
 
-              <View className="flex flex-col justify-center items-center">
+              <Pressable className="flex flex-col justify-center items-center" onPress={() => {router.push(ROUTES.UPLOAD_DETAIL as any)}}>
                   <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
                     <Ionicons name={"document-outline"} size={32} color={"#FF3300"}/>
                   </View>
 
                   <Text className="!text-lg !font-medium mt-1">Đóng góp</Text>
-              </View>
+              </Pressable>
 
               <Pressable className="flex flex-col justify-center items-center" onPress={() => {router.push(ROUTES.SAVED_DOC as any)}}>
                   <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
@@ -336,13 +343,13 @@ export default function HomeScreen() {
                   <Text className="!text-lg !font-medium mt-1">Quản lý</Text>
               </Pressable>
 
-              <View className="flex flex-col justify-center items-center">
+              <Pressable className="flex flex-col justify-center items-center" onPress={() => {router.push(ROUTES.CHATBOT as any)}}>
                   <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
-                    <Ionicons name={"settings-outline"} size={32} color={"#FF3300"}/>
+                    <Ionicons name={"chatbubbles-outline"} size={32} color={"#FF3300"}/>
                   </View>
 
-                  <Text className="!text-lg !font-medium mt-1">Cài đặt</Text>
-              </View>
+                  <Text className="!text-lg !font-medium mt-1">Chatbot AI</Text>
+              </Pressable>
           </View>
           {/*Carousel gợi ý*/}
 
@@ -393,8 +400,6 @@ export default function HomeScreen() {
             {faculties.map((faculty: any) => (
                 <FacultySection key={faculty.id} facultyId={faculty.id} fallbackName={faculty.name} />
             ))}
-
-
               <ScrollView horizontal={false} style={{paddingVertical:15, paddingHorizontal:22}} showsVerticalScrollIndicator={false}>
 
               </ScrollView>

@@ -6,11 +6,11 @@ import { DocProps } from '@/utils/docInterface';
 import { ROUTES } from '@/utils/routes';
 import { Colors } from '@/utils/theme';
 import { Ionicons } from '@expo/vector-icons';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet from '@gorhom/bottom-sheet';
 import * as FileSystem from "expo-file-system";
 import { router, useLocalSearchParams } from 'expo-router';
 import * as Sharing from "expo-sharing";
-import { Button, Image, ScrollView, Text, VStack } from 'native-base';
+import { Button, Image, ScrollView, Text } from 'native-base';
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Linking, Pressable, useColorScheme, View } from 'react-native';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -117,6 +117,7 @@ export default function DownloadDoc() {
     const [ratingsCount, setRatingsCount] = useState<number>(0);
     const [ratingsAverage, setRatingsAverage] = useState<number>(0);
     const [isDownloading, setIsDownloading] = useState(false);
+    const [hasUserRated, setHasUserRated] = useState(false);
 
     useEffect(() => {
         if (!id) return;
@@ -154,6 +155,13 @@ export default function DownloadDoc() {
                     setDocRecentRatings(data ?? []);
                     setRatingsCount(data1?.length ?? 0);
                     setRatingsAverage(data1?.reduce((acc: number, comment: ApiDocRating) => acc + comment.score, 0) / data1?.length);
+
+                    if (userProfile?.name && data1) {
+                        const userRating = data1.find((rating: ApiDocRating) => 
+                            rating.userName === userProfile.name
+                        );
+                        setHasUserRated(!!userRating);
+                    }
                 }
             } finally {
                 if (!cancelled) setLoading(false);
@@ -173,10 +181,18 @@ export default function DownloadDoc() {
     }, []);
 
     const rawImg = docDetail?.images?.[selectedImage]; 
+
+    console.log('docDetail:', docDetail);
+    console.log('images:', docDetail?.images);
+    console.log('thumbnailUrl:', docDetail?.thumbnailUrl);
+    console.log('rawImg:', rawImg);
+    
     const imageSource =
       typeof rawImg === 'string' && rawImg.trim().length > 0
         ? { uri: rawImg.trim() }
-        : require('@/assets/images/sampleDoc1.png');
+        : docDetail?.thumbnailUrl && docDetail.thumbnailUrl.trim().length > 0
+          ? { uri: docDetail.thumbnailUrl.trim() }
+          : require('@/assets/images/sampleDoc1.png');
 
     const { data: uploaderProfile, isLoading: isLoadingUploaderProfile, error: errorUploaderProfile } = useFetchUserProfileById(docDetail?.uploader?.id ?? "");
     const uploaderAvatar = uploaderProfile?.imageUrl ? { uri: uploaderProfile.imageUrl } : require("@/assets/images/userAvatar.jpg");
@@ -223,7 +239,6 @@ export default function DownloadDoc() {
       
         const destFile = new FileSystem.File(FileSystem.Paths.document, `${safeTitle}${ext}`);
 
-        // Xóa file cũ nếu đã tồn tại
         if (destFile.exists) {
           destFile.delete();
         }
@@ -231,7 +246,6 @@ export default function DownloadDoc() {
         const downloadedFile = await FileSystem.File.downloadFileAsync(downloadUrl, destFile);
         const uri = downloadedFile.uri;
         
-        // Mở share sheet để user lưu về máy / mở bằng app khác
         if (await Sharing.isAvailableAsync()) {
           await Sharing.shareAsync(uri);
         } else {
@@ -249,19 +263,12 @@ export default function DownloadDoc() {
     return (
         <GestureHandlerRootView style={{
             flex: 1,
-            backgroundColor: 'white',
+            backgroundColor: isDarkMode ? Colors.dark.background : Colors.light.background,
+
         }}>
-            <View className="flex items-center justify-center relative !pt-[64px] bg-white dark:bg-black "
-                  style={{
-                      shadowColor: "#000",
-                      shadowOffset: {
-                          width: 0,
-                          height: 2,
-                      },
-                      shadowOpacity: 0.1,
-                      shadowRadius: 20,
-                      elevation: 10,
-                  }}
+            
+            <View className="flex items-center justify-center relative !pt-[64px] bg-none"
+            style={{ zIndex: 1 }}
             >
                 <Pressable
                     className="!absolute top-16 left-6 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center"
@@ -269,7 +276,13 @@ export default function DownloadDoc() {
                 >
                     <Ionicons name="chevron-back-outline" size={24} color={"#888888"} />
                 </Pressable>
-                <Text className="!text-2xl !font-bold mb-4">Chi tiết</Text>
+                
+                <Pressable
+                    className="!absolute top-16 right-6 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center"
+                    onPress={() => router.push(ROUTES.SEARCH)}
+                >
+                    <Ionicons name="search-outline" size={24} color={"#888888"} />
+                </Pressable>
             </View>
 
 
@@ -279,130 +292,121 @@ export default function DownloadDoc() {
                 resizeMode="cover"
                 style={{
                     position: 'absolute',
-                    top: 100,
+                    top: 0,
                     left: 0,
                     right: 0,
-                    height: '70%',
-                    zIndex: -10,
+                    height: '45%',
+                    zIndex: 0,
                 }}
             />
 
-
-            <BottomSheet
-                ref={bottomSheetRef}
-                onChange={handleSheetChanges}
-                enableDynamicSizing={false}
-                snapPoints={['30%', '55%', '85%']}
-                index={1}
-                backgroundStyle={{
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: -4,
-                    },
-                    shadowOpacity: 0.1,
-                    shadowRadius: 20,
-                    elevation: 10,
-                    backgroundColor: isDarkMode ? Colors.dark.background : Colors.light.background,
-                }}
-            >
-                <BottomSheetView style={{
-                        flex: 1,
-                        paddingHorizontal: 32,
-                        position: 'relative',
+                <ScrollView 
+                    showsVerticalScrollIndicator={false}
+                    style={{ 
+                        position: 'absolute',
+                        top: '45%',      // Bắt đầu từ dưới hình ảnh
+                        bottom: 0,       // Kéo dài đến cuối màn hình
+                        left: 0,
+                        right: 0,
+                        paddingHorizontal: 24,
+                        paddingTop: 16,
+                        backgroundColor: isDarkMode ? Colors.dark.background : Colors.light.background,
+                        borderTopLeftRadius: 24,
+                        borderTopRightRadius: 24,
+                    }}
+                    contentContainerStyle={{
+                        paddingBottom: 100,  // Để tránh bị che bởi nút "Tải về"
                     }}
                 >
-                    <VStack space={4} height={'53%'}>
-                        <ScrollView
-                            scrollEnabled={currentSnapIndex === 2}
-                            showsVerticalScrollIndicator={false}
-                            style={{
-                                paddingBottom: 600,
-                                marginBottom: 24,
-                            }}
-                        >
-                            <View className='flex flex-row items-center gap-10 mt-2'>
-                                <View className="flex-1">
-                                    
-                                    {/*Tên doc*/}
-                                    <Text className="!font-bold !text-3xl !overflow-ellipsis !truncate">{docDetail?.title ?? ""}</Text> 
-                                    
-                                    {/*Lượt tải + đánh giá*/}
-                                    <View className="mt-1 flex flex-row gap-4"> 
-                                        <View className="flex flex-row items-center justify-center gap-1">
-                                            <Ionicons name="download-outline" size={18} color={isDarkMode ? "white" : "gray.500"} />
-                                            <Text>{docDetail?.downloadCount ?? 0} lượt</Text>
-                                        </View>
-
-                                        <View className="flex flex-row items-center justify-center gap-1">
-                                            <Ionicons name="star-outline" size={18} color={isDarkMode ? "white" : "gray.500"} />
-                                            <Text>{docRecentRatings.length > 0 
-                                            ? (docRecentRatings.reduce((acc, comment) => acc + comment.score, 0) / docRecentRatings.length).toFixed(1) 
-                                            : 0} ({docRecentRatings.length ?? 0})</Text>
-                                        </View>
-                                    </View>
-
-                                    {/*Thông tin uploader*/}
-                                    <View className="mt-4 flex flex-row items-center gap-3">
-                                        <Image source={uploaderAvatar} width={16} height={16} alt={"User Avatar"} className="rounded-full !shadow-md"/>
-                                    
-                                        <View>
-                                            <View className="flex flex-row items-center gap-1.5">
-                                                <Text className="!font-bold !text-xl">{docDetail?.uploader?.name ?? ""}</Text>
-                                                <Text className="!text-xl !font-bold">•</Text>
-                                                <Pressable onPress={() => setFollowing(!following)} className="!text-xl !font-bold !text-gray-500">
-                                                    <Text className={`!text-xl !font-bold ${following ? "!text-gray-500" : "!text-primary-500"}`}>
-                                                        {
-                                                            following ? "Bỏ theo dõi" : "Theo dõi"
-                                                        }
-                                                    </Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text>{uploaderProfile?.faculty ?? ""}</Text>    
-                                        </View>
-                                    </View>
+                    <View className='flex flex-row items-center gap-10 mt-2'>
+                        <View className="flex-1">
+                            
+                            {/*Tên doc*/}
+                            <Text className="!font-bold !text-3xl !overflow-ellipsis !truncate">{docDetail?.title ?? ""}</Text> 
+                            
+                            {/*Lượt tải + đánh giá*/}
+                            <View className="mt-1 flex flex-row gap-4"> 
+                                <View className="flex flex-row items-center justify-center gap-1">
+                                    <Ionicons name="download-outline" size={18} color={isDarkMode ? "white" : "gray.500"} />
+                                    <Text>{docDetail?.downloadCount ?? 0} lượt</Text>
                                 </View>
 
+                                <View className="flex flex-row items-center justify-center gap-1">
+                                    <Ionicons name="star-outline" size={18} color={isDarkMode ? "white" : "gray.500"} />
+                                    <Text>{docRecentRatings.length > 0 
+                                    ? (docRecentRatings.reduce((acc, comment) => acc + comment.score, 0) / docRecentRatings.length).toFixed(1) 
+                                    : 0} ({docRecentRatings.length ?? 0})</Text>
+                                </View>
                             </View>
 
-                            <ScrollView horizontal className="space-x-8 mt-4" showsHorizontalScrollIndicator={false}>
-                                {/*
-                                    sampleDoc.images.map((image, index) => (
-                                        <Pressable onPress={() => handleImageSelect(index)} key={index}>
-                                            <Image
-                                                source={image}
-                                                width={70}
-                                                height={70}
-                                                alt={"Images"}
-                                                borderRadius="lg"
-                                                marginRight={2}
-                                                className="transition-all"
-                                                borderWidth={selectedImage === index ? 3 : 1}
-                                                borderColor={selectedImage === index ? "primary.500" : "gray.300"}
-                                            />
+                            {/*Thông tin uploader*/}
+                            <View className="mt-4 flex flex-row items-center gap-3">
+                                <Image source={uploaderAvatar} width={16} height={16} alt={"User Avatar"} className="rounded-full !shadow-md"/>
+                            
+                                <View>
+                                    <View className="flex flex-row items-center gap-1.5">
+                                        <Text className="!font-bold !text-xl">{docDetail?.uploader?.name ?? ""}</Text>
+                                        <Text className="!text-xl !font-bold">•</Text>
+                                        <Pressable onPress={() => setFollowing(!following)} className="!text-xl !font-bold !text-gray-500">
+                                            <Text className={`!text-xl !font-bold ${following ? "!text-gray-500" : "!text-primary-500"}`}>
+                                                {
+                                                    following ? "Bỏ theo dõi" : "Theo dõi"
+                                                }
+                                            </Text>
                                         </Pressable>
-                                    ))
-                                */}
-                            </ScrollView>
-
-                            <View>
-                                <Text className="!font-bold !text-xl">Danh mục tài liệu</Text>
-                                <Text>Khoa: {docDetail?.faculty ?? ""} {docDetail?.faculty?.length > 1 ? `+ ${docDetail?.faculty?.length - 1}` : ""}</Text>
-                                <Text>Môn học: {docDetail?.subject ?? ""}</Text>
+                                    </View>
+                                    <Text>{uploaderProfile?.faculty ?? ""}</Text>    
+                                </View>
                             </View>
+                        </View>
 
-                            <View className="mt-6">
-                                <Text className="!font-bold !text-xl">Mô tả</Text>
-                                <Text>{docDetail?.description ?? ""}</Text>
+                    </View>
+
+                    <ScrollView horizontal className="space-x-8 mt-4" showsHorizontalScrollIndicator={false}>
+                        {/*
+                            sampleDoc.images.map((image, index) => (
+                                <Pressable onPress={() => handleImageSelect(index)} key={index}>
+                                    <Image
+                                        source={image}
+                                        width={70}
+                                        height={70}
+                                        alt={"Images"}
+                                        borderRadius="lg"
+                                        marginRight={2}
+                                        className="transition-all"
+                                        borderWidth={selectedImage === index ? 3 : 1}
+                                        borderColor={selectedImage === index ? "primary.500" : "gray.300"}
+                                    />
+                                </Pressable>
+                            ))
+                        */}
+                    </ScrollView>
+
+                    <View>
+                        <Text className="!font-bold !text-xl">Danh mục tài liệu</Text>
+                        <Text>Khoa: {docDetail?.faculty ?? ""} {docDetail?.faculty?.length > 1 ? `+ ${docDetail?.faculty?.length - 1}` : ""}</Text>
+                        <Text>Môn học: {docDetail?.subject ?? ""}</Text>
+                    </View>
+
+                    <View className="mt-6">
+                        <Text className="!font-bold !text-xl">Mô tả</Text>
+                        <Text>{docDetail?.description ?? ""}</Text>
+                    </View>
+
+                    <View className="mt-6">
+                        <Text className="!font-bold !text-xl">Gửi đánh giá và nhận xét</Text>
+                        {
+                            hasUserRated ? (
+                                <View className='flex flex-row items-center gap-2 mt-2'>
+                                <Ionicons name="checkmark-circle" size={24} color="#22c55e" />
+                                <Text className='text-gray-500'>Bạn đã đánh giá tài liệu này</Text>
                             </View>
-
-                            <View className="mt-6">
-                                <Text className="!font-bold !text-xl">Gửi đánh giá và nhận xét</Text>
+                            ) : (
                                 <View className='flex flex-row items-center gap-1 mt-2'>
                                     <Image source={userAvatar} width={12} height={12} alt={"User Avatar"} className="rounded-full !shadow-md"/>
                                     <Pressable className='flex flex-row gap-1 ml-1' onPress={() => router.push({
-                                            pathname: ROUTES.WRITE_COMMENT,
-                                            params: {id: id}
+                                    pathname: ROUTES.WRITE_COMMENT,
+                                    params: {id: id}
                                         } as any
                                     )}>
                                         <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
@@ -412,77 +416,78 @@ export default function DownloadDoc() {
                                         <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
                                     </Pressable>
                                 </View>
-                            </View>
+                            )
+                        }
+                    </View>
 
-                            <View className="flex flex-row items-center justify-between mt-4">
-                                <View className="flex flex-row items-center gap-1">
-                                    <Text className="!font-bold !text-xl">Đánh giá ({ratingsCount ?? 0})</Text>
-                                    <Text className="!text-xl !font-bold">•</Text>
-                                    <Text className=" !text-xl">{ratingsAverage ? ratingsAverage.toFixed(1) : 0}</Text>
-                                    <Ionicons name="star" size={20} color={"#FFD336"} className='mb-1' />
-                                </View>
+                    <View className="flex flex-row items-center justify-between mt-4">
+                        <View className="flex flex-row items-center gap-1">
+                            <Text className="!font-bold !text-xl">Đánh giá ({ratingsCount ?? 0})</Text>
+                            <Text className="!text-xl !font-bold">•</Text>
+                            <Text className=" !text-xl">{ratingsAverage ? ratingsAverage.toFixed(1) : 0}</Text>
+                            <Ionicons name="star" size={20} color={"#FFD336"} className='mb-1' />
+                        </View>
 
-                                <Pressable className="flex flex-row gap-1" onPress={() => router.push(ROUTES.ALL_COMMENT as any)}>
-                                    <Text className=" !text-xl">Tất cả</Text>
-                                    <Ionicons name="chevron-forward-outline" size={20} color={isDarkMode ? "white" : "gray.500"} />
-                                </Pressable>
-                            </View>
+                        <Pressable className="flex flex-row gap-1" onPress={() => router.push({
+                            pathname: ROUTES.ALL_COMMENT,
+                            params: { id: id }
+                        } as any)}>
+                            <Text className=" !text-xl">Tất cả</Text>
+                            <Ionicons name="chevron-forward-outline" size={20} color={isDarkMode ? "white" : "gray.500"} />
+                        </Pressable>
+                    </View>
 
-                            
-                            <View className="mt-4 mb-24">
-                                <View className="flex flex-col gap-6">
-                                    {
-                                        docRecentRatings.map((comment, index) => (
-                                            <View key={index} className='flex flex-row gap-4'>
-                                                <Image 
-                                                    source={require("@/assets/images/userAvatar.jpg")} 
-                                                    width={12} 
-                                                    height={12} 
-                                                    alt={"User Avatar"} 
-                                                    className="rounded-full !shadow-md"
-                                                />
-                                                <View className='flex-1 flex-shrink'>
-                                                    <Text className='!font-bold'>{comment.userName}</Text>
-                                                    <View className='flex flex-row items-center gap-1'>
-                                                        {
-                                                            Array.from({ length: comment.score }).map((_, index) => (
-                                                                <Ionicons name="star" size={20} color={"#FFD336"} key={index} />
-                                                            ))
-                                                        }
-                                                    </View>
-                                                    <Text className='mt-2'>{comment.comment}</Text>
-                                                    <View className='flex flex-row gap-2 flex-wrap mt-2'>
-                                                        {
-                                                            comment.imageUrl && (
-                                                                <Image 
-                                                                    source={{ uri: comment.imageUrl }} 
-                                                                    width={12} 
-                                                                    height={12} 
-                                                                    alt={"Image"} 
-                                                                    className="rounded-md !shadow-md"
-                                                                />
-                                                            )
-                                                        }
-                                                    </View>
-                                                </View>
+                    
+                    <View className="mt-4 mb-24">
+                        <View className="flex flex-col gap-6">
+                            {
+                                docRecentRatings.map((comment, index) => (
+                                    <View key={index} className='flex flex-row gap-4'>
+                                        <Image 
+                                            source={require("@/assets/images/userAvatar.jpg")} 
+                                            width={12} 
+                                            height={12} 
+                                            alt={"User Avatar"} 
+                                            className="rounded-full !shadow-md"
+                                        />
+                                        <View className='flex-1 flex-shrink'>
+                                            <Text className='!font-bold'>{comment.userName}</Text>
+                                            <View className='flex flex-row items-center gap-1'>
+                                                {
+                                                    Array.from({ length: comment.score }).map((_, index) => (
+                                                        <Ionicons name="star" size={20} color={"#FFD336"} key={index} />
+                                                    ))
+                                                }
                                             </View>
-                                        ))
-                                    }
-                                </View>
-                            </View>
+                                            <Text className='mt-2'>{comment.comment}</Text>
+                                            <View className='flex flex-row gap-2 flex-wrap mt-2'>
+                                                {
+                                                    comment.imageUrl && (
+                                                        <Image 
+                                                            source={{ uri: comment.imageUrl }} 
+                                                            width={12} 
+                                                            height={12} 
+                                                            alt={"Image"} 
+                                                            className="rounded-md !shadow-md"
+                                                        />
+                                                    )
+                                                }
+                                            </View>
+                                        </View>
+                                    </View>
+                                ))
+                            }
+                        </View>
+                    </View>
+            </ScrollView>
 
-                        </ScrollView>
-                    </VStack>
-                </BottomSheetView>
-
-                <Button 
-                    className="!rounded-xl h-14 absolute z-10 bottom-[150px]"
-                    style={{ left: 32, right: 32 }}
-                    onPress={handleDownload}
-                >
-                    <Text className="!text-xl !font-bold !text-white">Tải về</Text>
-                </Button>
-            </BottomSheet>
+            <Button 
+                className="!rounded-xl h-14 absolute z-10 bottom-[60px]"
+                style={{ left: 32, right: 32 }}
+                onPress={handleDownload}
+            >
+                <Text className="!text-xl !font-bold !text-white">{isDownloading ? "Đang tải..." : "Tải về"}</Text>
+            </Button>
         </GestureHandlerRootView>
     )
 }

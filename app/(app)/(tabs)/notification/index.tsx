@@ -1,10 +1,10 @@
 import { api } from "@/api/apiClient";
-import { API_NOTIFICATIONS } from "@/api/apiRoutes";
+import { API_MARK_NOTIFICATION_AS_READ, API_NOTIFICATIONS } from "@/api/apiRoutes";
 import { Notification } from "@/models/notification.type";
 import { NotificationProps } from "@/utils/notiInterface";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
-import { Button, Image, Text } from "native-base";
+import { Text } from "native-base";
 import { useCallback, useState } from "react";
 import { Keyboard, Pressable, ScrollView, TouchableWithoutFeedback, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -51,6 +51,7 @@ const sampleNotification: NotificationProps[] = [
         createdAt: "2025-10-01",
     },
 ];
+
 export default function NotificationPage() {
     const colorScheme = useColorScheme();
     const isDarkMode = colorScheme === 'dark';
@@ -106,6 +107,47 @@ export default function NotificationPage() {
         setPage(prevPage => prevPage + 1);
     }
 
+    const markAsRead = async (notificationId: string) => {
+        try {
+            await api.patch(API_MARK_NOTIFICATION_AS_READ(notificationId));
+            
+            // Update local state to reflect the change
+            setNotifications(prev => 
+                prev.map(noti => 
+                    noti.id === notificationId 
+                        ? { ...noti, isRead: true } 
+                        : noti
+                )
+            );
+        } catch (error: any) {
+            console.log("[NOTI] mark as read error:", error?.message);
+        }
+    };
+
+    const formatDate = (dateString: string): string => {
+        try {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now.getTime() - date.getTime();
+            const diffMins = Math.floor(diffMs / (1000 * 60));
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+            if (diffMins < 1) return "Vừa xong";
+            if (diffMins < 60) return `${diffMins} phút trước`;
+            if (diffHours < 24) return `${diffHours} giờ trước`;
+            if (diffDays < 7) return `${diffDays} ngày trước`;
+            
+            return date.toLocaleDateString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        } catch {
+            return dateString;
+        }
+    };
+
     return (
         <GestureHandlerRootView style={{
             flex: 1,
@@ -132,31 +174,52 @@ export default function NotificationPage() {
                         </Pressable>
                         <Text numberOfLines={1} className="!text-2xl !font-bold !text-black dark:!text-white mb-4 w-7/12 text-center">Thông báo</Text>
                     </View>
+
                     <ScrollView className="p-6">
-                        {notifications.length === 0 && (
-                            <View className="flex flex-col flex-1 items-center justify-center">
-                                <Text className="!text-gray-500 !font-bold !text-xl">Không có thông báo</Text>
-                            </View>
-                        )}
                         {notifications.length > 0 && notifications.map((notification) => (
-                            <View key={notification.id} className="flex flex-row gap-4">
-                                <Image source={{ uri: notification.image }} width={12} height={12} alt={"User Avatar"} className="rounded-full !shadow-md"></Image>
-                                <View className="flex-1 flex-shrink">
-                                    <Text className="!font-bold">{notification.title}</Text>
-                                    <Text>{notification.message}</Text>
-                                    <Text>{notification.createdAt}</Text>
+                            <View 
+                                key={notification.id} 
+                                className={`p-4 mb-3 rounded-xl ${notification.isRead ? 'bg-gray-50 dark:bg-dark-800' : 'bg-primary-50 dark:bg-dark-700'}`}
+                            >
+                                <View className="flex flex-row gap-4">
+                                    <View className={`w-12 h-12 rounded-full items-center justify-center ${notification.isRead ? 'bg-gray-200 dark:bg-dark-600' : 'bg-primary-100'}`}>
+                                        <Ionicons 
+                                            name="document-text" 
+                                            size={24} 
+                                            color={notification.isRead ? "#6b7280" : "#aaaaaa"} 
+                                        />
+                                    </View>
+                                    <View className="flex-1 flex-shrink">
+                                        <Text className={`!font-bold ${!notification.isRead ? '!text-primary-600' : ''}`}>
+                                            Tài liệu mới
+                                        </Text>
+                                        <Text className="!text-gray-600 dark:!text-gray-300 mt-1" numberOfLines={2}>
+                                            {notification.message}
+                                        </Text>
+                                        <Text className="!text-gray-400 !text-sm mt-2">
+                                            {formatDate(notification.createdAt)}
+                                        </Text>
+                                    </View>
+                                    {!notification.isRead && (
+                                        <View className="w-3 h-3 rounded-full bg-primary-500 self-start mt-1" />
+                                    )}
                                 </View>
+                                
+                                {/* Dedicated Mark as Read Button */}
+                                {!notification.isRead && (
+                                    <Pressable 
+                                        className="flex flex-row items-center justify-center gap-2 mt-3 py-2 bg-primary-500 rounded-lg"
+                                        onPress={() => markAsRead(notification.id)}
+                                    >
+                                        <Ionicons name="checkmark-circle-outline" size={18} color="white" />
+                                        <Text className="!text-white !font-semibold">Đánh dấu đã đọc</Text>
+                                    </Pressable>
+                                )}
                             </View>
                         ))}
                     </ScrollView>
                 </View>
             </TouchableWithoutFeedback>
-            
-            <View className="absolute bottom-10 left-0 right-0 px-[16px]">
-                <Button className="!bg-primary-500 !rounded-xl !py-4" onPress={() => {}}>
-                    <Text className="!text-white !font-bold !text-lg">Gửi đánh giá</Text>
-                </Button>
-            </View>
         </GestureHandlerRootView>
     );
 }
