@@ -10,65 +10,66 @@ import { Alert, View } from "react-native";
 export default function OtpCodeScreen() {
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState('');
+    const [flow, setFlow] = useState<'register' | 'forgot-password'>('register');
 
     useEffect(() => {
-        const loadEmail = async () => {
-            const tempData = await AsyncStorage.getItem('signup_temp_data');
-            if (tempData) {
-                const { email } = JSON.parse(tempData);
+        const loadData = async () => {
+            // Check forgot-password flow FIRST (has priority)
+            const forgotData = await AsyncStorage.getItem('forgot_password_temp_data');
+            if (forgotData) {
+                const { email } = JSON.parse(forgotData);
                 setEmail(email);
+                setFlow('forgot-password');
+                return;
+            }
+            
+            // Then check registration flow
+            const signupData = await AsyncStorage.getItem('signup_temp_data');
+            if (signupData) {
+                const { email } = JSON.parse(signupData);
+                setEmail(email);
+                setFlow('register');
             }
         };
-        loadEmail();
+        loadData();
     }, []);
     
     const handleSubmit = async (otpCode: string) => {
         setIsLoading(true);
         try {
-            // Lấy thông tin đã lưu từ bước 1
-            const tempData = await AsyncStorage.getItem('signup_temp_data');
-            if (!tempData) {
-                throw new Error('Không tìm thấy thông tin đăng ký');
-            }
-            
-            const { name, email, password } = JSON.parse(tempData);
-
-            console.log('Step 1: Verifying OTP...');
-            // Bước 2: Verify OTP và nhận reset-token
+            // Verify OTP (dùng chung cho cả 2 flow)
             const verifyResponse = await api.post(API_VERIFY_OTP, {
                 email,
                 otp: otpCode
             });
 
-            const resetToken = verifyResponse.data?.data?.token;
-            console.log('OTP verified, received token:', resetToken ? 'yes' : 'no');
-
-            if (!resetToken) {
+            const token = verifyResponse.data?.data?.token;
+            if (!token) {
                 throw new Error('Không nhận được token từ server');
             }
 
-            console.log('Step 2: Completing registration...');
-            // Bước 3: Complete registration với reset-token
-            await api.post(API_REGISTER_COMPLETE, {
-                name,
-                email,
-                password,
-                token: resetToken // Dùng reset-token từ bước verify
-            });
-
-            console.log('Registration completed successfully');
-            
-            // Xóa thông tin tạm
-            await AsyncStorage.removeItem('signup_temp_data');
-            
-            // Chuyển đến trang login
-            Alert.alert('Thành công', 'Đăng ký tài khoản thành công!', [
-                { text: 'OK', onPress: () => router.replace(ROUTES.LOGIN) }
-            ]);
+            if (flow === 'register') {
+                // Flow đăng ký
+                const tempData = await AsyncStorage.getItem('signup_temp_data');
+                if (!tempData) throw new Error('Không tìm thấy thông tin đăng ký');
+                
+                const { name, email, password } = JSON.parse(tempData);
+                
+                await api.post(API_REGISTER_COMPLETE, {
+                    name, email, password, token
+                });
+                
+                await AsyncStorage.removeItem('signup_temp_data');
+                
+                Alert.alert('Thành công', 'Đăng ký tài khoản thành công!', [
+                    { text: 'OK', onPress: () => router.replace(ROUTES.LOGIN) }
+                ]);
+            } else {
+                // Flow quên mật khẩu - chuyển sang trang đặt mật khẩu mới
+                await AsyncStorage.setItem('reset_password_token', token);
+                router.push(ROUTES.NEW_PASSWORD);
+            }
         } catch (error: any) {
-            console.error('Registration failed:', error);
-            console.error('Error response:', error.response?.data);
-            
             const message = error?.response?.data?.message || 'Xác thực OTP thất bại';
             Alert.alert('Lỗi', message);
         } finally {

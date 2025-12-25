@@ -1,5 +1,5 @@
 import { api } from '@/api/apiClient';
-import { API_REGISTER_REQUEST_OTP } from '@/api/apiRoutes';
+import { API_REQUEST_OTP } from '@/api/apiRoutes';
 import SignupForm from '@/components/auth/SignupForm';
 import { ROUTES } from '@/utils/routes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,11 +14,11 @@ export default function LoginScreen() {
   const handleSubmit = async (name: string, email: string, password: string) => {
     setIsLoading(true);
     try {
-      console.log('🚀 Sending OTP request for email:', email);
-      console.log('📍 API URL:', process.env.EXPO_PUBLIC_API_URL);
-      console.log('📍 Endpoint:', API_REGISTER_REQUEST_OTP);
+      console.log('Sending OTP request for email:', email);
+      console.log('API URL:', process.env.EXPO_PUBLIC_API_URL);
+      console.log('Endpoint:', API_REQUEST_OTP);
       
-      const response = await api.post(API_REGISTER_REQUEST_OTP, { email });
+      const response = await api.post(API_REQUEST_OTP, { email });
       console.log('✅ OTP request successful:', response.data);
       
       // Lưu thông tin tạm thời để dùng ở bước 2
