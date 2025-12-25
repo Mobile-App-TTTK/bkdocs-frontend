@@ -1,7 +1,9 @@
 export const API_LOGIN = '/auth/login';
-export const API_REGISTER_REQUEST_OTP = '/auth/register/request-otp';
+export const API_REQUEST_OTP = '/auth/register/request-otp';
 export const API_VERIFY_OTP = '/auth/verify-otp';
 export const API_REGISTER_COMPLETE = '/auth/register/complete';
+export const API_PASSWORD_RESET_REQUEST = '/auth/password-reset';
+export const API_PASSWORD_RESET = '/auth/password'; 
 
 // documents
 export const API_DOCUMENTS = '/documents';
@@ -16,6 +18,7 @@ export const API_GET_SUGGESTIONS = `${API_DOCUMENTS}/suggestions/top-downloads`;
 export const API_GET_DOCUMENT_DETAIL = (id: string) => `${API_DOCUMENTS}/${id}`;
 export const API_DOWNLOAD_DOCUMENT = (id: string) => `${API_DOCUMENTS}/${id}/download`;
 export const API_GET_DOWNLOADED_DOC = (id: string) => `${API_DOCUMENTS}/${id}/documents`;
+
 //rates
 export const API_RATES = '/rates'
 export const API_GET_DOC_RATINGS = (id: string) => `${API_RATES}/document/${id}/reviews`;

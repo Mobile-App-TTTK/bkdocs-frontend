@@ -25,7 +25,6 @@ export default function OtpCodeScreen() {
     const handleSubmit = async (otpCode: string) => {
         setIsLoading(true);
         try {
-            // Lấy thông tin đã lưu từ bước 1
             const tempData = await AsyncStorage.getItem('signup_temp_data');
             if (!tempData) {
                 throw new Error('Không tìm thấy thông tin đăng ký');
@@ -34,7 +33,6 @@ export default function OtpCodeScreen() {
             const { name, email, password } = JSON.parse(tempData);
 
             console.log('Step 1: Verifying OTP...');
-            // Bước 2: Verify OTP và nhận reset-token
             const verifyResponse = await api.post(API_VERIFY_OTP, {
                 email,
                 otp: otpCode

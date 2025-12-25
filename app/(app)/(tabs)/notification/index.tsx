@@ -186,7 +186,7 @@ export default function NotificationPage() {
                                         <Ionicons 
                                             name="document-text" 
                                             size={24} 
-                                            color={notification.isRead ? "#6b7280" : "#3b82f6"} 
+                                            color={notification.isRead ? "#6b7280" : "#aaaaaa"} 
                                         />
                                     </View>
                                     <View className="flex-1 flex-shrink">
