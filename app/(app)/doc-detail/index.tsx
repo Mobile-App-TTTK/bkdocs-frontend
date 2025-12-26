@@ -3,6 +3,7 @@ import { API_DOWNLOAD_DOCUMENT, API_GET_DOC_RATINGS, API_GET_DOC_RECENT_RATINGS,
 import { useFetchUserProfile, useFetchUserProfileById } from '@/components/Profile/api';
 import { CommentProps } from '@/utils/commentInterface';
 import { DocProps } from '@/utils/docInterface';
+import { downloadedDocsStorage } from '@/utils/downloadDocStorage';
 import { ROUTES } from '@/utils/routes';
 import { Colors } from '@/utils/theme';
 import { Ionicons } from '@expo/vector-icons';
@@ -234,23 +235,25 @@ export default function DownloadDoc() {
             .replace(/[<>:"/\\|?*\x00-\x1F]/g, "_")
             .slice(0, 80);
 
-        const extMatch = downloadUrl.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
-        const ext = extMatch?.[1] ? `.${extMatch[1]}` : ".pdf";
-      
-        const destFile = new FileSystem.File(FileSystem.Paths.document, `${safeTitle}${ext}`);
+            const extMatch = downloadUrl.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+            const ext = extMatch?.[1] ? `.${extMatch[1]}` : ".pdf";
+        
+            const destFile = new FileSystem.File(FileSystem.Paths.document, `${safeTitle}${ext}`);
 
-        if (destFile.exists) {
-          destFile.delete();
-        }
+            if (destFile.exists) {
+            destFile.delete();
+            }
         
-        const downloadedFile = await FileSystem.File.downloadFileAsync(downloadUrl, destFile);
-        const uri = downloadedFile.uri;
-        
-        if (await Sharing.isAvailableAsync()) {
-          await Sharing.shareAsync(uri);
-        } else {
-          await Linking.openURL(uri);
-        }
+            const downloadedFile = await FileSystem.File.downloadFileAsync(downloadUrl, destFile);
+            const uri = downloadedFile.uri;
+            
+            await downloadedDocsStorage.addDownloadedDoc(id);
+
+            if (await Sharing.isAvailableAsync()) {
+            await Sharing.shareAsync(uri);
+            } else {
+            await Linking.openURL(uri);
+            }
               
         } catch (error) {
           console.error("Error downloading document", error);

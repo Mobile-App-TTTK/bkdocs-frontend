@@ -1,8 +1,9 @@
 import { api } from "@/api/apiClient";
-import { API_GET_DOWNLOADED_DOC } from "@/api/apiRoutes";
+import { API_GET_DOCUMENT_DETAIL } from "@/api/apiRoutes";
 import { useFetchUserProfile } from "@/components/Profile/api";
 import SavedDocCard from "@/components/ui/saved-doc-card";
 import { UserDocument } from "@/models/document.type";
+import { downloadedDocsStorage } from "@/utils/downloadDocStorage";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Pressable, Text, View } from "native-base";
@@ -26,27 +27,42 @@ export default function SavedDoc() {
     const [loading, setLoading] = useState(false);
 
     const {data: userProfile, isLoading: isLoadingUserProfile, error: errorUserProfile} = useFetchUserProfile();
+
     useEffect(() => {
         let cancelled = false;
 
-        (
-            async () => {
-                try {
-                    setLoading(true);
-                    const res = await api.get(API_GET_DOWNLOADED_DOC(userProfile?.id || ''));
-                    const data = res.data?.data;
-                    setDownloadedDocs(data);
+        const fetchDownloadedDocs = async () => {
+            try {
+                setLoading(true);
+                
+                const docIds = await downloadedDocsStorage.getDownloadedDocIds();
+                
+                const docsPromises = docIds.map(async (id) => {
+                    try {
+                        const res = await api.get(API_GET_DOCUMENT_DETAIL(id));
+                        return res.data?.data;
+                    } catch (error) {
+                        console.error(`Error fetching doc ${id}:`, error);
+                        return null;
+                    }
+                });
 
-                    if (!cancelled) setLoading(false);
-                } finally {
-                    if (!cancelled) setLoading(false);
+                const docs = await Promise.all(docsPromises);
+                
+                if (!cancelled) {
+                    setDownloadedDocs(docs.filter(Boolean));
                 }
-                return () => {
-                    cancelled = true;
-                };
+            } finally {
+                if (!cancelled) setLoading(false);
             }
-        )();
-    }, [userProfile?.id]);
+        };
+
+        fetchDownloadedDocs();
+
+        return () => {
+            cancelled = true;
+        };
+    }, []);
 
     return (
         <View className="flex-1 bg-white dark:!bg-gray-900">
