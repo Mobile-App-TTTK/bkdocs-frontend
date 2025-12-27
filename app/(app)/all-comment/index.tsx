@@ -72,16 +72,24 @@ export default function AllComment() {
         (
             async () => {
                 try {
+                    setLoading(true);
                     const res = await api.get(API_GET_DOC_RATINGS(id));
                     const data = res.data?.data;
                     if (!cancelled) {
                         setRatings(data ?? []);
                     }
-                } finally {
+                } catch (error) {
+                    console.log('error', error);
+                }
+                finally {
                     if (!cancelled) setLoading(false);
                 }
             }
         )();
+
+        return () => {
+            cancelled = true;
+        }
     }, [id])
     return (
         <GestureHandlerRootView style={{
@@ -109,7 +117,7 @@ export default function AllComment() {
                         <Text numberOfLines={1} className="!text-2xl !font-bold !text-black dark:!text-white mb-4 w-7/12 text-center">Giáo trình chính thức Giải tích 1</Text>
                     </View>
 
-                    <View className="mt-4 mb-24">
+                    <View className="mb-24 p-6">
                         <View className="flex flex-col gap-6">
                             {
                                 ratings.map((comment, index) => (

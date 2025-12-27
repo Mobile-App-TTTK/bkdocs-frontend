@@ -121,19 +121,26 @@ function FacultySection({ facultyId, fallbackName }: { facultyId: string; fallba
         </View>
   
         <View className="flex-row flex-wrap justify-between px-6 mt-3">
-          {docs.map((doc: any) => (
-            <DocumentCard
-              key={doc.id}
-              id={doc.id}
-              title={doc.title}
-              downloadCount={doc.downloadCount}
-              uploadDate={doc.uploadDate}
-              subject={doc.__subjectName}
-              thumbnail={doc.thumbnail || doc.thumbnailUrl || ""}
-              score={doc.score || 0}
-              type={doc.type || doc.fileType || ""}
-            />
-          ))}
+          {
+            docs.length > 0 ? (
+              docs.map((doc: any) => (
+                <DocumentCard
+                  key={doc.id}
+                  id={doc.id}
+                  title={doc.title}
+                  downloadCount={doc.downloadCount}
+                  uploadDate={doc.uploadDate}
+                  subject={doc.__subjectName}
+                  thumbnail={doc.thumbnail || doc.thumbnailUrl || ""}
+                  score={doc.score || 0}
+                  type={doc.type || doc.fileType || ""}
+                />
+              ))) : (
+              <Text className="!text-gray-500 dark:!text-gray-400">
+                Chưa có tài liệu nào
+              </Text>
+            )
+          }
         </View>
       </View>
     );
@@ -432,8 +439,6 @@ export default function HomeScreen() {
             {faculties.map((faculty: any) => (
                 <FacultySection key={faculty.id} facultyId={faculty.id} fallbackName={faculty.name} />
             ))}
-
-
               <ScrollView horizontal={false} style={{paddingVertical:15, paddingHorizontal:22}} showsVerticalScrollIndicator={false}>
 
               </ScrollView>

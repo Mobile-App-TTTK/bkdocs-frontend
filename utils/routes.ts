@@ -6,6 +6,7 @@ export const ROUTES = {
   SIGNUP: '/(public)/signup',
   FORGOT_PASSWORD: '/(public)/forgot-password',
   OTP_CODE: '/(public)/otp-code',
+  NEW_PASSWORD: '/(public)/new-password',
   SAVED_DOC: '/(app)/saved-doc',
   DOWNLOAD_DOC: '/(app)/doc-detail',
   WRITE_COMMENT: '/(app)/write-comment',
@@ -26,6 +27,7 @@ export const ROUTES = {
   CHATBOT: '/(app)/chatbot',
   ADMIN_MEMBER_MANAGEMENT: '/(app)/admin/member-management',
   ADMIN_DOCUMENT_MANAGEMENT: '/(app)/admin/document-management',
+  SEARCH: '/(app)/(tabs)/search',
 } as const; 
 
 export type AppRoute = typeof ROUTES[keyof typeof ROUTES];
