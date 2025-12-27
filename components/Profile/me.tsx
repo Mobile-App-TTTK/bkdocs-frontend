@@ -22,6 +22,8 @@ export default function MeScreen() {
   
   const avatar = require('@/assets/images/userAvatar1.png');
 
+  console.log("documentsData: ", documentsData?.pages);
+
   const documents = React.useMemo(() => {
     return documentsData?.pages.flat() || [];
   }, [documentsData]);

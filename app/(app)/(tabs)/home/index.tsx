@@ -103,11 +103,21 @@ function FacultySection({ facultyId, fallbackName }: { facultyId: string; fallba
         .flatMap((s: any) => (s?.documents ?? []).map((d: any) => ({ ...d, __subjectName: s?.name })))
         .slice(0, 6);
   
+    // Ẩn khoa nếu không có tài liệu
+    if (docs.length === 0) {
+      return null;
+    }
+  
     return (
       <View>
         <View className="mx-6 mt-6 !text-xl !font-bold flex flex-row items-center gap-1.5">
-          <Text className="!text-xl !font-bold">{facultyInfo?.name ?? fallbackName}</Text>
-          <Text className="!text-xl !font-bold">•</Text>
+          <Text 
+            className="!text-xl !font-bold flex-1" 
+            numberOfLines={1} 
+            ellipsizeMode="tail"
+          >
+            {facultyInfo?.name ?? fallbackName}
+          </Text>
   
           <Pressable onPress={handleToggleFollowFaculty} disabled={isLoading || isFollowLoading}>
             {isFollowLoading ? (
@@ -121,26 +131,19 @@ function FacultySection({ facultyId, fallbackName }: { facultyId: string; fallba
         </View>
   
         <View className="flex-row flex-wrap justify-between px-6 mt-3">
-          {
-            docs.length > 0 ? (
-              docs.map((doc: any) => (
-                <DocumentCard
-                  key={doc.id}
-                  id={doc.id}
-                  title={doc.title}
-                  downloadCount={doc.downloadCount}
-                  uploadDate={doc.uploadDate}
-                  subject={doc.__subjectName}
-                  thumbnail={doc.thumbnail || doc.thumbnailUrl || ""}
-                  score={doc.score || 0}
-                  type={doc.type || doc.fileType || ""}
-                />
-              ))) : (
-              <Text className="!text-gray-500 dark:!text-gray-400">
-                Chưa có tài liệu nào
-              </Text>
-            )
-          }
+          {docs.map((doc: any) => (
+            <DocumentCard
+              key={doc.id}
+              id={doc.id}
+              title={doc.title}
+              downloadCount={doc.downloadCount}
+              uploadDate={doc.uploadDate}
+              subject={doc.__subjectName}
+              thumbnail={doc.thumbnail || doc.thumbnailUrl || ""}
+              score={doc.score || 0}
+              type={doc.type || doc.fileType || ""}
+            />
+          ))}
         </View>
       </View>
     );
@@ -306,13 +309,17 @@ export default function HomeScreen() {
                       <Text className="font-medium">
                           Xin chào,
                       </Text>
-                      <Text style={{
-                          fontSize: 24,
-                          lineHeight: 30,
-                          fontFamily: "Gilroy-Bold"
-                      }}>
-                          {userProfile?.name.toUpperCase() || 'TÊN NGƯỜI DÙNG'}
-                      </Text>
+                      {isLoadingUser ? (
+                          <View style={{ height: 30 }} />
+                      ) : userProfile?.name ? (
+                          <Text style={{
+                              fontSize: 24,
+                              lineHeight: 30,
+                              fontFamily: "Gilroy-Bold"
+                          }}>
+                              {userProfile.name.toUpperCase()}
+                          </Text>
+                      ) : null}
                   </View>
               </View>
           </View>
