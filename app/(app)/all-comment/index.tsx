@@ -1,5 +1,5 @@
 import { api } from '@/api/apiClient';
-import { API_GET_DOC_RATINGS } from '@/api/apiRoutes';
+import { API_GET_DOC_RATINGS, API_GET_DOCUMENT_DETAIL } from '@/api/apiRoutes';
 import { CommentProps } from '@/utils/commentInterface';
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
@@ -7,6 +7,15 @@ import { Image, Text } from "native-base";
 import { useEffect, useState } from "react";
 import { Pressable, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+type ApiDocDetail = {
+    id: string;
+    title: string;
+    description?: string;
+    downloadCount?: number;
+    uploadDate?: string;
+    thumbnailUrl?: string;
+}
 
 type ApiDocRating = {
     userName: string;
@@ -64,7 +73,8 @@ export default function AllComment() {
     const [content, setContent] = useState<string>("");
     const [ratings, setRatings] = useState<ApiDocRating[]>([]);
     const [loading, setLoading] = useState(false);
-    
+    const [docDetail, setDocDetail] = useState<ApiDocDetail | null>(null);
+
     useEffect(() => {
         if (!id) return;
 
@@ -74,9 +84,12 @@ export default function AllComment() {
                 try {
                     setLoading(true);
                     const res = await api.get(API_GET_DOC_RATINGS(id));
+                    const docRes = await api.get(API_GET_DOCUMENT_DETAIL(id));
+                    const docData = docRes.data?.data;
                     const data = res.data?.data;
                     if (!cancelled) {
                         setRatings(data ?? []);
+                        setDocDetail(docData ?? null);
                     }
                 } catch (error) {
                     console.log('error', error);
@@ -114,7 +127,7 @@ export default function AllComment() {
                         >
                             <Ionicons name="chevron-back-outline" size={24} color={"#888888"} />
                         </Pressable>
-                        <Text numberOfLines={1} className="!text-2xl !font-bold !text-black dark:!text-white mb-4 w-7/12 text-center">Giáo trình chính thức Giải tích 1</Text>
+                        <Text numberOfLines={1} className="!text-2xl !font-bold !text-black dark:!text-white mb-4 w-7/12 text-center">{docDetail?.title}</Text>
                     </View>
 
                     <View className="mb-24 p-6">

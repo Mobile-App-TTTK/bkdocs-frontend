@@ -1,8 +1,9 @@
 import { api } from '@/api/apiClient';
-import { API_DOWNLOAD_DOCUMENT, API_GET_DOC_RATINGS, API_GET_DOC_RECENT_RATINGS, API_GET_DOCUMENT_DETAIL } from '@/api/apiRoutes';
+import { API_DOWNLOAD_DOCUMENT, API_GET_DOC_RATINGS, API_GET_DOCUMENT_DETAIL } from '@/api/apiRoutes';
 import { useFetchUserProfile, useFetchUserProfileById } from '@/components/Profile/api';
 import { CommentProps } from '@/utils/commentInterface';
 import { DocProps } from '@/utils/docInterface';
+import { downloadedDocsStorage } from '@/utils/downloadDocStorage';
 import { ROUTES } from '@/utils/routes';
 import { Colors } from '@/utils/theme';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,7 +13,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import * as Sharing from "expo-sharing";
 import { Button, Image, ScrollView, Text } from 'native-base';
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Alert, Linking, Pressable, useColorScheme, View } from 'react-native';
+import { Alert, Linking, Modal, Pressable, useColorScheme, View } from 'react-native';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 type ApiDocDetail = {
@@ -118,6 +119,7 @@ export default function DownloadDoc() {
     const [ratingsAverage, setRatingsAverage] = useState<number>(0);
     const [isDownloading, setIsDownloading] = useState(false);
     const [hasUserRated, setHasUserRated] = useState(false);
+    const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
 
     useEffect(() => {
         if (!id) return;
@@ -145,17 +147,18 @@ export default function DownloadDoc() {
         let cancelled = false;
         (async () => {
             try {
-                const res = await api.get(API_GET_DOC_RECENT_RATINGS(id), {
-                    params: { k: 5 }
-                });
+                // Chỉ dùng API_GET_DOC_RATINGS thay vì API_GET_DOC_RECENT_RATINGS
                 const res1 = await api.get(API_GET_DOC_RATINGS(id));
-                const data = res.data?.data;
                 const data1 = res1.data?.data;
+                
                 if (!cancelled) {
-                    setDocRecentRatings(data ?? []);
+                    // Lấy 5 comment gần nhất từ client-side
+                    const recentRatings = (data1 ?? []).slice(0, 5);
+                    setDocRecentRatings(recentRatings);
+                    
                     setRatingsCount(data1?.length ?? 0);
                     setRatingsAverage(data1?.reduce((acc: number, comment: ApiDocRating) => acc + comment.score, 0) / data1?.length);
-
+    
                     if (userProfile?.name && data1) {
                         const userRating = data1.find((rating: ApiDocRating) => 
                             rating.userName === userProfile.name
@@ -234,23 +237,25 @@ export default function DownloadDoc() {
             .replace(/[<>:"/\\|?*\x00-\x1F]/g, "_")
             .slice(0, 80);
 
-        const extMatch = downloadUrl.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
-        const ext = extMatch?.[1] ? `.${extMatch[1]}` : ".pdf";
-      
-        const destFile = new FileSystem.File(FileSystem.Paths.document, `${safeTitle}${ext}`);
+            const extMatch = downloadUrl.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+            const ext = extMatch?.[1] ? `.${extMatch[1]}` : ".pdf";
+        
+            const destFile = new FileSystem.File(FileSystem.Paths.document, `${safeTitle}${ext}`);
 
-        if (destFile.exists) {
-          destFile.delete();
-        }
+            if (destFile.exists) {
+            destFile.delete();
+            }
         
-        const downloadedFile = await FileSystem.File.downloadFileAsync(downloadUrl, destFile);
-        const uri = downloadedFile.uri;
-        
-        if (await Sharing.isAvailableAsync()) {
-          await Sharing.shareAsync(uri);
-        } else {
-          await Linking.openURL(uri);
-        }
+            const downloadedFile = await FileSystem.File.downloadFileAsync(downloadUrl, destFile);
+            const uri = downloadedFile.uri;
+            
+            await downloadedDocsStorage.addDownloadedDoc(id);
+
+            if (await Sharing.isAvailableAsync()) {
+            await Sharing.shareAsync(uri);
+            } else {
+            await Linking.openURL(uri);
+            }
               
         } catch (error) {
           console.error("Error downloading document", error);
@@ -463,13 +468,15 @@ export default function DownloadDoc() {
                                             <View className='flex flex-row gap-2 flex-wrap mt-2'>
                                                 {
                                                     comment.imageUrl && (
-                                                        <Image 
-                                                            source={{ uri: comment.imageUrl }} 
-                                                            width={12} 
-                                                            height={12} 
-                                                            alt={"Image"} 
-                                                            className="rounded-md !shadow-md"
-                                                        />
+                                                        <Pressable onPress={() => setSelectedImageUrl(comment.imageUrl)}>
+                                                            <Image 
+                                                                source={{ uri: comment.imageUrl }} 
+                                                                width={12} 
+                                                                height={12} 
+                                                                alt={"Image"} 
+                                                                className="rounded-md !shadow-md"
+                                                            />
+                                                        </Pressable>
                                                     )
                                                 }
                                             </View>
@@ -488,6 +495,47 @@ export default function DownloadDoc() {
             >
                 <Text className="!text-xl !font-bold !text-white">{isDownloading ? "Đang tải..." : "Tải về"}</Text>
             </Button>
+
+            <Modal
+                visible={selectedImageUrl !== null}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={() => setSelectedImageUrl(null)}
+            >
+                <View style={{
+                    flex: 1,
+                    backgroundColor: 'rgba(0, 0, 0, 1)',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <Pressable
+                        onPress={() => setSelectedImageUrl(null)}
+                        style={{
+                            position: 'absolute',
+                            top: 60,
+                            right: 20,
+                            zIndex: 10,
+                            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                            borderRadius: 25,
+                            padding: 8,
+                        }}
+                    >
+                        <Ionicons name="close" size={28} color="white" />
+                    </Pressable>
+
+                    {selectedImageUrl && (
+                        <Image
+                            source={{ uri: selectedImageUrl }}
+                            alt="Full size image"
+                            resizeMode="contain"
+                            style={{
+                                width: '90%',
+                                height: '70%',
+                            }}
+                        />
+                    )}
+                </View>
+            </Modal>
         </GestureHandlerRootView>
     )
 }
