@@ -1,5 +1,6 @@
 import { api } from '@/api/apiClient';
 import { API_GET_INFORMATION_FACULTY, API_GET_SUGGESTIONS } from '@/api/apiRoutes';
+import { useFetchAdminStatistics } from '@/components/Admin/api';
 import DocumentCard from '@/components/DocumentCard';
 import { useFetchFacultyInfo, useSubscribeFaculty, useUnsubscribeFaculty } from '@/components/FacultyScreen/api';
 import { useFetchFacultiesAndSubjects } from "@/components/searchResultScreen/api";
@@ -147,7 +148,7 @@ function FacultySection({ facultyId, fallbackName }: { facultyId: string; fallba
 
 export default function HomeScreen() {
 
-    const { logout } = useAuth();
+    const { logout, userProfile: authUserProfile } = useAuth();
     const router = useRouter();
     const { userProfile, isLoading: isLoadingUser } = useUser();
 
@@ -158,6 +159,9 @@ export default function HomeScreen() {
     
     const { data: facultiesData, isLoading: isLoadingFaculties } = useFetchFacultiesAndSubjects();
     const faculties = facultiesData?.faculties ?? [];
+
+    const isAdmin = authUserProfile?.role === 'admin';
+    const { data: adminStats } = useFetchAdminStatistics(!!isAdmin);
 
     const subscribeFacultyMutation = useSubscribeFaculty(facultiesData?.faculties[0].id);
     const unsubscribeFacultyMutation = useUnsubscribeFaculty(facultiesData?.faculties[0].id);
@@ -212,7 +216,7 @@ export default function HomeScreen() {
 
         fetchSuggestion();
     }, []);
-    
+
     const avatar = require(`@/assets/images/userAvatar1.png`);
     const progress = useSharedValue<number>(0);
     const { width,height } = Dimensions.get("window");
@@ -287,7 +291,7 @@ export default function HomeScreen() {
       <View>
 
           {/*Profile người dùng*/}
-          <View className="flex flex-row justify-center items-center mx-6 mt-6">
+          <View className="flex flex-row items-center mx-6 mt-6">
               <View className="flex flex-row gap-3 items-center">
                 <Image 
                 source={userProfile?.imageUrl ? { uri: userProfile.imageUrl } : avatar}
@@ -311,46 +315,81 @@ export default function HomeScreen() {
                       </Text>
                   </View>
               </View>
-
-              <View className="flex-1"></View>
-              <Pressable className="flex justify-center items-center w-10 h-10 rounded-full bg-primary-50" onPress={() => {router.push(ROUTES.NOTIFICATION as any)}}>
-                <Ionicons name={"notifications-outline"} size={22} color={"#FF3300"}/>
-              </Pressable>
           </View>
           {/*Thao tác nhanh*/}
-          <View className="flex flex-row mx-6 justify-between mt-6">
-              <Pressable className="flex flex-col justify-center items-center" onPress={() => {router.push(ROUTES.SEARCH as any)}}>
-                  <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
-                    <Ionicons name={"search-outline"} size={32} color={"#FF3300"}/>
-                  </View>
+          <View className="flex flex-row mx-2 mt-6">
+            <Pressable
+              className="flex-1 flex flex-col items-center"
+              onPress={() => router.push(ROUTES.SEARCH)}
+            >
+              <View className="flex-1 flex flex-col items-center">
+                <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
+                  <Ionicons name="search-outline" size={32} color="#FF3300" />
+                </View>
+                <Text className="!text-lg !font-medium mt-1 text-center max-w-24">Tìm kiếm</Text>
+              </View>
+            </Pressable>
 
-                  <Text className="!text-lg !font-medium mt-1">Tìm kiếm</Text>
-              </Pressable>
+            <View className="flex-1 flex flex-col items-center">
+              <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
+                <Ionicons name="heart-outline" size={32} color="#FF3300" />
+              </View>
+              <Text className="!text-lg !font-medium mt-1 text-center max-w-24">Đã theo dõi</Text>
+            </View>
 
-              <Pressable className="flex flex-col justify-center items-center" onPress={() => {router.push(ROUTES.UPLOAD_DETAIL as any)}}>
-                  <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
-                    <Ionicons name={"document-outline"} size={32} color={"#FF3300"}/>
-                  </View>
+            <Pressable
+              className="flex-1 flex flex-col items-center"
+              onPress={() => router.push(ROUTES.SAVED_DOC as any)}
+            >
+              <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
+                <Ionicons name="briefcase-outline" size={32} color="#FF3300" />
+              </View>
+              <Text className="!text-lg !font-medium mt-1 text-center max-w-24">Tài liệu đã lưu</Text>
+            </Pressable>
 
-                  <Text className="!text-lg !font-medium mt-1">Đóng góp</Text>
-              </Pressable>
-
-              <Pressable className="flex flex-col justify-center items-center" onPress={() => {router.push(ROUTES.SAVED_DOC as any)}}>
-                  <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
-                    <Ionicons name={"briefcase-outline"} size={32} color={"#FF3300"}/>
-                  </View>
-
-                  <Text className="!text-lg !font-medium mt-1">Quản lý</Text>
-              </Pressable>
-
-              <Pressable className="flex flex-col justify-center items-center" onPress={() => {router.push(ROUTES.CHATBOT as any)}}>
-                  <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
-                    <Ionicons name={"chatbubbles-outline"} size={32} color={"#FF3300"}/>
-                  </View>
-
-                  <Text className="!text-lg !font-medium mt-1">Chatbot AI</Text>
-              </Pressable>
+            <Pressable
+              className="flex-1 flex flex-col items-center"
+              onPress={() => router.push(ROUTES.CHATBOT)}
+            >
+              <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
+                <Ionicons name="chatbox-outline" size={32} color="#FF3300" />
+              </View>
+              <Text className="!text-lg !font-medium mt-1 text-center max-w-24">Chatbot AI</Text>
+            </Pressable>
           </View>
+
+          {isAdmin && (
+            <View
+              className="bg-white dark:!bg-dark-800 rounded-2xl p-4 mx-6 mt-6 flex flex-row shadow-md items-center"
+            >
+              <Pressable 
+                className="flex-1 flex flex-col items-center justify-center gap-1"
+                onPress={() => router.push(ROUTES.ADMIN_MEMBER_MANAGEMENT)}
+              >
+                <View className="flex flex-row items-center gap-2">
+                  <Ionicons name="people-outline" size={24} color="#FF3300" />
+                  <Text className="!text-lg !font-medium">Thành viên</Text>
+                </View>
+                <Text className="!text-2xl !font-semibold !text-gray-700">
+                  {adminStats?.totalUsers ?? 0}
+                </Text>
+              </Pressable>
+              <View className="w-px h-12 bg-gray-200 dark:bg-dark-600" />
+              <Pressable 
+                className="flex-1 flex flex-col items-center justify-center gap-1"
+                onPress={() => router.push(ROUTES.ADMIN_DOCUMENT_MANAGEMENT)}
+              >
+                <View className="flex flex-row items-center gap-2">
+                  <Ionicons name="checkmark-circle-outline" size={24} color="#FF3300" />
+                  <Text className="!text-lg !font-medium">Tài liệu duyệt</Text>
+                </View>
+                <Text className="!text-2xl !font-semibold !text-gray-700">
+                  +{adminStats?.pendingDocuments ?? 0}
+                </Text>
+              </Pressable>
+            </View>
+          )}
+
           {/*Carousel gợi ý*/}
 
           <Text style={{}} className="mx-6 mt-6 !text-xl !font-bold">Gợi ý dành cho bạn</Text>

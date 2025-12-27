@@ -42,6 +42,13 @@ export const API_USER_DOCUMENTS = `${API_USERS}`;
 export const API_UPDATE_PROFILE = `${API_USERS}/profile`;
 export const API_FOLLOW_LIST = `${API_USERS}/following-and-subscribing-list`;
 
+// admin
+export const API_ADMIN_STATISTICS = '/admin/statistics';
+export const API_ADMIN_MEMBERS = '/admin/members';
+export const API_ADMIN_MEMBER_BAN_STATUS = (userId: string) => `/admin/members/${userId}/ban-status`;
+export const API_ADMIN_PENDING_DOCUMENTS = '/admin/documents/pending';
+export const API_ADMIN_DOCUMENT_STATUS = (docId: string) => `/admin/document/${docId}/status`;
+
 // AI
 export const API_AI = '/ai';
 export const API_AI_CHAT = `${API_AI}/chat`;
