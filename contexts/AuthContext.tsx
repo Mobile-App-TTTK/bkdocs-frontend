@@ -1,6 +1,7 @@
-import { api } from '@/api/apiClient';
-import { API_LOGIN } from '@/api/apiRoutes';
+import { api, resetLogoutFlag } from '@/api/apiClient';
+import { API_LOGIN, API_USER_PROFILE } from '@/api/apiRoutes';
 import { LoginRequestBody } from '@/models/auth.type';
+import { UserProfile } from '@/models/user.type';
 import { setLogoutHandler } from '@/utils/authEvents';
 import { ACCESS_TOKEN_KEY } from '@/utils/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,15 +11,32 @@ type AuthContextValue = {
   isAuthenticated: boolean;
   isLoading: boolean;
   token: string | null;
+  userProfile: UserProfile | null;
   loginWithCredentials: (body: LoginRequestBody) => Promise<void>;
   logout: () => Promise<void>;
+  refreshUserProfile: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Hàm fetch thông tin user
+  const fetchUserProfile = useCallback(async () => {
+    try {
+      const res = await api.get(API_USER_PROFILE);
+      const profile = res.data.data;
+      setUserProfile(profile);
+      return profile;
+    } catch (error) {
+      console.error('Failed to fetch user profile:', error);
+      setUserProfile(null);
+      throw error;
+    }
+  }, []);
 
   useEffect(() => {
     const loadToken = async () => {
@@ -26,13 +44,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const stored = await AsyncStorage.getItem(ACCESS_TOKEN_KEY);
         if (stored) {
           setToken(stored);
+          // Fetch user profile sau khi load token
+          try {
+            await fetchUserProfile();
+          } catch (error) {
+            // Nếu fetch profile fail, có thể token đã hết hạn
+            console.error('Failed to load user profile on init');
+          }
         }
       } finally {
         setIsLoading(false);
       }
     };
     loadToken();
-  }, []);
+  }, [fetchUserProfile]);
 
   const login = useCallback(async (newToken: string) => {
     setToken(newToken);
@@ -48,6 +73,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       setToken(accessToken);
       await AsyncStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+      resetLogoutFlag();
+      // Fetch user profile sau khi login thành công
+      await fetchUserProfile();
     } catch (err: unknown) {
       const anyErr = err as { response?: { status?: number; data?: { message?: string } } };
       const apiMessage = anyErr?.response?.data?.message;
@@ -55,10 +83,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const message = apiMessage ?? (status === 401 ? 'Email hoặc mật khẩu không đúng' : 'Đăng nhập thất bại');
       throw new Error(message);
     }
-  }, []);
+  }, [fetchUserProfile]);
 
   const logout = useCallback(async () => {
     setToken(null);
+    setUserProfile(null);
     await AsyncStorage.removeItem(ACCESS_TOKEN_KEY);
   }, []);
 
@@ -66,13 +95,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLogoutHandler(logout);
   }, [logout]);
 
+  const refreshUserProfile = useCallback(async () => {
+    if (token) {
+      await fetchUserProfile();
+    }
+  }, [token, fetchUserProfile]);
+
   const value = useMemo<AuthContextValue>(() => ({
     isAuthenticated: !!token,
     isLoading,
     token,
+    userProfile,
     loginWithCredentials,
     logout,
-  }), [isLoading, login, logout, token]);
+    refreshUserProfile,
+  }), [isLoading, token, userProfile, loginWithCredentials, logout, refreshUserProfile]);
 
   return (
     <AuthContext.Provider value={value}>

@@ -5,13 +5,13 @@ import { useRouter } from 'expo-router';
 import { Spinner, Text, View } from 'native-base';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-    Keyboard,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    TextInput,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -27,7 +27,8 @@ export default function ChatbotScreen() {
   const scrollViewRef = useRef<ScrollView>(null);
   const sendChatMutation = useSendChatMessage();
 
-  // Welcome message khi mở trang
+  console.log(chatHistory);
+
   useEffect(() => {
     if (userProfile && chatHistory.length === 0) {
       const welcomeMessage: ChatMessageWithActions = {
@@ -38,7 +39,6 @@ export default function ChatbotScreen() {
     }
   }, [userProfile]);
 
-  // Auto scroll to bottom khi có tin nhắn mới
   useEffect(() => {
     setTimeout(() => {
       scrollViewRef.current?.scrollToEnd({ animated: true });
@@ -120,15 +120,15 @@ export default function ChatbotScreen() {
           <View
             className={`max-w-[80%] rounded-2xl px-4 py-3 ${
               isUser
-                ? 'bg-primary-500 rounded-tr-sm'
-                : 'bg-gray-200 dark:bg-gray-700 rounded-tl-sm'
+                ? '!bg-primary-500 !rounded-tr-sm'
+                : '!bg-gray-200 dark:!bg-gray-700 !rounded-tl-sm'
             }`}
           >
             <Text
               className={`text-base ${
                 isUser
-                  ? 'text-white'
-                  : 'text-gray-900 dark:text-gray-100'
+                  ? '!text-white'
+                  : '!text-gray-900 dark:!text-gray-100'
               }`}
               style={{ fontFamily: 'Gilroy-Regular' }}
             >
