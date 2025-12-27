@@ -71,32 +71,33 @@ export default function EditProfileScreen() {
             return;
         }
 
-        // Validate niên khoá
+        // Validate niên khoá (chỉ validate nếu có nhập)
+        let intakeYearValue: number | undefined = undefined;
         const trimmedYear = enrollmentYear.trim();
-        if (!trimmedYear) {
-            Alert.alert('Lỗi', 'Vui lòng nhập niên khoá');
-            return;
-        }
+        
+        if (trimmedYear) {
+            const yearNumber = parseInt(trimmedYear);
+            if (isNaN(yearNumber)) {
+                Alert.alert('Lỗi', 'Niên khoá phải là số');
+                return;
+            }
 
-        const yearNumber = parseInt(trimmedYear);
-        if (isNaN(yearNumber)) {
-            Alert.alert('Lỗi', 'Niên khoá phải là số');
-            return;
-        }
+            const currentYear = new Date().getFullYear();
+            const minYear = 2000;
 
-        const currentYear = new Date().getFullYear();
-        const minYear = 2000;
+            if (yearNumber < minYear || yearNumber > currentYear) {
+                Alert.alert('Lỗi', `Niên khoá phải từ ${minYear} đến ${currentYear}`);
+                return;
+            }
 
-        if (yearNumber < minYear || yearNumber > currentYear) {
-            Alert.alert('Lỗi', `Niên khoá phải từ ${minYear} đến ${currentYear}`);
-            return;
+            intakeYearValue = yearNumber;
         }
 
         try {
             await updateProfileMutation.mutateAsync({
                 name: trimmedName,
                 facultyId: selectedFacultyId || undefined,
-                intakeYear: yearNumber,
+                intakeYear: intakeYearValue,
                 avatar: newAvatarFile,
             });
 

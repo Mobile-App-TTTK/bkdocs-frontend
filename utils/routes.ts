@@ -1,5 +1,6 @@
 export const ROUTES = {
   HOME: '/(app)/(tabs)/home',
+  SEARCH: '/(app)/(tabs)/search',
   LOGIN: '/(public)/login',
   ONBOARD: '/(public)/onboard',
   SIGNUP: '/(public)/signup',
@@ -21,10 +22,11 @@ export const ROUTES = {
   PROFILE: '/(app)/(tabs)/profile',
   ME: '/(app)/(tabs)/profile/me',
   EDIT_PROFILE: '/(app)/(tabs)/profile/edit',
-  FOLLOWING: '/(app)/(tabs)/profile/following',
+  FOLLOWING: '/(app)/following',
   USER_PROFILE: '/(app)/profile/[id]',
   CHATBOT: '/(app)/chatbot',
-  SEARCH: '/(app)/(tabs)/search',
+  ADMIN_MEMBER_MANAGEMENT: '/(app)/admin/member-management',
+  ADMIN_DOCUMENT_MANAGEMENT: '/(app)/admin/document-management'
 } as const; 
 
 export type AppRoute = typeof ROUTES[keyof typeof ROUTES];

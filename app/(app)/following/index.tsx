@@ -1,6 +1,8 @@
 import FollowingScreen from "@/components/FollowingScreen";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 
-export default function FollowingTabScreen() {
+export default function FollowingPage() {
+    const router = useRouter();
     return <FollowingScreen onBack={() => router.back()} />;
 }
+

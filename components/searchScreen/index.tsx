@@ -127,7 +127,7 @@ export default function SearchScreen() {
                   id={item.id}
                   name={item.name}
                   count={item.count}
-                  downloadUrl={item.downloadUrl}
+                  downloadUrl={item.imageUrl}
                 />
               ))}
             </View>
