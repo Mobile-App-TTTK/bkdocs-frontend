@@ -337,12 +337,15 @@ export default function HomeScreen() {
               </View>
             </Pressable>
 
-            <View className="flex-1 flex flex-col items-center">
+            <Pressable
+              className="flex-1 flex flex-col items-center"
+              onPress={() => router.push(ROUTES.FOLLOWING)}
+            >
               <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
                 <Ionicons name="heart-outline" size={32} color="#FF3300" />
               </View>
               <Text className="!text-lg !font-medium mt-1 text-center max-w-24">Đã theo dõi</Text>
-            </View>
+            </Pressable>
 
             <Pressable
               className="flex-1 flex flex-col items-center"

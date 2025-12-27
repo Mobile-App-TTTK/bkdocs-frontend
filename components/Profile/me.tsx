@@ -1,5 +1,4 @@
 import { useFetchUserDocuments, useFetchUserProfile } from '@/components/Profile/api';
-import { getDate } from '@/utils/functions';
 import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -204,10 +203,11 @@ export default function MeScreen() {
             id={item.id}
             title={item.title}
             type={getFileExtension(item.fileType)}
-            uploadDate={getDate(item.uploadDate)}
+            uploadDate={item.uploadDate}
             downloadCount={item.downloadCount}
-            thumbnail={item.thumbnailUrl}
-            score={0}
+            thumbnail={item.thumbnailUrl || ''}
+            subject={item.subject}
+            score={item.overallRating || 0}
           />
         )}
       />

@@ -30,6 +30,7 @@ export type AdminUser = {
   isBanned: boolean;
   followerCount: number;
   uploadedDocumentsCount: number;
+  imageUrl?: string;
 };
 
 export const fetchAdminUsers = async (): Promise<AdminUser[]> => {
@@ -146,14 +147,14 @@ export const useFetchPendingDocuments = (fullTextSearch?: string) => {
 
 export const approveDocument = async (docId: string) => {
   const res = await api.patch(API_ADMIN_DOCUMENT_STATUS(docId), {
-    status: "ACTIVE"
+    status: "active"
   });
   return res.data;
 };
 
 export const rejectDocument = async (docId: string) => {
   const res = await api.patch(API_ADMIN_DOCUMENT_STATUS(docId), {
-    status: "INACTIVE"
+    status: "inactive"
   });
   return res.data;
 };
