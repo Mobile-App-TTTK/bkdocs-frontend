@@ -46,25 +46,26 @@ export default function DocumentCard(props: IDocumentCardProps) {
                     >
                         {title}
                     </Text>
-
-                    <View className='bg-primary-500 !py-[2px] !px-[5px] !rounded-lg'>
+                </View>
+                <View className='flex-row items-center justify-between w-full mb-1'>
+                    <View className='bg-primary-500 !py-[2px] !px-[5px] !rounded-lg self-start'>
                         <Text className='!text-white !text-xs'>
                             {type}
                         </Text>
                     </View>
-                </View>
 
-                <View className="flex-row items-center justify-between w-full">
-                    <View className="flex-row items-center gap-2">
-                        <Ionicons name="book-outline" size={16} className="!text-gray-500 dark:!text-gray-400" />
-                        <Text className="!text-gray-500 dark:!text-gray-400" numberOfLines={1} ellipsizeMode="tail">{subject || '___'}</Text>
-                    </View>
                     <View className="flex-row items-center gap-2">
                         <Ionicons name="star" size={16} className="!text-yellow-500" />
                         <Text className="!text-gray-500 dark:!text-gray-400">{score || 0}</Text>
                     </View>
+                </View>
+                <View className="flex-row items-center justify-between w-full mb-1">
+                    <View className="flex-row items-center gap-2 flex-1">
+                        <Ionicons name="book-outline" size={16} className="!text-gray-500 dark:!text-gray-400" />
+                        <Text className="!text-gray-500 dark:!text-gray-400 flex-1" numberOfLines={1} ellipsizeMode="tail">{subject || '___'}</Text>
                     </View>
-                <View className='flex-row items-center justify-between mt-1'>
+                </View>
+                <View className='flex-row items-center justify-between'>
                     <View className='flex-row items-center gap-2'>
                         <Ionicons name="calendar-outline" size={16} className='!text-gray-500 dark:!text-gray-400' />
                         <Text className="!text-gray-500 dark:!text-gray-400">{getDate(uploadDate)}</Text>

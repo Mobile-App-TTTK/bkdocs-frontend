@@ -166,7 +166,7 @@ export default function ProfileScreen() {
             className="!text-xl !font-bold !text-black dark:!text-white"
             style={{ fontFamily: 'Gilroy-Bold' }}
           >
-            Hồ sơ
+            {userProfile?.name}
           </Text>
 
           <View className="w-12" />
@@ -199,7 +199,7 @@ export default function ProfileScreen() {
           className="!text-xl !font-bold !text-black dark:!text-white"
           style={{ fontFamily: 'Gilroy-Bold' }}
         >
-          Hồ sơ
+          {userProfile?.name}
         </Text>
 
         {isCurrentUser ? (
