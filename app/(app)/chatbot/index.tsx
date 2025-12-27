@@ -1,5 +1,6 @@
 import { ChatMessage, ChatResponse, useSendChatMessage } from '@/components/Chatbot/api';
 import { useUser } from '@/contexts/UserContext';
+import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Spinner, Text, View } from 'native-base';
@@ -12,7 +13,9 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  useColorScheme,
 } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface ChatMessageWithActions extends ChatMessage {
@@ -22,6 +25,7 @@ interface ChatMessageWithActions extends ChatMessage {
 export default function ChatbotScreen() {
   const router = useRouter();
   const { userProfile } = useUser();
+  const colorScheme = useColorScheme();
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState<ChatMessageWithActions[]>([]);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -109,6 +113,55 @@ export default function ChatbotScreen() {
     setMessage(action);
   };
 
+  const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+  const isUUID = (text: string): boolean => {
+    return UUID_REGEX.test(text.trim());
+  };
+
+  const handleDocumentClick = (id: string) => {
+    router.push({
+      pathname: ROUTES.DOWNLOAD_DOC as any,
+      params: { id },
+    } as any);
+  };
+
+  const parseTextWithUUIDs = (text: string): React.ReactNode[] => {
+    const parts: React.ReactNode[] = [];
+    const uuidRegex = /([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/gi;
+    let lastIndex = 0;
+    let match;
+    let key = 0;
+
+    while ((match = uuidRegex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(text.substring(lastIndex, match.index));
+      }
+      
+      const uuid = match[0];
+      parts.push(
+        <Text
+          key={`uuid-${key++}`}
+          onPress={() => handleDocumentClick(uuid)}
+          style={{
+            color: colorScheme === 'dark' ? '#60a5fa' : '#2563eb',
+            textDecorationLine: 'underline',
+          }}
+        >
+          {uuid}
+        </Text>
+      );
+      
+      lastIndex = match.index + match[0].length;
+    }
+
+    if (lastIndex < text.length) {
+      parts.push(text.substring(lastIndex));
+    }
+
+    return parts.length > 0 ? parts : [text];
+  };
+
   const renderMessage = (msg: ChatMessageWithActions, index: number) => {
     const isUser = msg.role === 'student';
     
@@ -124,16 +177,109 @@ export default function ChatbotScreen() {
                 : '!bg-gray-200 dark:!bg-gray-700 !rounded-tl-sm'
             }`}
           >
-            <Text
-              className={`text-base ${
-                isUser
-                  ? '!text-white'
-                  : '!text-gray-900 dark:!text-gray-100'
-              }`}
-              style={{ fontFamily: 'Gilroy-Regular' }}
-            >
-              {msg.content}
-            </Text>
+            {isUser ? (
+              <Text
+                className="!text-base !text-white"
+                style={{ fontFamily: 'Gilroy-Regular' }}
+              >
+                {msg.content}
+              </Text>
+            ) : (
+              <Markdown
+                style={{
+                  body: {
+                    color: colorScheme === 'dark' ? '#f3f4f6' : '#111827',
+                    fontFamily: 'Gilroy-Regular',
+                    fontSize: 16,
+                  },
+                  heading1: {
+                    fontSize: 24,
+                    fontWeight: 'bold',
+                    marginTop: 8,
+                    marginBottom: 4,
+                    color: colorScheme === 'dark' ? '#f3f4f6' : '#111827',
+                  },
+                  heading2: {
+                    fontSize: 20,
+                    fontWeight: 'bold',
+                    marginTop: 6,
+                    marginBottom: 3,
+                    color: colorScheme === 'dark' ? '#f3f4f6' : '#111827',
+                  },
+                  heading3: {
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    marginTop: 4,
+                    marginBottom: 2,
+                    color: colorScheme === 'dark' ? '#f3f4f6' : '#111827',
+                  },
+                  strong: {
+                    fontWeight: 'bold',
+                    color: colorScheme === 'dark' ? '#f3f4f6' : '#111827',
+                  },
+                  em: {
+                    fontStyle: 'italic',
+                    color: colorScheme === 'dark' ? '#f3f4f6' : '#111827',
+                  },
+                  code_inline: {
+                    fontFamily: 'monospace',
+                    backgroundColor: colorScheme === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.1)',
+                    paddingHorizontal: 4,
+                    paddingVertical: 2,
+                    borderRadius: 4,
+                    color: colorScheme === 'dark' ? '#f3f4f6' : '#111827',
+                  },
+                  bullet_list: {
+                    marginVertical: 4,
+                  },
+                  bullet_list_item: {
+                    flexDirection: 'row',
+                    marginVertical: 2,
+                  },
+                  hr: {
+                    backgroundColor: colorScheme === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                    height: 1,
+                    marginVertical: 8,
+                  },
+                }}
+                rules={{
+                  code_inline: (node, children, parent, styles) => {
+                    const content = node.content;
+                    if (isUUID(content)) {
+                      return (
+                        <Text
+                          key={node.key}
+                          onPress={() => handleDocumentClick(content)}
+                          style={[
+                            styles.code_inline,
+                            {
+                              color: colorScheme === 'dark' ? '#60a5fa' : '#2563eb',
+                              textDecorationLine: 'underline',
+                            },
+                          ]}
+                        >
+                          {content}
+                        </Text>
+                      );
+                    }
+                    return <Text key={node.key} style={styles.code_inline}>{content}</Text>;
+                  },
+                  text: (node, children, parent, styles) => {
+                    const content = node.content;
+                    if (UUID_REGEX.test(content)) {
+                      return (
+                        <Text key={node.key} style={styles.text}>
+                          {parseTextWithUUIDs(content)}
+                        </Text>
+                      );
+                    }
+                    return <Text key={node.key} style={styles.text}>{content}</Text>;
+                  },
+                }}
+              >
+                {msg.content}
+              </Markdown>
+            )}
           </View>
         </View>
         
@@ -147,7 +293,7 @@ export default function ChatbotScreen() {
                 className="bg-primary-50 dark:bg-primary-900/30 px-4 py-2 rounded-full border border-primary-200 dark:border-primary-800"
                 activeOpacity={0.7}
               >
-                <Text className="!text-primary-600 dark:!text-primary-400 !text-sm">
+                <Text className="!text-primary-600 dark:!text-primary-400 !text-base">
                   {action}
                 </Text>
               </TouchableOpacity>
@@ -219,7 +365,7 @@ export default function ChatbotScreen() {
                 onChangeText={setMessage}
                 placeholder="Nhập nội dung tin nhắn..."
                 placeholderTextColor="#9ca3af"
-                className="flex-1 !text-black dark:!text-white"
+                className="flex-1 !text-black dark:!text-white !text-base"
                 style={{ 
                   fontFamily: 'Gilroy-Regular',
                   textAlignVertical: 'center',

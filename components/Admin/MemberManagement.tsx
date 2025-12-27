@@ -115,11 +115,12 @@ export default function MemberManagement() {
                                 {/* Avatar */}
                                 <View className="relative mr-4">
                                     <Image
-                                        source={require('@/assets/images/userAvatar1.png')}
+                                        source={user.imageUrl ? { uri: user.imageUrl } : require('@/assets/images/userAvatar1.png')}
                                         width={60}
                                         height={60}
                                         borderRadius={30}
                                         alt="User Avatar"
+                                        resizeMode="cover"
                                         style={{ opacity: user.isBanned ? 0.5 : 1 }}
                                     />
                                     {user.isBanned && (

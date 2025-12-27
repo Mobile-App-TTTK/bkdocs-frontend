@@ -9,6 +9,7 @@ export type UserProfile = {
   documentCount: number;
   numberFollowers: number;
   participationDays: number;
+  isFollowed?: boolean;
 };
 
 export type FollowingUser = {
