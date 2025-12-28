@@ -8,6 +8,7 @@ import { useSplashScreen } from '@/hooks/use-splash-screen';
 import { store } from '@/store';
 import { useAppFonts } from '@/utils/fonts';
 import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
+import * as Sentry from '@sentry/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -16,9 +17,34 @@ import 'react-native-reanimated';
 import { Provider as ReduxProvider } from 'react-redux';
 import '../global.css';
 
+Sentry.init({
+  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN || '',
+
+  // Environment tracking
+  environment: __DEV__ ? 'development' : 'production',
+
+  // Release tracking - helps identify which version has issues
+  release: `bkdocs-frontend@${require('../package.json').version}`,
+
+  // Adds more context data to events (IP address, cookies, user, etc.)
+  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
+  sendDefaultPii: true,
+
+  // Enable Logs
+  enableLogs: true,
+
+  // Configure Session Replay
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1,
+  integrations: [Sentry.mobileReplayIntegration(), Sentry.feedbackIntegration()],
+
+  // Enable Spotlight in development for better debugging
+  spotlight: __DEV__,
+});
+
 const queryClient = new QueryClient();
 
-export default function RootLayout() {
+export default Sentry.wrap(function RootLayout() {
   const colorScheme = useColorScheme();
   const { isLoading, finishLoading } = useSplashScreen(1000);
   const fontsLoaded = useAppFonts();
@@ -107,4 +133,4 @@ export default function RootLayout() {
       </QueryClientProvider>
     </ReduxProvider>
   );
-}
+});
