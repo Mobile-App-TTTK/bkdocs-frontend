@@ -5,6 +5,7 @@ import { UserProfile } from '@/models/user.type';
 import { setLogoutHandler } from '@/utils/authEvents';
 import { ACCESS_TOKEN_KEY } from '@/utils/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Sentry from '@sentry/react-native';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 type AuthContextValue = {
@@ -30,6 +31,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const res = await api.get(API_USER_PROFILE);
       const profile = res.data.data;
       setUserProfile(profile);
+      
+      // Set user context for Sentry
+      Sentry.setUser({
+        id: profile.id,
+        email: profile.email,
+        username: profile.name,
+      });
+      
       return profile;
     } catch (error) {
       console.error('Failed to fetch user profile:', error);
@@ -89,6 +98,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setToken(null);
     setUserProfile(null);
     await AsyncStorage.removeItem(ACCESS_TOKEN_KEY);
+    
+    // Clear user context from Sentry
+    Sentry.setUser(null);
   }, []);
 
   useEffect(() => {
