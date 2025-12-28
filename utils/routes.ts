@@ -11,6 +11,7 @@ export const ROUTES = {
   WRITE_COMMENT: '/(app)/write-comment',
   ALL_COMMENT: '/(app)/all-comment',
   NOTIFICATION: '/(app)/(tabs)/notification',
+  NOTIFICATION_DETAIL: '/(app)/notification-detail',
   FACULTY: '/(app)/faculty',
   SUBJECT: '/(app)/subject',
   UPLOAD_DETAIL: '/(app)/upload-detail',

@@ -2,6 +2,7 @@ import { api } from "@/api/apiClient";
 import { API_MARK_NOTIFICATION_AS_READ, API_NOTIFICATIONS } from "@/api/apiRoutes";
 import { Notification } from "@/models/notification.type";
 import { NotificationProps } from "@/utils/notiInterface";
+import { ROUTES } from "@/utils/routes";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { Text } from "native-base";
@@ -177,9 +178,16 @@ export default function NotificationPage() {
 
                     <ScrollView className="p-6">
                         {notifications.length > 0 && notifications.map((notification) => (
-                            <View 
+                            <Pressable 
                                 key={notification.id} 
                                 className={`p-4 mb-3 rounded-xl ${notification.isRead ? 'bg-gray-50 dark:bg-dark-800' : 'bg-primary-50 dark:bg-dark-700'}`}
+                                onPress={() => router.push({
+                                    pathname: ROUTES.NOTIFICATION_DETAIL as any,
+                                    params: { 
+                                        id: notification.id,
+                                        notification: JSON.stringify(notification)
+                                    }
+                                } as any)}
                             >
                                 <View className="flex flex-row gap-4">
                                     <View className={`w-12 h-12 rounded-full items-center justify-center ${notification.isRead ? 'bg-gray-200 dark:bg-dark-600' : 'bg-primary-100'}`}>
@@ -191,7 +199,7 @@ export default function NotificationPage() {
                                     </View>
                                     <View className="flex-1 flex-shrink">
                                         <Text className={`!font-bold ${!notification.isRead ? '!text-primary-600' : ''}`}>
-                                            Tài liệu mới
+                                            Thông báo
                                         </Text>
                                         <Text className="!text-gray-600 dark:!text-gray-300 mt-1" numberOfLines={2}>
                                             {notification.message}
@@ -215,7 +223,7 @@ export default function NotificationPage() {
                                         <Text className="!text-white !font-semibold">Đánh dấu đã đọc</Text>
                                     </Pressable>
                                 )}
-                            </View>
+                            </Pressable>
                         ))}
                     </ScrollView>
                 </View>

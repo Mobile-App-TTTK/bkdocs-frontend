@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { router } from "expo-router";
 import { Alert } from "react-native";
-import { API_LOGIN, API_REGISTER_COMPLETE, API_REGISTER_REQUEST_OTP, API_VERIFY_OTP } from "./apiRoutes";
+import { API_LOGIN, API_REGISTER_COMPLETE, API_REQUEST_OTP, API_VERIFY_OTP } from "./apiRoutes";
 
 export const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
@@ -29,7 +29,7 @@ api.interceptors.response.use(
       const requestUrl = error.config?.url || '';
       const isAuthEndpoint = 
         requestUrl.includes(API_LOGIN) ||
-        requestUrl.includes(API_REGISTER_REQUEST_OTP) ||
+        requestUrl.includes(API_REQUEST_OTP) ||
         requestUrl.includes(API_VERIFY_OTP) ||
         requestUrl.includes(API_REGISTER_COMPLETE);
       
