@@ -9,11 +9,11 @@ import { Colors } from '@/utils/theme';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet from '@gorhom/bottom-sheet';
 import * as FileSystem from "expo-file-system";
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import * as Sharing from "expo-sharing";
 import { Button, Image, ScrollView, Text } from 'native-base';
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Alert, Linking, Modal, Pressable, useColorScheme, View } from 'react-native';
+import { Alert, Dimensions, FlatList, Linking, Modal, Pressable, useColorScheme, View } from 'react-native';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 type ApiDocDetail = {
@@ -43,6 +43,8 @@ type ApiDocRating = {
     rateAt: any;
 }
 
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const sampleDoc: DocProps = {
     docId: "doc-001",
     docName: "Giáo trình chính thức Giải tích 1",
@@ -120,6 +122,7 @@ export default function DownloadDoc() {
     const [isDownloading, setIsDownloading] = useState(false);
     const [hasUserRated, setHasUserRated] = useState(false);
     const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
+    const [imgIndex, setImgIndex] = useState<number>(1);
 
     useEffect(() => {
         if (!id) return;
@@ -141,18 +144,36 @@ export default function DownloadDoc() {
         };
     }, [id]);
     
+    const allImages = React.useMemo(() => {
+        const images: string[] = [];
+        
+        // Thêm thumbnailUrl làm ảnh đầu tiên (nếu có)
+        if (docDetail?.thumbnailUrl && docDetail.thumbnailUrl.trim().length > 0) {
+            images.push(docDetail.thumbnailUrl.trim());
+        }
+        
+        // Thêm các ảnh còn lại (loại bỏ trùng với thumbnail)
+        if (docDetail?.images && docDetail.images.length > 0) {
+            docDetail.images.forEach(img => {
+                if (typeof img === 'string' && img.trim().length > 0 && img.trim() !== docDetail.thumbnailUrl?.trim()) {
+                    images.push(img.trim());
+                }
+            });
+        }
+        
+        return images;
+    }, [docDetail?.thumbnailUrl, docDetail?.images]);
     useEffect(() => {
         if (!id) return;
     
         let cancelled = false;
         (async () => {
             try {
-                // Chỉ dùng API_GET_DOC_RATINGS thay vì API_GET_DOC_RECENT_RATINGS
                 const res1 = await api.get(API_GET_DOC_RATINGS(id));
                 const data1 = res1.data?.data;
                 
                 if (!cancelled) {
-                    // Lấy 5 comment gần nhất từ client-side
+                    // Lấy 5 comment gần nhất
                     const recentRatings = (data1 ?? []).slice(0, 5);
                     setDocRecentRatings(recentRatings);
                     
@@ -248,7 +269,6 @@ export default function DownloadDoc() {
         
             const downloadedFile = await FileSystem.File.downloadFileAsync(downloadUrl, destFile);
             const uri = downloadedFile.uri;
-            
             await downloadedDocsStorage.addDownloadedDoc(id);
 
             if (await Sharing.isAvailableAsync()) {
@@ -265,64 +285,137 @@ export default function DownloadDoc() {
         }
       };
 
+      useFocusEffect(
+        useCallback(() => {
+            if (!id) return;
+    
+            let cancelled = false;
+            (async () => {
+                try {
+                    const res1 = await api.get(API_GET_DOC_RATINGS(id));
+                    const data1 = res1.data?.data;
+                    
+                    if (!cancelled) {
+                        // Lấy 5 comment gần nhất
+                        const recentRatings = (data1 ?? []).slice(0, 5);
+                        setDocRecentRatings(recentRatings);
+                        
+                        setRatingsCount(data1?.length ?? 0);
+                        setRatingsAverage(data1?.reduce((acc: number, comment: ApiDocRating) => acc + comment.score, 0) / data1?.length);
+    
+                        if (userProfile?.name && data1) {
+                            const userRating = data1.find((rating: ApiDocRating) => 
+                                rating.userName === userProfile.name
+                            );
+                            setHasUserRated(!!userRating);
+                        }
+                    }
+                } finally {
+                    if (!cancelled) setLoading(false);
+                }
+            })();
+    
+            return () => {
+                cancelled = true;
+            };
+        }, [id, userProfile?.name])
+    );
+    
     return (
         <GestureHandlerRootView style={{
             flex: 1,
             backgroundColor: isDarkMode ? Colors.dark.background : Colors.light.background,
-
         }}>
-            
-            <View className="flex items-center justify-center relative !pt-[64px] bg-none"
-            style={{ zIndex: 1 }}
-            >
+            {/* Header buttons - Fixed at top */}
+            <View style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                zIndex: 10,
+                paddingTop: 56,
+                paddingHorizontal: 24,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+            }}>
                 <Pressable
-                    className="!absolute top-16 left-6 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center"
+                    className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center"
                     onPress={() => router.back()}
                 >
                     <Ionicons name="chevron-back-outline" size={24} color={"#888888"} />
                 </Pressable>
                 
                 <Pressable
-                    className="!absolute top-16 right-6 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center"
+                    className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center"
                     onPress={() => router.push(ROUTES.SEARCH)}
                 >
                     <Ionicons name="search-outline" size={24} color={"#888888"} />
                 </Pressable>
             </View>
 
-
-            <Image
-                source={imageSource}
-                alt="sampleDoc"
-                resizeMode="cover"
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: '45%',
-                    zIndex: 0,
+            <ScrollView 
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                    paddingBottom: 100,
                 }}
-            />
+            >
+                {/* Image Carousel */}
+                <View style={{ height: SCREEN_WIDTH * 1.3, position: 'relative' }}>
+                    <FlatList
+                        data={allImages.length > 0 ? allImages : [null]}
+                        horizontal
+                        pagingEnabled
+                        showsHorizontalScrollIndicator={false}
+                        scrollEnabled={allImages.length > 1}
+                        onMomentumScrollEnd={(event) => {
+                            const index = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
+                            setSelectedImage(index);
+                        }}
+                        keyExtractor={(_, index) => index.toString()}
+                        renderItem={({ item }) => (
+                            <Pressable onPress={() => setSelectedImageUrl(allImages[selectedImage])}> 
+                                <Image
+                                    source={
+                                        typeof item === 'string' && item.trim().length > 0
+                                            ? { uri: item.trim() }
+                                            : require('@/assets/images/sampleDoc1.png')
+                                    }
+                                    alt="Document Image"
+                                    resizeMode="cover"
+                                    style={{
+                                        width: SCREEN_WIDTH,
+                                        height: SCREEN_WIDTH * 1.3,
+                                    }}
+                                />
+                            </Pressable>
+                        )}
+                    />
 
-                <ScrollView 
-                    showsVerticalScrollIndicator={false}
-                    style={{ 
-                        position: 'absolute',
-                        top: '45%',      // Bắt đầu từ dưới hình ảnh
-                        bottom: 0,       // Kéo dài đến cuối màn hình
-                        left: 0,
-                        right: 0,
-                        paddingHorizontal: 24,
-                        paddingTop: 16,
-                        backgroundColor: isDarkMode ? Colors.dark.background : Colors.light.background,
-                        borderTopLeftRadius: 24,
-                        borderTopRightRadius: 24,
-                    }}
-                    contentContainerStyle={{
-                        paddingBottom: 100,  // Để tránh bị che bởi nút "Tải về"
-                    }}
-                >
+                    {/* Image Index Indicator */}
+                    {allImages.length > 1 && (
+                        <View style={{
+                            position: 'absolute',
+                            bottom: 40,
+                            right: 16,
+                            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                            paddingHorizontal: 12,
+                            paddingVertical: 6,
+                            borderRadius: 16,
+                        }}>
+                            <Text style={{ color: 'white', fontWeight: 'bold' }}>
+                                {selectedImage + 1} / {allImages.length}
+                            </Text>
+                        </View>
+                    )}
+                </View>
+
+                {/* Content Section */}
+                <View style={{
+                    paddingHorizontal: 24,
+                    paddingTop: 20,
+                    backgroundColor: isDarkMode ? Colors.dark.background : Colors.light.background,
+                    marginTop: -24,
+                }}>
                     <View className='flex flex-row items-center gap-10 mt-2'>
                         <View className="flex-1">
                             
@@ -344,7 +437,6 @@ export default function DownloadDoc() {
                                 </View>
                             </View>
 
-                            {/*Thông tin uploader*/}
                             <View className="mt-4 flex flex-row items-center gap-3">
                                 <Image source={uploaderAvatar} width={16} height={16} alt={"User Avatar"} className="rounded-full !shadow-md"/>
                             
@@ -364,30 +456,9 @@ export default function DownloadDoc() {
                                 </View>
                             </View>
                         </View>
-
                     </View>
 
-                    <ScrollView horizontal className="space-x-8 mt-4" showsHorizontalScrollIndicator={false}>
-                        {/*
-                            sampleDoc.images.map((image, index) => (
-                                <Pressable onPress={() => handleImageSelect(index)} key={index}>
-                                    <Image
-                                        source={image}
-                                        width={70}
-                                        height={70}
-                                        alt={"Images"}
-                                        borderRadius="lg"
-                                        marginRight={2}
-                                        className="transition-all"
-                                        borderWidth={selectedImage === index ? 3 : 1}
-                                        borderColor={selectedImage === index ? "primary.500" : "gray.300"}
-                                    />
-                                </Pressable>
-                            ))
-                        */}
-                    </ScrollView>
-
-                    <View>
+                    <View className="mt-4">
                         <Text className="!font-bold !text-xl">Danh mục tài liệu</Text>
                         <Text>Khoa: {docDetail?.faculty ?? ""} {docDetail?.faculty?.length > 1 ? `+ ${docDetail?.faculty?.length - 1}` : ""}</Text>
                         <Text>Môn học: {docDetail?.subject ?? ""}</Text>
@@ -486,8 +557,10 @@ export default function DownloadDoc() {
                             }
                         </View>
                     </View>
+                </View>
             </ScrollView>
 
+            {/* Download Button - Fixed at bottom */}
             <Button 
                 className="!rounded-xl h-14 absolute z-10 bottom-[60px]"
                 style={{ left: 32, right: 32 }}

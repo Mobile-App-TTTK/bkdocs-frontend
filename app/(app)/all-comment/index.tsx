@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { Image, Text } from "native-base";
 import { useEffect, useState } from "react";
-import { Pressable, useColorScheme, View } from "react-native";
+import { Modal, Pressable, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 type ApiDocDetail = {
@@ -74,6 +74,7 @@ export default function AllComment() {
     const [ratings, setRatings] = useState<ApiDocRating[]>([]);
     const [loading, setLoading] = useState(false);
     const [docDetail, setDocDetail] = useState<ApiDocDetail | null>(null);
+    const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
 
     useEffect(() => {
         if (!id) return;
@@ -155,13 +156,15 @@ export default function AllComment() {
                                             <View className='flex flex-row gap-2 flex-wrap mt-2'>
                                                 {
                                                     comment.imageUrl && (
-                                                        <Image 
-                                                            source={{ uri: comment.imageUrl }} 
-                                                            width={12} 
-                                                            height={12} 
-                                                            alt={"Image"} 
-                                                            className="rounded-md !shadow-md"
-                                                        />
+                                                        <Pressable onPress={() => setSelectedImageUrl(comment.imageUrl)}>
+                                                            <Image 
+                                                                source={{ uri: comment.imageUrl }} 
+                                                                width={12} 
+                                                                height={12} 
+                                                                alt={"Image"} 
+                                                                className="rounded-md !shadow-md"
+                                                            />
+                                                        </Pressable>
                                                     )
                                                 }
                                             </View>
@@ -172,6 +175,47 @@ export default function AllComment() {
                         </View>
                     </View>
                 </View>
+
+                <Modal
+                visible={selectedImageUrl !== null}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={() => setSelectedImageUrl(null)}
+            >
+                <View style={{
+                    flex: 1,
+                    backgroundColor: 'rgba(0, 0, 0, 1)',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <Pressable
+                        onPress={() => setSelectedImageUrl(null)}
+                        style={{
+                            position: 'absolute',
+                            top: 60,
+                            right: 20,
+                            zIndex: 10,
+                            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                            borderRadius: 25,
+                            padding: 8,
+                        }}
+                    >
+                        <Ionicons name="close" size={28} color="white" />
+                    </Pressable>
+
+                    {selectedImageUrl && (
+                        <Image
+                            source={{ uri: selectedImageUrl }}
+                            alt="Full size image"
+                            resizeMode="contain"
+                            style={{
+                                width: '90%',
+                                height: '70%',
+                            }}
+                        />
+                    )}
+                </View>
+            </Modal>
         </GestureHandlerRootView>
     );
 }
