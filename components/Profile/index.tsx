@@ -176,7 +176,7 @@ export default function ProfileScreen() {
               icon="download-outline"
               label="Tài liệu tải về"
               onPress={() => {
-                // Handle navigation to downloaded documents
+                router.push(ROUTES.SAVED_DOC);
               }}
             />
             <MenuItem

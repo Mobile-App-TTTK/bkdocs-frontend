@@ -25,7 +25,7 @@ api.interceptors.request.use(
     const requestUrl = config.url || '';
     const isAuthEndpoint = 
       requestUrl.includes(API_LOGIN) ||
-      requestUrl.includes(API_REGISTER_REQUEST_OTP) ||
+      requestUrl.includes(API_REQUEST_OTP) ||
       requestUrl.includes(API_VERIFY_OTP) ||
       requestUrl.includes(API_REGISTER_COMPLETE);
     
