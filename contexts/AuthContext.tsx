@@ -6,6 +6,7 @@ import { setLogoutHandler } from '@/utils/authEvents';
 import { ACCESS_TOKEN_KEY } from '@/utils/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Sentry from '@sentry/react-native';
+import { useQueryClient } from '@tanstack/react-query';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 type AuthContextValue = {
@@ -24,6 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [token, setToken] = useState<string | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const queryClient = useQueryClient();
 
   // Hàm fetch thông tin user
   const fetchUserProfile = useCallback(async () => {
@@ -85,6 +87,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       resetLogoutFlag();
       // Fetch user profile sau khi login thành công
       await fetchUserProfile();
+      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
     } catch (err: unknown) {
       const anyErr = err as { response?: { status?: number; data?: { message?: string } } };
       const apiMessage = anyErr?.response?.data?.message;
@@ -101,7 +104,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     // Clear user context from Sentry
     Sentry.setUser(null);
-  }, []);
+    queryClient.clear();
+  }, [queryClient]);
 
   useEffect(() => {
     setLogoutHandler(logout);
