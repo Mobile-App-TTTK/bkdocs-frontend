@@ -11,7 +11,7 @@ export type SuggestioSubject = {
     id: string;
     name: string;
     count: number;
-    downloadUrl: string | null;
+    imageUrl: string | null;
 }
 
 export type subject = {

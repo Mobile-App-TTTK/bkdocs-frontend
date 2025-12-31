@@ -17,6 +17,7 @@ export interface UserDocument {
   imageUrls: string[];
   uploadDate: string;
   downloadCount: number;
+  overallRating?: number;
 }
 
 export interface UserDocumentsResponse {

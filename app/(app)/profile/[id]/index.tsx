@@ -1,13 +1,13 @@
 import DocumentCard from '@/components/DocumentCard';
 import { useFetchUserDocuments, useFetchUserProfileById } from '@/components/Profile/api';
+import { useToggleFollowUser } from '@/components/UserCard/api';
 import { useUser } from '@/contexts/UserContext';
-import { getDate } from '@/utils/functions';
 import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Image, Skeleton, Spinner, Text, View } from 'native-base';
 import React from 'react';
-import { FlatList, TouchableOpacity } from 'react-native';
+import { Alert, FlatList, Pressable, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileScreen() { 
@@ -25,12 +25,23 @@ export default function ProfileScreen() {
     hasNextPage,
     isFetchingNextPage,
   } = useFetchUserDocuments(id, 10);
+  const toggleFollowMutation = useToggleFollowUser();
 
   const documents = React.useMemo(() => {
     return documentsData?.pages.flat() || [];
   }, [documentsData]);
 
   const isCurrentUser = currentUserId === id;
+  const isFollowed = userProfile?.isFollowed ?? false;
+  const isFollowLoading = toggleFollowMutation.isPending;
+
+  const handleToggleFollow = () => {
+    toggleFollowMutation.mutate(id, {
+      onError: () => {
+        Alert.alert('Lỗi', 'Không thể thực hiện hành động này', [{ text: 'OK' }]);
+      },
+    });
+  };
 
   const handleLoadMore = () => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -80,10 +91,32 @@ export default function ProfileScreen() {
           </Text>
 
           <Text
-            className="!text-gray-500 mb-6"
+            className="!text-gray-500 mb-4"
           >
             {userProfile.email}
           </Text>
+
+          {!isCurrentUser && (
+            <Pressable
+              onPress={handleToggleFollow}
+              disabled={isFollowLoading}
+              className="px-6 py-2 rounded-lg mb-6"
+              style={{
+                backgroundColor: isFollowed ? '#f3f4f6' : '#FF3300',
+              }}
+            >
+              {isFollowLoading ? (
+                <Spinner size="sm" color={isFollowed ? '#6b7280' : '#ffffff'} />
+              ) : (
+                <Text
+                  className="!text-base !font-semibold"
+                  style={{ color: isFollowed ? '#6b7280' : '#ffffff' }}
+                >
+                  {isFollowed ? 'Bỏ theo dõi' : 'Theo dõi'}
+                </Text>
+              )}
+            </Pressable>
+          )}
 
           <View className="flex-row gap-8">
             <View className="items-center">
@@ -166,7 +199,7 @@ export default function ProfileScreen() {
             className="!text-xl !font-bold !text-black dark:!text-white"
             style={{ fontFamily: 'Gilroy-Bold' }}
           >
-            Hồ sơ
+            {userProfile?.name}
           </Text>
 
           <View className="w-12" />
@@ -199,7 +232,7 @@ export default function ProfileScreen() {
           className="!text-xl !font-bold !text-black dark:!text-white"
           style={{ fontFamily: 'Gilroy-Bold' }}
         >
-          Hồ sơ
+          {userProfile?.name}
         </Text>
 
         {isCurrentUser ? (
@@ -232,11 +265,11 @@ export default function ProfileScreen() {
             id={item.id}
             title={item.title}
             type={getFileExtension(item.fileType)}
-            uploadDate={getDate(item.uploadDate)}
+            uploadDate={item.uploadDate}
             downloadCount={item.downloadCount}
-            thumbnail={item.thumbnailUrl}
+            thumbnail={item.thumbnailUrl || ''}
             subject={item.subject}
-            score={0}
+            score={item.overallRating || 0}
           />
         )}
       />

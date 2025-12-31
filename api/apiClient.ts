@@ -13,18 +13,41 @@ export const api = axios.create({
   },
 });
 
-api.interceptors.request.use(async (config) => {
-  const token = await AsyncStorage.getItem(ACCESS_TOKEN_KEY);
-  if (token && config.url && !config.url.includes(API_LOGIN)) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+let isLoggingOut = false;
+let isNavigatingToServerError = false;
+
+export const resetLogoutFlag = () => {
+  isLoggingOut = false;
+};
+
+api.interceptors.request.use(
+  async (config) => {
+    const requestUrl = config.url || '';
+    const isAuthEndpoint = 
+      requestUrl.includes(API_LOGIN) ||
+      requestUrl.includes(API_REQUEST_OTP) ||
+      requestUrl.includes(API_VERIFY_OTP) ||
+      requestUrl.includes(API_REGISTER_COMPLETE);
+    
+    if (isLoggingOut && !isAuthEndpoint) {
+      return Promise.reject(new Error('Session expired, please login again'));
+    }
+
+    const token = await AsyncStorage.getItem(ACCESS_TOKEN_KEY);
+    if (token && config.url && !config.url.includes(API_LOGIN)) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401) {
+    const status = error.response?.status;
+
+    if (status === 401) {
       // Bỏ qua logic logout/redirect cho các endpoint auth
       const requestUrl = error.config?.url || '';
       const isAuthEndpoint = 
@@ -33,7 +56,8 @@ api.interceptors.response.use(
         requestUrl.includes(API_VERIFY_OTP) ||
         requestUrl.includes(API_REGISTER_COMPLETE);
       
-      if (!isAuthEndpoint) {
+      if (!isAuthEndpoint && !isLoggingOut) {
+        isLoggingOut = true;
         await AsyncStorage.removeItem(ACCESS_TOKEN_KEY);
         try {
           await triggerLogout();
@@ -42,6 +66,25 @@ api.interceptors.response.use(
         try {
           router.replace('/(public)/login');
         } catch {}
+      }
+    } else {
+      const isServerError = status && status >= 500;
+      const isNetworkError = !error.response;
+      // Chỉ redirect sang màn lỗi server nếu user đã đăng nhập (có token)
+      const hasToken = await AsyncStorage.getItem(ACCESS_TOKEN_KEY);
+
+      if ((isServerError || isNetworkError) && hasToken && !isNavigatingToServerError) {
+        isNavigatingToServerError = true;
+        try {
+          router.replace('/server-error');
+        } catch {
+          // ignore navigation errors
+        } finally {
+          // Cho phép navigate lại nếu user đã rời màn hình lỗi
+          setTimeout(() => {
+            isNavigatingToServerError = false;
+          }, 5000);
+        }
       }
     }
     return Promise.reject(error);

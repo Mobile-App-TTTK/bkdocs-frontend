@@ -1,6 +1,6 @@
 import { api } from "@/api/apiClient";
 import { API_UPLOAD_DOCUMENT } from "@/api/apiRoutes";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface UploadDocumentParams {
   file: {
@@ -93,7 +93,11 @@ export const uploadDocument = async (data: UploadDocumentParams) => {
 };
 
 export const useUploadDocument = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: uploadDocument,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-statistics"] });
+    },
   });
 };
