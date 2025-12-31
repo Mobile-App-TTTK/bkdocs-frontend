@@ -26,6 +26,7 @@ export const ROUTES = {
   USER_PROFILE: '/(app)/profile/[id]',
   CHATBOT: '/(app)/chatbot',
   SEARCH: '/(app)/(tabs)/search',
+  PDF_VIEWER: '/(app)/pdf-viewer',
 } as const; 
 
 export type AppRoute = typeof ROUTES[keyof typeof ROUTES];
