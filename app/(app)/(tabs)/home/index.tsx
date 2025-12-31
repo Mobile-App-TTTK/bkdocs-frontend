@@ -333,7 +333,7 @@ export default function HomeScreen() {
 
             <Pressable
               className="flex-1 flex flex-col items-center"
-              onPress={() => router.push(ROUTES.FOLLOWING)}
+              onPress={() => router.push(ROUTES.FOLLOWING as any)}
             >
               <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
                 <Ionicons name="heart-outline" size={32} color="#FF3300" />
@@ -368,7 +368,7 @@ export default function HomeScreen() {
             >
               <Pressable 
                 className="flex-1 flex flex-col items-center justify-center gap-1"
-                onPress={() => router.push(ROUTES.ADMIN_MEMBER_MANAGEMENT)}
+                onPress={() => router.push(ROUTES.ADMIN_MEMBER_MANAGEMENT as any)}
               >
                 <View className="flex flex-row items-center gap-2">
                   <Ionicons name="people-outline" size={24} color="#FF3300" />
@@ -381,7 +381,7 @@ export default function HomeScreen() {
               <View className="w-px h-12 bg-gray-200 dark:bg-dark-600" />
               <Pressable 
                 className="flex-1 flex flex-col items-center justify-center gap-1"
-                onPress={() => router.push(ROUTES.ADMIN_DOCUMENT_MANAGEMENT)}
+                onPress={() => router.push(ROUTES.ADMIN_DOCUMENT_MANAGEMENT as any)}
               >
                 <View className="flex flex-row items-center gap-2">
                   <Ionicons name="checkmark-circle-outline" size={24} color="#FF3300" />
