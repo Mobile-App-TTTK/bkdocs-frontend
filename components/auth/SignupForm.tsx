@@ -70,16 +70,21 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={{ flex: 1 }}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+      enabled={Platform.OS === 'ios'}
     >
       <ScrollView 
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ 
+          flexGrow: 1,
+          paddingBottom: Platform.OS === 'android' ? 20 : 0
+        }}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
+        bounces={false}
       >
-        <Box px={6} py={8} flex={1} justifyContent="center">
+        <Box px={6} py={8} flex={1} justifyContent="center" minHeight="100%">
           <VStack space={6}>
             <VStack alignItems="center" space={1}>
               <Text className='!text-3xl !font-bold !text-primary-500'>Đăng ký</Text>
@@ -109,7 +114,7 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                         blurOnSubmit={false}
                         enablesReturnKeyAutomatically={true}
                         placeholderTextColor="#9ca3af"
-                        onSubmitEditing={() => nameRef.current?.focus()}
+                        onSubmitEditing={() => emailRef.current?.focus()}
                         editable={!isLoading}
                         style={{
                             flex: 1,

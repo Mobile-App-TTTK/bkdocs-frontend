@@ -24,7 +24,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.tttabc.bkdocsfrontend"
+      "package": "com.tttabc.bkdocsfrontend",
+      "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
       "output": "static",
