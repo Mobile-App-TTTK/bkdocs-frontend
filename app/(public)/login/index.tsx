@@ -24,7 +24,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <View className="flex-1 bg-white dark:bg-dark-900 justify-center">
+    <View className="flex-1 bg-white dark:bg-dark-900">
       <LoginForm onSubmit={handleSubmit} isLoading={isLoading} />
     </View>
   );
