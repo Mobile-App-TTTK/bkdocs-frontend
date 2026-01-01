@@ -1,19 +1,18 @@
 import { api } from '@/api/apiClient';
 import { API_DOWNLOAD_DOCUMENT, API_GET_DOC_RATINGS, API_GET_DOCUMENT_DETAIL } from '@/api/apiRoutes';
 import { useFetchUserProfile, useFetchUserProfileById } from '@/components/Profile/api';
-import { CommentProps } from '@/utils/commentInterface';
 import { DocProps } from '@/utils/docInterface';
 import { downloadedDocsStorage } from '@/utils/downloadDocStorage';
 import { ROUTES } from '@/utils/routes';
 import { Colors } from '@/utils/theme';
 import { Ionicons } from '@expo/vector-icons';
-import BottomSheet from '@gorhom/bottom-sheet';
 import * as FileSystem from "expo-file-system";
+import * as FSLegacy from "expo-file-system/legacy";
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import * as Sharing from "expo-sharing";
 import { Button, Image, ScrollView, Text } from 'native-base';
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Alert, Dimensions, FlatList, Linking, Modal, Pressable, useColorScheme, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from "react";
+import { Alert, Dimensions, FlatList, Linking, Modal, Platform, Pressable, useColorScheme, View } from 'react-native';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 type ApiDocDetail = {
@@ -68,44 +67,8 @@ const sampleDoc: DocProps = {
     ]
 };
 
-const sampleComment: CommentProps[] = [
-    {
-        star: 5,
-        content: "Tài liệu hay, đầy đủ, nội dung rất dễ hiểu, rất giải trí, mỗi khi áp lực tôi thường lấy 10 bài tập ra để giải.",
-        commenterAvatar: require("@/assets/images/userAvatar.jpg"),
-        commenterName: "Nguyễn Minh Khánh",
-        images: [
-            require("@/assets/images/sampleDoc1.png"),
-        ]
-    }, 
-    {
-        star: 4,
-        content: "Sách viết khó hiểu tôi học quài không vô nên tôi cho sách này 3 sao",
-        commenterAvatar: require("@/assets/images/userAvatar.jpg"),
-        commenterName: "Nguyễn Trường Thịnh",
-    },
-    {
-        star: 5,
-        content: "Sách quá hay rất!!",
-        commenterAvatar: require("@/assets/images/userAvatar.jpg"),
-        commenterName: "Trần Thành Tài",
-        images: [
-            require("@/assets/images/sampleDoc2.png"),
-        ]
-    },
-    {
-        star: 5,
-        content: "Nội dung sách rất phù hợp với đề cương môn học, cảm ơn admin và các bạn đã chia sẻ tài liệu cho mình tải về học trước nên mình đã được 10.0 môn này!",
-        commenterAvatar: require("@/assets/images/userAvatar.jpg"),
-        commenterName: "Dương Minh Thuận",
-        images: [
-            require("@/assets/images/sampleDoc3.png"),
-        ]
-    }
-];
-export default function DownloadDoc() {
-    const bottomSheetRef = useRef<BottomSheet>(null);
 
+export default function DownloadDoc() {    
     const colorScheme = useColorScheme();
     const isDarkMode = colorScheme === 'dark';
 
@@ -122,7 +85,8 @@ export default function DownloadDoc() {
     const [isDownloading, setIsDownloading] = useState(false);
     const [hasUserRated, setHasUserRated] = useState(false);
     const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
-    const [imgIndex, setImgIndex] = useState<number>(1);
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupType, setPopupType] = useState<'success' | 'cancelled' | 'error'>('success');
 
     useEffect(() => {
         if (!id) return;
@@ -144,15 +108,80 @@ export default function DownloadDoc() {
         };
     }, [id]);
     
+    const DownloadPopup = () => {
+        if (!showPopup) return null;
+
+        const config = {
+            success: {
+                bg: '#FF3300', // primary500
+                icon: 'checkmark-circle',
+                title: 'Tải về thành công',
+                message: 'File đã được lưu vào thư mục bạn chọn',
+            },
+            cancelled: {
+                bg: '#FFAA00', // yellow500
+                icon: 'alert-circle',
+                title: 'Đã hủy',
+                message: "File vẫn có sẵn trong 'Tài liệu đã tải'",
+            },
+            error: {
+                bg: '#EF443F', // red500
+                icon: 'close-circle',
+                title: 'Lỗi',
+                message: 'Tải về thất bại. Vui lòng thử lại.',
+            },
+        }[popupType];
+
+        useEffect(() => {
+            if (showPopup) {
+                const timer = setTimeout(() => setShowPopup(false), 3000);
+                return () => clearTimeout(timer);
+            }
+        }, [showPopup]);
+
+        return (
+            <View style={{
+                position: 'absolute',
+                top: 60,
+                left: 20,
+                right: 20,
+                zIndex: 9999,
+            }}>
+                <View style={{
+                    backgroundColor: config.bg,
+                    borderRadius: 12,
+                    padding: 16,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 4 },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 8,
+                    elevation: 8,
+                }}>
+                    <Ionicons name={config.icon as any} size={28} color="white" />
+                    <View style={{ marginLeft: 12, flex: 1 }}>
+                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>
+                            {config.title}
+                        </Text>
+                        <Text style={{ color: 'white', fontSize: 13, marginTop: 2 }}>
+                            {config.message}
+                        </Text>
+                    </View>
+                    <Pressable onPress={() => setShowPopup(false)}>
+                        <Ionicons name="close" size={20} color="white" />
+                    </Pressable>
+                </View>
+            </View>
+        );
+    };
     const allImages = React.useMemo(() => {
         const images: string[] = [];
         
-        // Thêm thumbnailUrl làm ảnh đầu tiên (nếu có)
         if (docDetail?.thumbnailUrl && docDetail.thumbnailUrl.trim().length > 0) {
             images.push(docDetail.thumbnailUrl.trim());
         }
         
-        // Thêm các ảnh còn lại (loại bỏ trùng với thumbnail)
         if (docDetail?.images && docDetail.images.length > 0) {
             docDetail.images.forEach(img => {
                 if (typeof img === 'string' && img.trim().length > 0 && img.trim() !== docDetail.thumbnailUrl?.trim()) {
@@ -163,6 +192,24 @@ export default function DownloadDoc() {
         
         return images;
     }, [docDetail?.thumbnailUrl, docDetail?.images]);
+
+    const getMimeType = (ext: string): string => {
+        const mimeTypes: Record<string, string> = {
+            '.pdf': 'application/pdf',
+            '.doc': 'application/msword',
+            '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            '.xls': 'application/vnd.ms-excel',
+            '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            '.ppt': 'application/vnd.ms-powerpoint',
+            '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            '.zip': 'application/zip',
+            '.png': 'image/png',
+            '.jpg': 'image/jpeg',
+            '.jpeg': 'image/jpeg',
+        };
+        return mimeTypes[ext.toLowerCase()] || 'application/octet-stream';
+    };
+
     useEffect(() => {
         if (!id) return;
     
@@ -197,12 +244,6 @@ export default function DownloadDoc() {
         };
     }, [id]);
 
-    const [currentSnapIndex, setCurrentSnapIndex] = useState<number>(1);
-
-    const handleSheetChanges = useCallback((index: number) => {
-        console.log('handleSheetChanges', index);
-        setCurrentSnapIndex(index);
-    }, []);
 
     const rawImg = docDetail?.images?.[selectedImage]; 
 
@@ -224,12 +265,48 @@ export default function DownloadDoc() {
     const {data: userProfile, isLoading: isLoadingUserProfile, error: errorUserProfile} = useFetchUserProfile();
     const userAvatar = userProfile?.imageUrl ? { uri: userProfile.imageUrl } : require("@/assets/images/userAvatar.jpg");
 
-    const handleImageSelect = useCallback((index: number) => {
-        setSelectedImage(index);
-        bottomSheetRef.current?.snapToIndex(0);
-    }, []);
 
     const [following, setFollowing] = useState(false);
+
+    type DownloadResult =
+    | { status: "saved"; uri?: string }      // Android SAF: uri là content://...
+    | { status: "shared" }                  // iOS: chỉ biết đã mở share sheet
+    | { status: "cancelled" }
+    | { status: "error"; error: unknown };
+  
+    async function saveWithSAFAndroid(sourceUri: string, fileName: string, mimeType: string) {
+        try {
+          const SAF = FSLegacy.StorageAccessFramework; // ✅ legacy
+      
+          const perm = await SAF.requestDirectoryPermissionsAsync();
+          if (!perm.granted) return { status: "cancelled" as const };
+      
+          const destUri = await SAF.createFileAsync(perm.directoryUri, fileName, mimeType);
+      
+          const base64 = await FSLegacy.readAsStringAsync(sourceUri, {
+            encoding: FSLegacy.EncodingType.Base64, // ✅ EncodingType ở legacy
+          });
+      
+          await FSLegacy.writeAsStringAsync(destUri, base64, {
+            encoding: FSLegacy.EncodingType.Base64,
+          });
+      
+          return { status: "saved" as const, uri: destUri };
+        } catch (e) {
+          return { status: "error" as const, error: e };
+        }
+      }
+
+      const refetchDocDetail = useCallback(async () => {
+        if (!id) return;
+        try {
+            const res = await api.get(API_GET_DOCUMENT_DETAIL(id));
+            const data = res.data?.data;
+            setDocDetail(data);
+        } catch (error) {
+            console.error('Error refetching doc detail:', error);
+        }
+    }, [id]);
 
     const handleDownload = async () => {
         if (!id) return;
@@ -271,12 +348,29 @@ export default function DownloadDoc() {
             const uri = downloadedFile.uri;
             await downloadedDocsStorage.addDownloadedDoc(id);
 
-            if (await Sharing.isAvailableAsync()) {
-            await Sharing.shareAsync(uri);
+            if (Platform.OS === 'android') {
+                const mimeType = getMimeType(ext);
+                const saved = await saveWithSAFAndroid(uri, `${safeTitle}${ext}`, mimeType);
+            
+                if (saved.status === "saved") {
+                    setPopupType('success');
+                    setShowPopup(true);
+                } else if (saved.status === "cancelled") {
+                    setPopupType('cancelled');
+                    setShowPopup(true);
+                } else {
+                    setPopupType('error');
+                    setShowPopup(true);
+                }
+                await refetchDocDetail();
             } else {
-            await Linking.openURL(uri);
-            }
-              
+                if (await Sharing.isAvailableAsync()) {
+                    await Sharing.shareAsync(uri);
+                } else {
+                    await Linking.openURL(uri);
+                }
+                await refetchDocDetail();
+            }              
         } catch (error) {
           console.error("Error downloading document", error);
           Alert.alert("Lỗi", "Tải về thất bại. Vui lòng thử lại.");
@@ -292,11 +386,15 @@ export default function DownloadDoc() {
             let cancelled = false;
             (async () => {
                 try {
+                    
+                    const resDoc = await api.get(API_GET_DOCUMENT_DETAIL(id));
+                    if (!cancelled) {
+                        setDocDetail(resDoc.data?.data);
+                    }
+
                     const res1 = await api.get(API_GET_DOC_RATINGS(id));
                     const data1 = res1.data?.data;
-                    
                     if (!cancelled) {
-                        // Lấy 5 comment gần nhất
                         const recentRatings = (data1 ?? []).slice(0, 5);
                         setDocRecentRatings(recentRatings);
                         
@@ -326,6 +424,8 @@ export default function DownloadDoc() {
             flex: 1,
             backgroundColor: isDarkMode ? Colors.dark.background : Colors.light.background,
         }}>
+            <DownloadPopup />
+
             {/* Header buttons - Fixed at top */}
             <View style={{
                 position: 'absolute',

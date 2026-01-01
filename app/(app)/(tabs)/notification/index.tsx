@@ -176,18 +176,28 @@ export default function NotificationPage() {
                         <Text numberOfLines={1} className="!text-2xl !font-bold !text-black dark:!text-white mb-4 w-7/12 text-center">Thông báo</Text>
                     </View>
 
-                    <ScrollView className="p-6">
+                    <ScrollView 
+                    className="p-6"
+                    contentContainerStyle={{
+                        paddingBottom: 100,
+                    }}
+                    >
                         {notifications.length > 0 && notifications.map((notification) => (
                             <Pressable 
                                 key={notification.id} 
                                 className={`p-4 mb-3 rounded-xl ${notification.isRead ? 'bg-gray-50 dark:bg-dark-800' : 'bg-primary-50 dark:bg-dark-700'}`}
-                                onPress={() => router.push({
-                                    pathname: ROUTES.NOTIFICATION_DETAIL as any,
-                                    params: { 
-                                        id: notification.id,
-                                        notification: JSON.stringify(notification)
+                                onPress={() => {
+                                    if (!notification.isRead) {
+                                        markAsRead(notification.id);
                                     }
-                                } as any)}
+                                    
+                                    if (notification.targetId) {
+                                        router.push({
+                                            pathname: ROUTES.DOWNLOAD_DOC as any,
+                                            params: { id: notification.targetId }
+                                        } as any);
+                                    }
+                                }}
                             >
                                 <View className="flex flex-row gap-4">
                                     <View className={`w-12 h-12 rounded-full items-center justify-center ${notification.isRead ? 'bg-gray-200 dark:bg-dark-600' : 'bg-primary-100'}`}>
@@ -213,7 +223,6 @@ export default function NotificationPage() {
                                     )}
                                 </View>
                                 
-                                {/* Dedicated Mark as Read Button */}
                                 {!notification.isRead && (
                                     <Pressable 
                                         className="flex flex-row items-center justify-center gap-2 mt-3 py-2 bg-primary-500 rounded-lg"
