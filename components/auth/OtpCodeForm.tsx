@@ -84,7 +84,7 @@ export default function OtpCodeForm({ onSubmit, isLoading = false, email }: OtpC
                                     borderRadius: 12,
                                     textAlign: 'center',
                                     fontSize: 20,
-                                    fontFamily: 'Gilroy-Regular',
+                                    fontFamily: 'Inter-Regular',
                                     color: '#000000',
                                     borderWidth: error ? 2 : 1,
                                     borderColor: error ? '#ef4444' : '#d1d5db',
@@ -106,7 +106,7 @@ export default function OtpCodeForm({ onSubmit, isLoading = false, email }: OtpC
                                     borderColor: error ? '#ef4444' : '#d1d5db',
                                     textAlign: 'center',
                                     fontSize: 20,
-                                    fontFamily: 'Gilroy-Regular',
+                                    fontFamily: 'Inter-Regular',
                                     color: '#000000',
                                 }}
                             />
@@ -126,7 +126,7 @@ export default function OtpCodeForm({ onSubmit, isLoading = false, email }: OtpC
                                     borderColor: error ? '#ef4444' : '#d1d5db',
                                     textAlign: 'center',
                                     fontSize: 20,
-                                    fontFamily: 'Gilroy-Regular',
+                                    fontFamily: 'Inter-Regular',
                                     color: '#000000',
                                 }}
                             />
@@ -146,7 +146,7 @@ export default function OtpCodeForm({ onSubmit, isLoading = false, email }: OtpC
                                     borderColor: error ? '#ef4444' : '#d1d5db',
                                     textAlign: 'center',
                                     fontSize: 20,
-                                    fontFamily: 'Gilroy-Regular',
+                                    fontFamily: 'Inter-Regular',
                                     color: '#000000',
                                 }}
                             />

@@ -48,7 +48,7 @@ export default function SelectSubjectScreen() {
             placeholderTextColor={'#9CA3AF'}
             value={query}
             onChangeText={setQuery}
-            className='text-black dark:text-white h-10 font-[Gilroy-Regular] leading-5'
+            className='text-black dark:text-white h-10 font-[Inter-Regular] leading-5'
           />
         </View>
 

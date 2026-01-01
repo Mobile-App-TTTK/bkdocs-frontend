@@ -100,7 +100,7 @@ export default function NewPasswordForm({ onSubmit, isLoading = false }: NewPass
                                         flex: 1,
                                         fontSize: 16,
                                         color: '#000000',
-                                        fontFamily: 'Gilroy-Regular',
+                                        fontFamily: 'Inter-Regular',
                                         height: '100%',
                                     }}
                                 />
@@ -151,7 +151,7 @@ export default function NewPasswordForm({ onSubmit, isLoading = false }: NewPass
                                         flex: 1,
                                         fontSize: 16,
                                         color: '#000000',
-                                        fontFamily: 'Gilroy-Regular',
+                                        fontFamily: 'Inter-Regular',
                                         height: '100%'
                                     }}
                                 />

@@ -21,7 +21,7 @@ const FormField: React.FC<FormFieldProps> = ({
   return (
     <View className="mb-4">
       <Text
-        className="text-sm text-gray-700 dark:text-gray-300 mb-2 font-[Gilroy-Medium]"
+        className="text-sm text-gray-700 dark:text-gray-300 mb-2 font-[Inter-Medium]"
       >
         {label}
       </Text>
@@ -47,7 +47,7 @@ const FormField: React.FC<FormFieldProps> = ({
             flex: 1,
             fontSize: 16,
             color: '#000000',
-            fontFamily: 'Gilroy-Regular'
+            fontFamily: 'Inter-Regular'
           }}
         />
       </View>

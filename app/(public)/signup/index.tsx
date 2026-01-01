@@ -4,7 +4,7 @@ import SignupForm from '@/components/auth/SignupForm';
 import { ROUTES } from '@/utils/routes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Alert, View } from 'react-native';
 
 export default function LoginScreen() {

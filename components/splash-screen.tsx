@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Animated, Image, Text, View } from 'react-native';
 
 interface SplashScreenProps {
@@ -53,7 +53,7 @@ export default function SplashScreen({ onFinish, duration = 3000 }: SplashScreen
             className='w-16 h-16'
           />
         </View>
-        <Text className="text-white text-4xl font-bold font-gilroy-bold">
+        <Text className="text-white text-4xl font-bold font-inter-bold">
           BKDocs
         </Text>
       </Animated.View>

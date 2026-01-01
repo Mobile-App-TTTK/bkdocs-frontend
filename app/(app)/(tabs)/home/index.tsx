@@ -309,7 +309,7 @@ export default function HomeScreen() {
                           <Text style={{
                               fontSize: 24,
                               lineHeight: 30,
-                              fontFamily: "Gilroy-Bold"
+                              fontFamily: "Inter-Bold"
                           }}>
                               {userProfile.name.toUpperCase()}
                           </Text>

@@ -78,7 +78,7 @@ export default function SearchResultScreen() {
                             autoCapitalize="none"
                             returnKeyType="search"
                             keyboardType="default"
-                            className="flex-1 h-full text-base text-black dark:text-white font-[Gilroy-Regular] leading-5"
+                            className="flex-1 h-full text-base text-black dark:text-white font-[Inter-Regular] leading-5"
                             value={searchQuery}
                             onChangeText={(text) => {
                                 setSearchQuery(text);

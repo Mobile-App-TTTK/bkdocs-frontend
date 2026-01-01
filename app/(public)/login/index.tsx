@@ -2,7 +2,7 @@ import LoginForm from '@/components/auth/LoginForm';
 import { useAuth } from '@/contexts/AuthContext';
 import { ROUTES } from '@/utils/routes';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Alert, View } from 'react-native';
 
 export default function LoginScreen() {

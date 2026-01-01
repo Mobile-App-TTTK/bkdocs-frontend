@@ -2,15 +2,15 @@ import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import {
-  Box,
-  Button,
-  FormControl,
-  HStack,
-  Pressable,
-  Text,
-  VStack
+    Box,
+    Button,
+    FormControl,
+    HStack,
+    Pressable,
+    Text,
+    VStack
 } from 'native-base';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface LoginFormProps {
@@ -106,7 +106,7 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
                     flex: 1,
                     fontSize: 16,
                     color: '#000000',
-                    fontFamily: 'Gilroy-Regular'
+                    fontFamily: 'Inter-Regular'
                   }}
                 />
               </View>
@@ -145,7 +145,7 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
                     flex: 1,
                     fontSize: 16,
                     color: '#000000',
-                    fontFamily: 'Gilroy-Regular'
+                    fontFamily: 'Inter-Regular'
                   }}
                 />
                 <TouchableOpacity

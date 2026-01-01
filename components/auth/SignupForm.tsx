@@ -10,7 +10,7 @@ import {
   Text,
   VStack
 } from 'native-base';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface SignupFormProps {
@@ -120,7 +120,7 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                             flex: 1,
                             fontSize: 16,
                             color: '#000000',
-                            fontFamily: 'Gilroy-Regular',
+                            fontFamily: 'Inter-Regular',
                             height: '100%'
                         }}
                     />
@@ -161,7 +161,7 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                             flex: 1,
                             fontSize: 16,
                             color: '#000000',
-                            fontFamily: 'Gilroy-Regular',
+                            fontFamily: 'Inter-Regular',
                             height: '100%'
                         }}
                         />
@@ -201,7 +201,7 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                     flex: 1,
                     fontSize: 16,
                     color: '#000000',
-                    fontFamily: 'Gilroy-Regular',
+                    fontFamily: 'Inter-Regular',
                     height: '100%',
                   }}
                 />
@@ -254,7 +254,7 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                     flex: 1,
                     fontSize: 16,
                     color: '#000000',
-                    fontFamily: 'Gilroy-Regular',
+                    fontFamily: 'Inter-Regular',
                     height: '100%'
                   }}
                 />
