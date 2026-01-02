@@ -58,7 +58,7 @@ export default function OtpCodeForm({ onSubmit, isLoading = false, email }: OtpC
                 showsVerticalScrollIndicator={false}
             >
                 <Box px={6} flex={1} py={8} justifyContent="center">
-                <Pressable className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mt-10" onPress={() => router.back()}>
+                <Pressable className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mt-10" onPress={() => router.back()}>
                     <Ionicons name="chevron-back-outline" size={20} color={"#888888"} style={{marginLeft: -2}}/>
                 </Pressable>
                 <VStack space={6}>
@@ -84,7 +84,7 @@ export default function OtpCodeForm({ onSubmit, isLoading = false, email }: OtpC
                                     borderRadius: 12,
                                     textAlign: 'center',
                                     fontSize: 20,
-                                    fontFamily: 'Gilroy-Regular',
+                                    fontFamily: 'Inter-Regular',
                                     color: '#000000',
                                     borderWidth: error ? 2 : 1,
                                     borderColor: error ? '#ef4444' : '#d1d5db',
@@ -106,7 +106,7 @@ export default function OtpCodeForm({ onSubmit, isLoading = false, email }: OtpC
                                     borderColor: error ? '#ef4444' : '#d1d5db',
                                     textAlign: 'center',
                                     fontSize: 20,
-                                    fontFamily: 'Gilroy-Regular',
+                                    fontFamily: 'Inter-Regular',
                                     color: '#000000',
                                 }}
                             />
@@ -126,7 +126,7 @@ export default function OtpCodeForm({ onSubmit, isLoading = false, email }: OtpC
                                     borderColor: error ? '#ef4444' : '#d1d5db',
                                     textAlign: 'center',
                                     fontSize: 20,
-                                    fontFamily: 'Gilroy-Regular',
+                                    fontFamily: 'Inter-Regular',
                                     color: '#000000',
                                 }}
                             />
@@ -146,7 +146,7 @@ export default function OtpCodeForm({ onSubmit, isLoading = false, email }: OtpC
                                     borderColor: error ? '#ef4444' : '#d1d5db',
                                     textAlign: 'center',
                                     fontSize: 20,
-                                    fontFamily: 'Gilroy-Regular',
+                                    fontFamily: 'Inter-Regular',
                                     color: '#000000',
                                 }}
                             />

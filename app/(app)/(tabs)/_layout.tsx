@@ -60,7 +60,7 @@ export default function TabsLayout() {
         tabBarActiveTintColor: '#FF3300',
         tabBarInactiveTintColor: colors.tabIconDefault,
         tabBarLabelStyle: {
-          fontFamily: 'Gilroy-Medium',
+          fontFamily: 'Inter-Medium',
         },
         tabBarStyle: {
           backgroundColor: colors.background,

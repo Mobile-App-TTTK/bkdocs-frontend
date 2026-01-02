@@ -231,7 +231,7 @@ export default function WriteComment() {
                                 height: 100,
                                 textAlignVertical: 'top',
                                 color: isDarkMode ? "white" : "black",
-                                fontFamily: 'Gilroy-Regular',
+                                fontFamily: 'Inter-Regular',
                             }}
                             placeholderTextColor={isDarkMode ? "#9ca3af" : "#6b7280"}
                         />

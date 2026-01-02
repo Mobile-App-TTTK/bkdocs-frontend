@@ -34,7 +34,7 @@ export default function FollowingScreen({ onBack }: FollowingScreenProps) {
 
                 <Text
                     className="!text-xl !font-bold text-black dark:text-white"
-                    style={{ fontFamily: 'Gilroy-Bold' }}
+                    style={{ fontFamily: 'Inter-Bold' }}
                 >
                     Đã theo dõi
                 </Text>

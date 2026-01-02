@@ -26,6 +26,7 @@ export const ROUTES = {
   FOLLOWING: '/(app)/following',
   USER_PROFILE: '/(app)/profile/[id]',
   CHATBOT: '/(app)/chatbot',
+  PDF_VIEWER: '/(app)/pdf-viewer',
   ADMIN_MEMBER_MANAGEMENT: '/(app)/admin/member-management',
   ADMIN_DOCUMENT_MANAGEMENT: '/(app)/admin/document-management'
 } as const; 

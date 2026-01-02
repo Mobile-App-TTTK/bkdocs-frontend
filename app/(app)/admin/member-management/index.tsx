@@ -35,7 +35,7 @@ export default function MemberManagementScreen() {
                 </TouchableOpacity>
                 <Text
                     className="!text-xl !font-bold !text-black dark:!text-white"
-                    style={{ fontFamily: 'Gilroy-Bold' }}
+                    style={{ fontFamily: 'Inter-Bold' }}
                     numberOfLines={1}
                 >
                     Quản lý thành viên

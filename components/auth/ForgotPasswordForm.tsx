@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Box, Button, FormControl, HStack, Pressable, Text, VStack } from "native-base";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, TextInput, View } from "react-native";
 
 interface ForgotPasswordFormProps {
@@ -46,7 +46,7 @@ export default function ForgotPasswordForm({ onSubmit, isLoading = false }: Forg
         showsVerticalScrollIndicator={false}
       >
         <Box px={6} flex={1} py={8} justifyContent="center">
-          <Pressable className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mt-10" onPress={() => router.back()}>
+          <Pressable className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mt-10" onPress={() => router.back()}>
               <Ionicons name="chevron-back-outline" size={20} color={"#888888"} style={{marginLeft: -2}}/>
           </Pressable>
 
@@ -86,7 +86,7 @@ export default function ForgotPasswordForm({ onSubmit, isLoading = false }: Forg
                               flex: 1,
                               fontSize: 16,
                               color: '#000000',
-                              fontFamily: 'Gilroy-Regular'
+                              fontFamily: 'Inter-Regular'
                           }}
                       />
                   </View>

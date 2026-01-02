@@ -24,7 +24,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.tttabc.bkdocsfrontend"
+      "package": "com.tttabc.bkdocsfrontend",
+      "softwareKeyboardLayoutMode": "resize"
     },
     "web": {
       "output": "static",
@@ -54,7 +55,8 @@
           "project": "sentry_expo",
           "organization": "bkdocs"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,

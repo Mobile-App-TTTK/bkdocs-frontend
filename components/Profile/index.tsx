@@ -25,7 +25,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ icon, label, onPress }) => {
         <View className="w-10 h-10 items-center justify-center">
           <Ionicons name={icon} size={24} color="#333" />
         </View>
-        <Text className="text-base font-medium" style={{ fontFamily: 'Gilroy-Medium' }}>
+        <Text className="text-base font-medium" style={{ fontFamily: 'Inter-Medium' }}>
           {label}
         </Text>
       </View>
@@ -60,7 +60,7 @@ export default function ProfileScreen() {
 
         <Text
           className="!text-xl !font-bold !text-black dark:!text-white"
-          style={{ fontFamily: 'Gilroy-Bold' }}
+          style={{ fontFamily: 'Inter-Bold' }}
         >
           Hồ sơ
         </Text>
@@ -197,7 +197,7 @@ export default function ProfileScreen() {
           >
             <Text
               className="!text-white !text-base !font-semibold"
-              style={{ fontFamily: 'Gilroy-Semibold' }}
+              style={{ fontFamily: 'Inter-Semibold' }}
             >
               Đăng xuất
             </Text>

@@ -5,6 +5,7 @@ export interface Notification {
     isRead: boolean;
     createdAt: string;
     image: string;
+    targetId?: string;
   }
   
   export interface NotificationResponse {

@@ -28,7 +28,7 @@ export default function ProfileScreen() {
 
         <Text
           className="!text-xl !font-bold !text-black dark:!text-white"
-          style={{ fontFamily: 'Gilroy-Bold' }}
+          style={{ fontFamily: 'Inter-Bold' }}
         >
           Hồ sơ
         </Text>

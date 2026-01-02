@@ -7,7 +7,6 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { router, useFocusEffect } from 'expo-router';
 import { Button, Spinner, Text, View } from 'native-base';
-import React from 'react';
 import { Alert, Image, Keyboard, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUploadDocument } from './api';
@@ -253,7 +252,7 @@ export default function UploadDetailScreen() {
                                 multiline
                                 textAlignVertical="top"
                                 placeholderTextColor={'#9CA3AF'}
-                                className="h-24 border-b border-gray-200 dark:border-gray-700 text-lg font-[Gilroy-Regular] text-black dark:text-white"
+                                className="h-24 border-b border-gray-200 dark:border-gray-700 text-lg font-[Inter-Regular] text-black dark:text-white"
                             />
                         </View>
                     </View>
@@ -278,7 +277,7 @@ export default function UploadDetailScreen() {
                         value={description}
                         onChangeText={(text) => dispatch(setReduxDescription(text))}
                         placeholderTextColor={'#9CA3AF'}
-                        className='mt-6 h-20 border-b border-gray-200 dark:border-gray-700 text-lg font-[Gilroy-Regular] text-black dark:text-white'
+                        className='mt-6 h-20 border-b border-gray-200 dark:border-gray-700 text-lg font-[Inter-Regular] text-black dark:text-white'
                         multiline
                         textAlignVertical="top"
                     />

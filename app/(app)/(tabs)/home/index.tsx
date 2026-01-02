@@ -10,9 +10,9 @@ import { useUser } from '@/contexts/UserContext';
 import { Suggestion } from '@/models/suggest.type';
 import { ROUTES } from '@/utils/routes';
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { Image, Spinner, Text } from "native-base";
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Alert, Dimensions, Pressable, ScrollView, View } from 'react-native';
 import { interpolate, useSharedValue } from "react-native-reanimated";
 import Carousel, { ICarouselInstance, Pagination, TAnimationStyle } from "react-native-reanimated-carousel";
@@ -169,26 +169,20 @@ export default function HomeScreen() {
     const subscribeFacultyMutation = useSubscribeFaculty(facultiesData?.faculties[0].id);
     const unsubscribeFacultyMutation = useUnsubscribeFaculty(facultiesData?.faculties[0].id);
     
-    useEffect(() => {
+// Fetch suggestions khi screen focus
+  useFocusEffect(
+    useCallback(() => {
         const fetchSuggestion = async () => {
             try {
                 setIsLoading(true);
                 console.log('🚀 Fetching suggestions...');
-                console.log('📍 Full URL:', `${process.env.EXPO_PUBLIC_API_URL}${API_GET_SUGGESTIONS}`);
                 
                 const response = await api.get(API_GET_SUGGESTIONS);
-                
-                console.log('📦 Full API Response:', JSON.stringify(response.data, null, 2));
-                console.log('📦 Response status:', response.status);
-                console.log('📦 Response headers:', response.headers);
                     
                 const rawData = response.data?.data;
                 const documents: Suggestion[] = Array.isArray(rawData)
                   ? rawData
                   : (rawData?.documents ?? []);
-                
-                console.log('📄 Documents:', documents);
-                console.log('📄 Documents count:', documents.length);
                 
                 if (documents.length === 0) {
                   console.log('⚠️ No documents from API, using fallback');
@@ -213,13 +207,13 @@ export default function HomeScreen() {
                 setSuggestDoc(fallbackSuggestDoc);
             } finally {
                 setIsLoading(false);
-                console.log("faculties", faculties);
             }
-        }
+        };
 
         fetchSuggestion();
-    }, []);
-
+    }, [])
+  );
+    
     const avatar = require(`@/assets/images/userAvatar1.png`);
     const progress = useSharedValue<number>(0);
     const { width,height } = Dimensions.get("window");
@@ -253,41 +247,41 @@ export default function HomeScreen() {
         };
     }, []);
 
-    useEffect(() => {
-        if (faculties.length === 0) return;
-      
-        let cancelled = false;
-      
-        (async () => {
-          setLoadingFacultyDocs(true);
-          try {
-            const pairs = await Promise.all(
-              faculties.map(async (f: any) => {
-                const res = await api.get(`${API_GET_INFORMATION_FACULTY}/${f.id}`);
-                const info = res.data?.data;
-      
-                // API faculty trả về subjects[], mỗi subject có documents[]
-                const docs = (info?.subjects ?? [])
-                  .flatMap((s: any) => s?.documents ?? [])
-                  .slice(0, 6);
-      
-                return [f.id, docs] as const;
-              })
-            );
-      
-            if (!cancelled) {
-              setDocsByFaculty(Object.fromEntries(pairs));
+    useFocusEffect(
+      useCallback(() => {
+          if (facultiesData?.faculties.length === 0) return;
+        
+          let cancelled = false;
+        
+          (async () => {
+            setLoadingFacultyDocs(true);
+            try {
+              const pairs = await Promise.all(
+                (facultiesData?.faculties ?? []).map(async (f: any) => {
+                  const res = await api.get(`${API_GET_INFORMATION_FACULTY}/${f.id}`);
+                  const info = res.data?.data;
+        
+                  const docs = (info?.subjects ?? [])
+                    .flatMap((s: any) => s?.documents ?? [])
+                    .slice(0, 6);
+        
+                  return [f.id, docs] as const;
+                })
+              );
+        
+              if (!cancelled) {
+                setDocsByFaculty(Object.fromEntries(pairs));
+              }
+            } finally {
+              if (!cancelled) setLoadingFacultyDocs(false);
             }
-          } finally {
-            if (!cancelled) setLoadingFacultyDocs(false);
-          }
-        })();
-      
-        return () => {
-          cancelled = true;
-        };
-      }, [faculties]);
-  
+          })();
+        
+          return () => {
+            cancelled = true;
+          };
+      }, [facultiesData?.faculties])
+    );
 
     return (
     <ScrollView className="flex-1 !bg-white dark:!bg-dark-900 pt-14">
@@ -315,7 +309,7 @@ export default function HomeScreen() {
                           <Text style={{
                               fontSize: 24,
                               lineHeight: 30,
-                              fontFamily: "Gilroy-Bold"
+                              fontFamily: "Inter-Bold"
                           }}>
                               {userProfile.name.toUpperCase()}
                           </Text>
@@ -339,7 +333,7 @@ export default function HomeScreen() {
 
             <Pressable
               className="flex-1 flex flex-col items-center"
-              onPress={() => router.push(ROUTES.FOLLOWING)}
+              onPress={() => router.push(ROUTES.FOLLOWING as any)}
             >
               <View className="w-[64px] aspect-square bg-primary-50 rounded-2xl flex justify-center items-center">
                 <Ionicons name="heart-outline" size={32} color="#FF3300" />
@@ -374,7 +368,7 @@ export default function HomeScreen() {
             >
               <Pressable 
                 className="flex-1 flex flex-col items-center justify-center gap-1"
-                onPress={() => router.push(ROUTES.ADMIN_MEMBER_MANAGEMENT)}
+                onPress={() => router.push(ROUTES.ADMIN_MEMBER_MANAGEMENT as any)}
               >
                 <View className="flex flex-row items-center gap-2">
                   <Ionicons name="people-outline" size={24} color="#FF3300" />
@@ -387,7 +381,7 @@ export default function HomeScreen() {
               <View className="w-px h-12 bg-gray-200 dark:bg-dark-600" />
               <Pressable 
                 className="flex-1 flex flex-col items-center justify-center gap-1"
-                onPress={() => router.push(ROUTES.ADMIN_DOCUMENT_MANAGEMENT)}
+                onPress={() => router.push(ROUTES.ADMIN_DOCUMENT_MANAGEMENT as any)}
               >
                 <View className="flex flex-row items-center gap-2">
                   <Ionicons name="checkmark-circle-outline" size={24} color="#FF3300" />

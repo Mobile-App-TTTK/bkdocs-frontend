@@ -61,9 +61,9 @@ export default Sentry.wrap(function RootLayout() {
       initialColorMode: 'light',
     },
     fonts: {
-      heading: 'Gilroy-Bold',
-      body: 'Gilroy-Regular',
-      mono: 'Gilroy-Medium',
+      heading: 'Inter-Bold',
+      body: 'Inter-Regular',
+      mono: 'Inter-Medium',
     },
     colors: {
       primary: {
@@ -90,7 +90,7 @@ export default Sentry.wrap(function RootLayout() {
             bg: `${colorScheme}.500`,
             _text: {
               color: 'white',
-              fontFamily: 'Gilroy-Semibold',
+              fontFamily: 'Inter-Semibold',
             },
             _pressed: { bg: `${colorScheme}.600` },
             _hover: { bg: `${colorScheme}.400` },
@@ -99,12 +99,12 @@ export default Sentry.wrap(function RootLayout() {
       },
       Text: {
         defaultProps: {
-          fontFamily: 'Gilroy-Regular',
+          fontFamily: 'Inter-Regular',
         },
       },
       Heading: {
         defaultProps: {
-          fontFamily: 'Gilroy-Bold',
+          fontFamily: 'Inter-Bold',
         },
       },
     },
