@@ -1,4 +1,5 @@
 import { useUser } from '@/contexts/UserContext';
+import { Features, logFeatureUsage, logFollowUser } from '@/services/analytics';
 import { ROUTES } from '@/utils/routes';
 import classNames from 'classnames';
 import { router } from 'expo-router';
@@ -26,6 +27,13 @@ export default function UserCard(props: IUserCardProps) {
         e.stopPropagation(); // Prevent navigation when clicking follow button
         
         toggleFollowMutation.mutate(id, {
+            onSuccess: () => {
+                // Log follow user analytics (only when following, not unfollowing)
+                if (!isFollowing) {
+                    logFollowUser(id);
+                    logFeatureUsage(Features.FOLLOW_USER, 'complete');
+                }
+            },
             onError: () => {
                 Alert.alert(
                     "Lỗi",

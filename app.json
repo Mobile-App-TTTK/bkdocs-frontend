@@ -65,7 +65,8 @@
           "color": "#FF3300",
           "defaultChannel": "default"
         }
-      ]
+      ],
+      "@react-native-firebase/app"
     ],
     "experiments": {
       "typedRoutes": true,

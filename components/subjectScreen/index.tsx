@@ -1,8 +1,9 @@
 import { SubjectDocument, SubjectTypeList } from '@/models/subject.type';
+import { logViewSubject } from '@/services/analytics';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ScrollView, Skeleton, Spinner, Text, View } from 'native-base';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Alert, Image, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import DocumentCard from '../DocumentCard';
@@ -19,6 +20,13 @@ export default function SubjectScreen() {
     
     const subscribeSubjectMutation = useSubscribeSubject(localId);
     const unsubscribeSubjectMutation = useUnsubscribeSubject(localId);
+
+    // Log view subject when data loads
+    useEffect(() => {
+        if (subjectInfo && localId) {
+            logViewSubject(localId, subjectInfo.name || '');
+        }
+    }, [subjectInfo, localId]);
 
     // Lấy typeList từ subjectInfo
     const typeList = useMemo(() => {

@@ -1,5 +1,6 @@
 import { slides } from '@/components/onboard/constants';
 import { IOnboardSlide } from '@/components/onboard/interfaces';
+import { logOnboardingComplete } from '@/services/analytics';
 import { ROUTES } from '@/utils/routes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
@@ -25,6 +26,7 @@ export default function OnboardScreen() {
   const completeOnboarding = async () => {
     try {
       await AsyncStorage.setItem(ONBOARDING_KEY, 'true');
+      await logOnboardingComplete();
     } catch (error) {
       console.error('Error saving onboarding status:', error);
     }

@@ -1,8 +1,9 @@
+import { Features, logFeatureUsage } from "@/services/analytics";
 import { Colors } from "@/utils/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { Text } from "native-base";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { WebView } from "react-native-webview";
@@ -16,6 +17,13 @@ export default function PdfViewer() {
     const title = typeof params.title === 'string' ? params.title : params.title?.[0] || 'PDF Viewer';
     
     const [loading, setLoading] = useState(true);
+
+    // Log PDF viewer usage
+    useEffect(() => {
+        if (uri) {
+            logFeatureUsage(Features.VIEW_PDF, 'view');
+        }
+    }, [uri]);
 
     // Google Docs Viewer cho PDF (hoạt động tốt hơn trên Android)
     // Hoặc dùng trực tiếp uri cho iOS
