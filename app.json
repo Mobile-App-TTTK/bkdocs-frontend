@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "bkdocs-frontend",
+    "name": "BKDocs",
     "slug": "bkdocs-frontend",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -25,7 +25,8 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.tttabc.bkdocsfrontend",
-      "softwareKeyboardLayoutMode": "resize"
+      "softwareKeyboardLayoutMode": "resize",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "output": "static",
@@ -56,7 +57,15 @@
           "organization": "bkdocs"
         }
       ],
-      "expo-font"
+      "expo-font",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#FF3300",
+          "defaultChannel": "default"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

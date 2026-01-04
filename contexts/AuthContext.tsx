@@ -2,6 +2,7 @@ import { api, resetLogoutFlag } from '@/api/apiClient';
 import { API_LOGIN, API_USER_PROFILE } from '@/api/apiRoutes';
 import { LoginRequestBody } from '@/models/auth.type';
 import { UserProfile } from '@/models/user.type';
+import { initializePushNotifications } from '@/services/pushNotification';
 import { setInitializing, setLogoutHandler } from '@/utils/authEvents';
 import { ACCESS_TOKEN_KEY } from '@/utils/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -59,6 +60,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           // Fetch user profile sau khi load token
           try {
             await fetchUserProfile();
+            // Register FCM token for push notifications after successful auth
+            initializePushNotifications().catch(console.error);
           } catch (error) {
             // Nếu fetch profile fail, có thể token đã hết hạn
             // Clear invalid token và để user về màn onboard/login
@@ -93,6 +96,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Fetch user profile sau khi login thành công
       await fetchUserProfile();
       queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+      // Register FCM token for push notifications
+      initializePushNotifications().catch(console.error);
     } catch (err: unknown) {
       const anyErr = err as { response?: { status?: number; data?: { message?: string } } };
       const apiMessage = anyErr?.response?.data?.message;
