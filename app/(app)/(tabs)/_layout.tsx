@@ -1,4 +1,5 @@
 import { useTheme } from '@/contexts/ThemeContext';
+import { Features, logFeatureUsage, logUploadFunnelStep, UploadFunnel } from '@/services/analytics';
 import { useAppDispatch } from '@/store/hooks';
 import { setDocumentFile } from '@/store/uploadSlice';
 import { Colors } from '@/utils/theme';
@@ -6,7 +7,6 @@ import { Ionicons } from '@expo/vector-icons';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import { router, Tabs } from 'expo-router';
-import React from 'react';
 
 export default function TabsLayout() {
   const { isDark } = useTheme();
@@ -14,6 +14,10 @@ export default function TabsLayout() {
   const dispatch = useAppDispatch();
 
   const handleUpload = async () => {
+    // Log upload funnel start
+    logUploadFunnelStep(UploadFunnel.SELECT_FILE, true);
+    logFeatureUsage(Features.UPLOAD, 'view');
+
     const result = await DocumentPicker.getDocumentAsync({
       multiple: false,
       copyToCacheDirectory: true,

@@ -1,18 +1,21 @@
 import { slides } from '@/components/onboard/constants';
 import { IOnboardSlide } from '@/components/onboard/interfaces';
+import { logOnboardingComplete } from '@/services/analytics';
 import { ROUTES } from '@/utils/routes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { Box, Button, HStack, Pressable, Text } from 'native-base';
 import { useRef, useState } from 'react';
 import {
-  Dimensions,
-  FlatList,
-  Image,
-  View
+    Dimensions,
+    FlatList,
+    Image,
+    View
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { height: screenHeight } = Dimensions.get('window');
+const ONBOARDING_KEY = 'hasSeenOnboarding';
 
 export default function OnboardScreen() {
   const router = useRouter();
@@ -20,13 +23,22 @@ export default function OnboardScreen() {
   const [activeIndex, setActiveIndex] = useState(0);
   const insets = useSafeAreaInsets();
 
+  const completeOnboarding = async () => {
+    try {
+      await AsyncStorage.setItem(ONBOARDING_KEY, 'true');
+      await logOnboardingComplete();
+    } catch (error) {
+      console.error('Error saving onboarding status:', error);
+    }
+    router.replace(ROUTES.LOGIN);
+  };
 
-  const handleSkip = () => router.replace(ROUTES.LOGIN);
+  const handleSkip = () => completeOnboarding();
 
   const handlePrimary = () => {
     const isLast = activeIndex === slides.length - 1;
     if (isLast) {
-      router.replace(ROUTES.LOGIN);
+      completeOnboarding();
       return;
     }
     const nextIndex = activeIndex + 1;

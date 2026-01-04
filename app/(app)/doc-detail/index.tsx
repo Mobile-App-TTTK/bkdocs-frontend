@@ -1,6 +1,7 @@
 import { api } from '@/api/apiClient';
 import { API_DOWNLOAD_DOCUMENT, API_GET_DOC_RATINGS, API_GET_DOCUMENT_DETAIL } from '@/api/apiRoutes';
 import { useFetchUserProfile, useFetchUserProfileById } from '@/components/Profile/api';
+import { Features, logDownloadDocument, logFeatureUsage, logShareDocument, logViewDocument } from '@/services/analytics';
 import { DocProps } from '@/utils/docInterface';
 import { downloadedDocsStorage } from '@/utils/downloadDocStorage';
 import { ROUTES } from '@/utils/routes';
@@ -97,7 +98,11 @@ export default function DownloadDoc() {
             setLoading(true);
             const res = await api.get(API_GET_DOCUMENT_DETAIL(id));
             const data = res.data?.data;
-            if (!cancelled) setDocDetail(data);
+            if (!cancelled) {
+              setDocDetail(data);
+              // Log view document
+              if (data) logViewDocument(id, data.title || '', data.faculty?.name);
+            }
           } finally {
             if (!cancelled) setLoading(false);
           }
@@ -347,6 +352,9 @@ export default function DownloadDoc() {
             const downloadedFile = await FileSystem.File.downloadFileAsync(downloadUrl, destFile);
             const uri = downloadedFile.uri;
             await downloadedDocsStorage.addDownloadedDoc(id);
+            // Log download document
+            logDownloadDocument(id, docDetail?.title || '');
+            logFeatureUsage(Features.DOWNLOAD, 'complete');
 
             if (Platform.OS === 'android') {
                 const mimeType = getMimeType(ext);
@@ -366,6 +374,9 @@ export default function DownloadDoc() {
             } else {
                 if (await Sharing.isAvailableAsync()) {
                     await Sharing.shareAsync(uri);
+                    // Log share document analytics for iOS
+                    logShareDocument(id, 'ios_share_sheet');
+                    logFeatureUsage(Features.SHARE, 'complete');
                 } else {
                     await Linking.openURL(uri);
                 }

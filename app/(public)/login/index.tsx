@@ -1,5 +1,6 @@
 import LoginForm from '@/components/auth/LoginForm';
 import { useAuth } from '@/contexts/AuthContext';
+import { logLogin, setUserId } from '@/services/analytics';
 import { ROUTES } from '@/utils/routes';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -13,7 +14,10 @@ export default function LoginScreen() {
   const handleSubmit = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      await loginWithCredentials({ email, password });
+      const user = await loginWithCredentials({ email, password });
+      // Log analytics
+      await logLogin('email');
+      if (user?.id) await setUserId(user.id);
       router.replace(ROUTES.HOME);
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Vui lòng thử lại';

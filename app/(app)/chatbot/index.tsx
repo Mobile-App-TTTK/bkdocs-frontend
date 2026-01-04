@@ -1,5 +1,6 @@
 import { ChatMessage, ChatResponse, useSendChatMessage } from '@/components/Chatbot/api';
 import { useUser } from '@/contexts/UserContext';
+import { Features, logChatbotInteraction, logFeatureUsage } from '@/services/analytics';
 import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -35,6 +36,8 @@ export default function ChatbotScreen() {
 
   useEffect(() => {
     if (userProfile && chatHistory.length === 0) {
+      // Log chatbot open
+      logFeatureUsage(Features.CHATBOT, 'view');
       const welcomeMessage: ChatMessageWithActions = {
         role: 'admin',
         content: `Xin chào ${userProfile.name}, tôi có thể giúp gì cho bạn hôm nay?`,
@@ -81,6 +84,9 @@ export default function ChatbotScreen() {
             content: msg.content,
           }));
 
+    // Log user message
+    logChatbotInteraction('user');
+
     // Gửi tin nhắn
     sendChatMutation.mutate(
       {
@@ -89,6 +95,8 @@ export default function ChatbotScreen() {
       },
       {
         onSuccess: (response: ChatResponse) => {
+          // Log bot response
+          logChatbotInteraction('bot');
           // Thêm phản hồi từ AI vào history
           const aiMessage: ChatMessageWithActions = {
             role: 'admin',
