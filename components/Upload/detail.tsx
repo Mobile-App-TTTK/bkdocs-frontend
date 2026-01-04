@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { router, useFocusEffect } from 'expo-router';
 import { Button, Spinner, Text, View } from 'native-base';
+import { useRef } from 'react';
 import { Alert, Image, Keyboard, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUploadDocument } from './api';
@@ -19,6 +20,7 @@ export default function UploadDetailScreen() {
     
     const dispatch = useAppDispatch();
     const uploadState = useAppSelector(state => state.upload);
+    const hasAutoFilledTitle = useRef(false);
 
     console.log("upload params")
     
@@ -35,9 +37,10 @@ export default function UploadDetailScreen() {
     useFocusEffect(() => {
         console.log("Upload state from Redux:", uploadState);
         
-        // Auto-fill title from document name if empty
-        if (documentFile && !title) {
+        // Auto-fill title from document name only once (first time)
+        if (documentFile && !title && !hasAutoFilledTitle.current) {
             dispatch(setReduxTitle(documentFile.name));
+            hasAutoFilledTitle.current = true;
         }
         return () => { };
     });
