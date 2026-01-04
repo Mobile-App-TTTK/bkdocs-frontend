@@ -7,34 +7,18 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "env": {
-        "DOTENV_FILE": "@DOTENV_FILE",
-        "GOOGLE_SERVICES_JSON": "@GOOGLE_SERVICES_JSON"
-      },
-      "android": {
-        "prebuildCommand": "echo $GOOGLE_SERVICES_JSON > google-services.json"
-      }
+      "environment": "development"
     },
     "preview": {
       "distribution": "internal",
       "android": {
-        "buildType": "apk",
-        "prebuildCommand": "echo $GOOGLE_SERVICES_JSON > google-services.json"
+        "buildType": "apk"
       },
-      "env": {
-        "DOTENV_FILE": "@DOTENV_FILE",
-        "GOOGLE_SERVICES_JSON": "@GOOGLE_SERVICES_JSON"
-      }
+      "environment": "preview"
     },
     "production": {
       "autoIncrement": true,
-      "env": {
-        "DOTENV_FILE": "@DOTENV_FILE",
-        "GOOGLE_SERVICES_JSON": "@GOOGLE_SERVICES_JSON"
-      },
-      "android": {
-        "prebuildCommand": "echo $GOOGLE_SERVICES_JSON > google-services.json"
-      }
+      "environment": "production"
     }
   },
   "submit": {
