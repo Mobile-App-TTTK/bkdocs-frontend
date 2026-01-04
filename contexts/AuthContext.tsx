@@ -2,7 +2,7 @@ import { api, resetLogoutFlag } from '@/api/apiClient';
 import { API_LOGIN, API_USER_PROFILE } from '@/api/apiRoutes';
 import { LoginRequestBody } from '@/models/auth.type';
 import { UserProfile } from '@/models/user.type';
-import { setLogoutHandler } from '@/utils/authEvents';
+import { setInitializing, setLogoutHandler } from '@/utils/authEvents';
 import { ACCESS_TOKEN_KEY } from '@/utils/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Sentry from '@sentry/react-native';
@@ -52,6 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const loadToken = async () => {
       try {
+        setInitializing(true);
         const stored = await AsyncStorage.getItem(ACCESS_TOKEN_KEY);
         if (stored) {
           setToken(stored);
@@ -60,10 +61,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             await fetchUserProfile();
           } catch (error) {
             // Nếu fetch profile fail, có thể token đã hết hạn
-            console.error('Failed to load user profile on init');
+            // Clear invalid token và để user về màn onboard/login
+            console.error('Failed to load user profile on init - token may be expired');
+            setToken(null);
+            await AsyncStorage.removeItem(ACCESS_TOKEN_KEY);
           }
         }
       } finally {
+        setInitializing(false);
         setIsLoading(false);
       }
     };

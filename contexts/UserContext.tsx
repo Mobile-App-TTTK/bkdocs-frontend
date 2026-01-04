@@ -13,7 +13,8 @@ const UserContext = createContext<UserContextValue | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuth();
-  const { data: userProfile, isLoading } = useFetchUserProfile();
+  // Only fetch user profile when authenticated to avoid 401 errors on first app launch
+  const { data: userProfile, isLoading } = useFetchUserProfile({ enabled: isAuthenticated });
 
   const value = useMemo<UserContextValue>(() => ({
     userProfile: isAuthenticated ? userProfile : undefined,
