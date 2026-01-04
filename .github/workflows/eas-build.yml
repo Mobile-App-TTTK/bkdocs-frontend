@@ -36,4 +36,4 @@ jobs:
         run: npx eas update --branch preview --message "Auto deploy from GitHub"
 
       - name: Build Android APK
-        run: npx eas build --platform android --profile production --non-interactive
+        run: npx eas build -p android --profile preview
