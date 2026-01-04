@@ -10,12 +10,16 @@
       "env": {
         "DOTENV_FILE": "@DOTENV_FILE",
         "GOOGLE_SERVICES_JSON": "@GOOGLE_SERVICES_JSON"
+      },
+      "android": {
+        "prebuildCommand": "echo $GOOGLE_SERVICES_JSON > google-services.json"
       }
     },
     "preview": {
       "distribution": "internal",
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "prebuildCommand": "echo $GOOGLE_SERVICES_JSON > google-services.json"
       },
       "env": {
         "DOTENV_FILE": "@DOTENV_FILE",
@@ -27,6 +31,9 @@
       "env": {
         "DOTENV_FILE": "@DOTENV_FILE",
         "GOOGLE_SERVICES_JSON": "@GOOGLE_SERVICES_JSON"
+      },
+      "android": {
+        "prebuildCommand": "echo $GOOGLE_SERVICES_JSON > google-services.json"
       }
     }
   },
