@@ -1,11 +1,12 @@
 import { useFetchFacultiesAndSubjects } from '@/components/searchResultScreen/api';
+import { logUploadFunnelStep, UploadFunnel } from '@/services/analytics';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setSelectedSubjects } from '@/store/uploadSlice';
 import { removeDiacritics } from '@/utils/functions';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Button, Skeleton, Text, View } from 'native-base';
-import React, { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, Pressable, TextInput, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -13,6 +14,15 @@ export default function SelectSubjectScreen() {
   const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
   const selectedSubjectsFromRedux = useAppSelector(state => state.upload.selectedSubjects);
+  const hasLoggedSubjectStep = useRef(false);
+
+  // Log upload funnel step when entering this screen
+  useEffect(() => {
+    if (!hasLoggedSubjectStep.current) {
+      logUploadFunnelStep(UploadFunnel.SELECT_SUBJECT, true);
+      hasLoggedSubjectStep.current = true;
+    }
+  }, []);
   
   const { data: facultiesData, isLoading } = useFetchFacultiesAndSubjects();
   const [query, setQuery] = useState('');

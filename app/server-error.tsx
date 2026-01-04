@@ -1,19 +1,27 @@
+import { fetchUserProfile } from '@/components/Profile/api';
 import { useAuth } from '@/contexts/AuthContext';
 import { ROUTES } from '@/utils/routes';
 import { useRouter } from 'expo-router';
 import { Button, Image, Text, View } from 'native-base';
-import React from 'react';
+import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ServerErrorScreen() {
   const router = useRouter();
   const { logout } = useAuth();
+  const [isRetrying, setIsRetrying] = useState(false);
 
-  const handleRetry = () => {
-    if (router.canGoBack?.()) {
-      router.back();
-    } else {
-        // ignore back
+  const handleRetry = async () => {
+    try {
+      setIsRetrying(true);
+      await fetchUserProfile();
+      // If successful, navigate to home
+      router.replace(ROUTES.HOME as any);
+    } catch (error) {
+      console.log('Server still unavailable:', error);
+      // Stay on error page
+    } finally {
+      setIsRetrying(false);
     }
   };
 
@@ -52,6 +60,8 @@ export default function ServerErrorScreen() {
                     variant="outline"
                     colorScheme="primary"
                     onPress={handleRetry}
+                    isLoading={isRetrying}
+                    isDisabled={isRetrying}
                   >
                     Thử lại
                   </Button>
@@ -59,6 +69,7 @@ export default function ServerErrorScreen() {
                     flex={1}
                     colorScheme="primary"
                     onPress={handleLogout}
+                    isDisabled={isRetrying}
                   >
                     Đăng xuất
                   </Button>

@@ -1,7 +1,9 @@
 import { DocumentItem, Subject } from '@/models/faculty.type';
+import { logFollowUser, logViewFaculty } from '@/services/analytics';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ScrollView, Skeleton, Spinner, Text, View } from 'native-base';
+import { useEffect } from 'react';
 import { Alert, Image, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import DocumentCard from '../DocumentCard';
@@ -16,6 +18,13 @@ export default function FacultyScreen() {
     const unsubscribeFacultyMutation = useUnsubscribeFaculty(localId);
     const subscribeSubjectMutation = useSubscribeSubject();
     const unsubscribeSubjectMutation = useUnsubscribeSubject();
+
+    // Log view faculty when data loads
+    useEffect(() => {
+        if (facultyInfo && localId) {
+            logViewFaculty(localId, facultyInfo.name || '');
+        }
+    }, [facultyInfo, localId]);
 
     const handleToggleFollowFaculty = () => {
         if (!localId) return;
@@ -32,6 +41,9 @@ export default function FacultyScreen() {
             });
         } else {
             subscribeFacultyMutation.mutate(localId, {
+                onSuccess: () => {
+                    logFollowUser(localId); // Log follow faculty
+                },
                 onError: () => {
                     Alert.alert(
                         "Lỗi",
