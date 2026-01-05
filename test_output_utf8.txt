@@ -1,0 +1,1331 @@
+﻿node.exe : [baseline-browser-mapping] The data 
+in this module is over two months old.  To 
+ensure accurate Baseline data, please update: 
+`npm i baseline-browser-mapping@latest -D`
+At C:\Program Files\nodejs\npx.ps1:29 char:3
++   & $NODE_EXE $NPX_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([ba 
+   seline-brows...ping@latest -D`:String) [], R  
+  emoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  console.log
+    [Analytics] Event logged: test_event { param1: 'value1' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    [Analytics] User ID set: user123
+
+      at log (services/analytics.ts:26:13)
+
+  console.log
+    [Analytics] User properties set: { prop1: 'val1', prop2: 'val2' }
+
+      at log (services/analytics.ts:40:13)
+
+  console.error
+    [Analytics] Error logging screen view: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:99:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 55 |[39m     console[33m.[39mlog([32m`[Analytics] Screen view: ${screenName}`[39m)[33m;[39m
+     [90m 56 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 57 |[39m     console[33m.[39merror([32m'[Analytics] Error logging screen view:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 58 |[39m   }
+     [90m 59 |[39m }[33m;[39m
+     [90m 60 |[39m[0m
+
+      at error (services/analytics.ts:57:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging screen view: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:99:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 55 |[39m     console[33m.[39mlog([32m`[Analytics] Screen view: ${screenName}`[39m)[33m;[39m
+     [90m 56 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 57 |[39m     console[33m.[39merror([32m'[Analytics] Error logging screen view:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 58 |[39m   }
+     [90m 59 |[39m }[33m;[39m
+     [90m 60 |[39m[0m
+
+      at error (services/analytics.ts:57:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error setting user properties: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:127:51)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 40 |[39m     console[33m.[39mlog([32m'[Analytics] User properties set:'[39m[33m,[39m properties)[33m;[39m
+     [90m 41 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 42 |[39m     console[33m.[39merror([32m'[Analytics] Error setting user properties:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 43 |[39m   }
+     [90m 44 |[39m }[33m;[39m
+     [90m 45 |[39m[0m
+
+      at error (services/analytics.ts:42:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error setting user properties: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:127:51)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 40 |[39m     console[33m.[39mlog([32m'[Analytics] User properties set:'[39m[33m,[39m properties)[33m;[39m
+     [90m 41 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 42 |[39m     console[33m.[39merror([32m'[Analytics] Error setting user properties:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 43 |[39m   }
+     [90m 44 |[39m }[33m;[39m
+     [90m 45 |[39m[0m
+
+      at error (services/analytics.ts:42:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error setting user properties: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:127:51)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 40 |[39m     console[33m.[39mlog([32m'[Analytics] User properties set:'[39m[33m,[39m properties)[33m;[39m
+     [90m 41 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 42 |[39m     console[33m.[39merror([32m'[Analytics] Error setting user properties:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 43 |[39m   }
+     [90m 44 |[39m }[33m;[39m
+     [90m 45 |[39m[0m
+
+      at error (services/analytics.ts:42:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.error
+    [Analytics] Error logging event: Error: Test error
+        at Object.<anonymous> (D:\bkdocs-frontend\__tests__\services\analytics.test.ts:151:44)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at Object.<anonymous> (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12)
+        at Promise.then.completed (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:298:28)
+        at new Promise (<anonymous>)
+        at callAsyncCircusFn (D:\bkdocs-frontend\node_modules\jest-circus\build\utils.js:231:10)
+        at _callCircusTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:316:40)
+        at _runTest (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:252:3)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:126:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at _runTestsForDescribeBlock (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:121:9)
+        at run (D:\bkdocs-frontend\node_modules\jest-circus\build\run.js:71:3)
+        at runAndTransformResultsToJestFormat (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+        at jestAdapter (D:\bkdocs-frontend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+        at runTestInternal (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:367:16)
+        at runTest (D:\bkdocs-frontend\node_modules\jest-runner\build\runTest.js:444:34)
+
+    [0m [90m 14 |[39m     console[33m.[39mlog([32m`[Analytics] Event logged: ${eventName}`[39m[33m,[39m params)[33m;[39m
+     [90m 15 |[39m   } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 16 |[39m     console[33m.[39merror([32m'[Analytics] Error logging event:'[39m[33m,[39m error)[33m;[39m
+     [90m    |[39m             [31m[1m^[22m[39m
+     [90m 17 |[39m   }
+     [90m 18 |[39m }[33m;[39m
+     [90m 19 |[39m[0m
+
+      at error (services/analytics.ts:16:13)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.log
+    [Performance] Trace started: test_trace
+
+      at log (services/analytics.ts:317:13)
+
+  console.log
+    [Performance] Trace stopped
+
+      at log (services/analytics.ts:336:13)
+
+  console.log
+    [Performance] Trace started: api_test_api
+
+      at log (services/analytics.ts:317:13)
+
+  console.log
+    [Performance] Trace started: api_test_api
+
+      at log (services/analytics.ts:317:13)
+
+  console.log
+    [Analytics] Collection enabled
+
+      at log (services/analytics.ts:382:13)
+
+  console.log
+    [Performance] Collection enabled
+
+      at log (services/analytics.ts:394:13)
+
+FAIL __tests__/services/analytics.test.ts
+  Analytics Service
+    Core Analytics
+      ΓêÜ logEvent logs event successfully (35 
+ms)
+      ΓêÜ logEvent handles error gracefully (1 
+ms)
+      ΓêÜ setUserId sets user id successfully (3 
+ms)
+      ΓêÜ setUserId handles error gracefully (1 
+ms)
+      ΓêÜ setUserProperties sets properties 
+successfully (2 ms)
+      ΓêÜ setUserProperties handles error 
+gracefully (1 ms)
+      ΓêÜ logScreenView logs screen view 
+successfully (28 ms)
+      ΓêÜ logScreenView uses screenName as class 
+if class not provided (7 ms)
+      ΓêÜ logScreenView handles error gracefully 
+(1 ms)
+    Engagement Events
+      ΓêÜ logLogin logs login event (6 ms)
+      ΓêÜ logLogin uses default method (4 ms)
+      ΓêÜ logSignUp logs sign up event (3 ms)
+      ΓêÜ logSignUp uses default method (3 ms)
+      ΓêÜ logSearch logs search event (1 ms)
+      ΓêÜ logViewDocument logs view document 
+event (3 ms)
+      ΓêÜ logDownloadDocument logs download 
+event (5 ms)
+      ΓêÜ logUploadDocument logs upload event (4 
+ms)
+      ΓêÜ logShareDocument logs share event
+      ΓêÜ logCommentDocument logs comment event 
+(2 ms)
+      ΓêÜ logFollowUser logs follow event (2 ms)
+      ΓêÜ logViewFaculty logs view faculty event 
+(3 ms)
+      ΓêÜ logViewSubject logs view subject event 
+(2 ms)
+      ΓêÜ logSaveDocument logs save document 
+event (2 ms)
+      ΓêÜ logChatbotInteraction logs chatbot 
+interaction (2 ms)
+    User Satisfaction & Feedback
+      ΓêÜ logUserRating logs rating (4 ms)
+      ΓêÜ logFeedbackSubmit logs feedback (2 ms)
+    Time Tracking & Drop-off
+      ΓêÜ tracks screen time correctly (3 ms)
+      ΓêÜ does not log if screen enter time is 
+missing
+      ΓêÜ logFunnelStep logs funnel step (4 ms)
+      ΓêÜ logUploadFunnelStep calls 
+logFunnelStep correctly (3 ms)
+      ΓêÜ logSignupFunnelStep calls 
+logFunnelStep correctly (3 ms)
+    Feature Usage
+      ΓêÜ logFeatureUsage logs usage (2 ms)
+      ΓêÜ logEngagementLevel logs high 
+engagement (3 ms)
+      ΓêÜ logEngagementLevel logs medium 
+engagement (3 ms)
+      ΓêÜ logEngagementLevel logs low engagement 
+(2 ms)
+    Retention Events
+      ΓêÜ logAppOpen logs app open (1 ms)
+      ├ù logSessionStart logs session start (3 
+ms)
+      ├ù logOnboardingComplete logs onboarding 
+complete (2 ms)
+      ΓêÜ logNotificationOpened logs 
+notification opened (2 ms)
+    Performance Monitoring
+      ΓêÜ startTrace starts a trace
+      ΓêÜ startTrace handles error
+      ΓêÜ stopTrace stops a trace (1 ms)
+      ΓêÜ stopTrace handles error (1 ms)
+      ├ù measureApiCall measures success (1 ms)
+      ├ù measureApiCall measures error (8 ms)
+      ΓêÜ setAnalyticsCollectionEnabled sets 
+collection
+      ΓêÜ setAnalyticsCollectionEnabled handles 
+error
+      ΓêÜ setPerformanceCollectionEnabled sets 
+collection (1 ms)
+      ΓêÜ setPerformanceCollectionEnabled 
+handles error
+
+  ΓùÅ Analytics Service ΓÇ║ Retention Events ΓÇ║ 
+logSessionStart logs session start
+
+    expect(jest.fn()).toHaveBeenCalledWith(...exp
+ected)
+
+    Expected: "app_session_start"
+    Received: "app_session_start", undefined
+
+    Number of calls: 1
+
+    [0m [90m 376 |[39m         
+it([32m'logSessionStart logs session 
+start'[39m[33m,[39m [36masync[39m () 
+[33m=>[39m {
+     [90m 377 |[39m             
+[36mawait[39m logSessionStart()[33m;[39m
+    [31m[1m>[22m[39m[90m 378 |[39m         
+    expect(mockLogEvent)[33m.[39mtoHaveBeenCall
+edWith([32m'app_session_start'[39m)[33m;[39m
+     [90m     |[39m                            
+      [31m[1m^[22m[39m
+     [90m 379 |[39m         })[33m;[39m
+     [90m 380 |[39m
+     [90m 381 |[39m         
+it([32m'logOnboardingComplete logs onboarding 
+complete'[39m[33m,[39m [36masync[39m () 
+[33m=>[39m {[0m
+
+      at Object.toHaveBeenCalledWith 
+(__tests__/services/analytics.test.ts:378:34)
+      at asyncGeneratorStep (node_modules/@babel/
+runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpe
+rs/asyncToGenerator.js:17:9)
+
+  ΓùÅ Analytics Service ΓÇ║ Retention Events ΓÇ║ 
+logOnboardingComplete logs onboarding complete
+
+    expect(jest.fn()).toHaveBeenCalledWith(...exp
+ected)
+
+    Expected: "onboarding_complete"
+    Received: "onboarding_complete", undefined
+
+    Number of calls: 1
+
+    [0m [90m 381 |[39m         
+it([32m'logOnboardingComplete logs onboarding 
+complete'[39m[33m,[39m [36masync[39m () 
+[33m=>[39m {
+     [90m 382 |[39m             
+[36mawait[39m 
+logOnboardingComplete()[33m;[39m
+    [31m[1m>[22m[39m[90m 383 |[39m         
+    expect(mockLogEvent)[33m.[39mtoHaveBeenCall
+edWith([32m'onboarding_complete'[39m)[33m;[39
+m
+     [90m     |[39m                            
+      [31m[1m^[22m[39m
+     [90m 384 |[39m         })[33m;[39m
+     [90m 385 |[39m
+     [90m 386 |[39m         
+it([32m'logNotificationOpened logs notification 
+opened'[39m[33m,[39m [36masync[39m () 
+[33m=>[39m {[0m
+
+      at Object.toHaveBeenCalledWith 
+(__tests__/services/analytics.test.ts:383:34)
+      at asyncGeneratorStep (node_modules/@babel/
+runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpe
+rs/asyncToGenerator.js:17:9)
+
+  ΓùÅ Analytics Service ΓÇ║ Performance 
+Monitoring ΓÇ║ measureApiCall measures success
+
+    Test error
+
+    [0m [90m 414 |[39m         
+it([32m'stopTrace handles 
+error'[39m[33m,[39m [36masync[39m () 
+[33m=>[39m {
+     [90m 415 |[39m             
+[36mconst[39m consoleSpy [33m=[39m 
+jest[33m.[39mspyOn(console[33m,[39m [32m'err
+or'[39m)[33m.[39mmockImplementation(() 
+[33m=>[39m { })[33m;[39m
+    [31m[1m>[22m[39m[90m 416 |[39m         
+    mockStop[33m.[39mmockRejectedValue([36mnew
+[39m [33mError[39m([32m'Test 
+error'[39m))[33m;[39m
+     [90m     |[39m                            
+            [31m[1m^[22m[39m
+     [90m 417 |[39m             
+[36mawait[39m 
+stopTrace(mockTraceObj)[33m;[39m
+     [90m 418 |[39m             expect(consoleS
+py)[33m.[39mtoHaveBeenCalledWith([32m'[Perform
+ance] Error stopping trace:'[39m[33m,[39m 
+expect[33m.[39many([33mError[39m))[33m;[39m
+     [90m 419 |[39m             
+consoleSpy[33m.[39mmockRestore()[33m;[39m[0m
+
+      at Object.<anonymous> 
+(__tests__/services/analytics.test.ts:416:40)
+      at asyncGeneratorStep (node_modules/@babel/
+runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpe
+rs/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyn
+cToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/
+runtime/helpers/asyncToGenerator.js:14:12)
+
+  ΓùÅ Analytics Service ΓÇ║ Performance 
+Monitoring ΓÇ║ measureApiCall measures error
+
+    expect(received).rejects.toThrow(expected)
+
+    Expected substring: "API Error"
+    Received message:   "Test error"
+
+        [0m [90m 414 |[39m         
+it([32m'stopTrace handles 
+error'[39m[33m,[39m [36masync[39m () 
+[33m=>[39m {
+         [90m 415 |[39m             
+[36mconst[39m consoleSpy [33m=[39m 
+jest[33m.[39mspyOn(console[33m,[39m [32m'err
+or'[39m)[33m.[39mmockImplementation(() 
+[33m=>[39m { })[33m;[39m
+        [31m[1m>[22m[39m[90m 416 |[39m     
+        mockStop[33m.[39mmockRejectedValue([36
+mnew[39m [33mError[39m([32m'Test 
+error'[39m))[33m;[39m
+         [90m     |[39m                        
+                [31m[1m^[22m[39m
+         [90m 417 |[39m             
+[36mawait[39m 
+stopTrace(mockTraceObj)[33m;[39m
+         [90m 418 |[39m             expect(cons
+oleSpy)[33m.[39mtoHaveBeenCalledWith([32m'[Per
+formance] Error stopping trace:'[39m[33m,[39m 
+expect[33m.[39many([33mError[39m))[33m;[39m
+         [90m 419 |[39m             
+consoleSpy[33m.[39mmockRestore()[33m;[39m[0m
+
+      at Object.<anonymous> 
+(__tests__/services/analytics.test.ts:416:40)
+      at asyncGeneratorStep (node_modules/@babel/
+runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpe
+rs/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyn
+cToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/
+runtime/helpers/asyncToGenerator.js:14:12)
+      at Object.toThrow 
+(node_modules/expect/build/index.js:218:22)
+      at Object.toThrow 
+(__tests__/services/analytics.test.ts:434:71)
+      at asyncGeneratorStep (node_modules/@babel/
+runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpe
+rs/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyn
+cToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/
+runtime/helpers/asyncToGenerator.js:14:12)
+
+Test Suites: 1 failed, 1 total
+Tests:       4 failed, 45 passed, 49 total
+Snapshots:   0 total
+Time:        0.921 s, estimated 1 s
+Ran all test suites matching 
+/__tests__\\services\\analytics.test.ts/i.
