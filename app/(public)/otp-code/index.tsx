@@ -1,6 +1,7 @@
 import { api } from "@/api/apiClient";
 import { API_REGISTER_COMPLETE, API_VERIFY_OTP } from "@/api/apiRoutes";
 import OtpCodeForm from "@/components/auth/OtpCodeForm";
+import { logSignUp, logSignupFunnelStep, SignupFunnel } from "@/services/analytics";
 import { ROUTES } from "@/utils/routes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
@@ -58,6 +59,10 @@ export default function OtpCodeScreen() {
                 });
                 
                 await AsyncStorage.removeItem('signup_temp_data');
+                
+                // Log analytics
+                await logSignUp('email');
+                await logSignupFunnelStep(SignupFunnel.SUCCESS);
                 
                 Alert.alert('Thành công', 'Đăng ký tài khoản thành công!', [
                     { text: 'OK', onPress: () => router.replace(ROUTES.LOGIN) }

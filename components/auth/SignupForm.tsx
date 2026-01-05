@@ -1,16 +1,17 @@
+import { logSignupFunnelStep, SignupFunnel } from '@/services/analytics';
 import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import {
-  Box,
-  Button,
-  FormControl,
-  HStack,
-  Pressable,
-  Text,
-  VStack
+    Box,
+    Button,
+    FormControl,
+    HStack,
+    Pressable,
+    Text,
+    VStack
 } from 'native-base';
-import React, { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface SignupFormProps {
@@ -32,6 +33,28 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
   const confirmPasswordRef = useRef<TextInput>(null);
+  const hasLoggedEmailStep = useRef(false);
+  const hasLoggedPasswordStep = useRef(false);
+
+  // Log signup funnel start when component mounts
+  useEffect(() => {
+    logSignupFunnelStep(SignupFunnel.START, true);
+  }, []);
+
+  // Log funnel steps when user enters email/password
+  useEffect(() => {
+    if (email.trim() && !hasLoggedEmailStep.current) {
+      logSignupFunnelStep(SignupFunnel.ENTER_EMAIL, true);
+      hasLoggedEmailStep.current = true;
+    }
+  }, [email]);
+
+  useEffect(() => {
+    if (password.trim() && !hasLoggedPasswordStep.current) {
+      logSignupFunnelStep(SignupFunnel.ENTER_PASSWORD, true);
+      hasLoggedPasswordStep.current = true;
+    }
+  }, [password]);
 
   const validateForm = () => {
     const newErrors: { name?: string; email?: string; password?: string; confirmPassword?: string } = {};
@@ -70,16 +93,21 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={{ flex: 1 }}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+      enabled={Platform.OS === 'ios'}
     >
       <ScrollView 
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ 
+          flexGrow: 1,
+          paddingBottom: Platform.OS === 'android' ? 20 : 0
+        }}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
+        bounces={false}
       >
-        <Box px={6} py={8} flex={1} justifyContent="center">
+        <Box px={6} py={8} flex={1} justifyContent="center" minHeight="100%">
           <VStack space={6}>
             <VStack alignItems="center" space={1}>
               <Text className='!text-3xl !font-bold !text-primary-500'>Đăng ký</Text>
@@ -109,13 +137,13 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                         blurOnSubmit={false}
                         enablesReturnKeyAutomatically={true}
                         placeholderTextColor="#9ca3af"
-                        onSubmitEditing={() => nameRef.current?.focus()}
+                        onSubmitEditing={() => emailRef.current?.focus()}
                         editable={!isLoading}
                         style={{
                             flex: 1,
                             fontSize: 16,
                             color: '#000000',
-                            fontFamily: 'Gilroy-Regular',
+                            fontFamily: 'Inter-Regular',
                             height: '100%'
                         }}
                     />
@@ -156,7 +184,7 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                             flex: 1,
                             fontSize: 16,
                             color: '#000000',
-                            fontFamily: 'Gilroy-Regular',
+                            fontFamily: 'Inter-Regular',
                             height: '100%'
                         }}
                         />
@@ -196,7 +224,7 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                     flex: 1,
                     fontSize: 16,
                     color: '#000000',
-                    fontFamily: 'Gilroy-Regular',
+                    fontFamily: 'Inter-Regular',
                     height: '100%',
                   }}
                 />
@@ -249,7 +277,7 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                     flex: 1,
                     fontSize: 16,
                     color: '#000000',
-                    fontFamily: 'Gilroy-Regular',
+                    fontFamily: 'Inter-Regular',
                     height: '100%'
                   }}
                 />

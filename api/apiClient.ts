@@ -1,4 +1,4 @@
-import { triggerLogout } from "@/utils/authEvents";
+import { isInitializing, triggerLogout } from "@/utils/authEvents";
 import { ACCESS_TOKEN_KEY } from "@/utils/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -66,10 +66,14 @@ api.interceptors.response.use(
         try {
           await triggerLogout();
         } catch {}
-        Alert.alert('Phiên đăng nhập đã hết hạn', 'Vui lòng đăng nhập lại.');
-        try {
-          router.replace('/(public)/login');
-        } catch {}
+        // Only show alert if not during app initialization (e.g., checking stored token on startup)
+        if (!isInitializing) {
+          Alert.alert('Phiên đăng nhập đã hết hạn', 'Vui lòng đăng nhập lại.');
+          try {
+            router.replace('/(public)/login');
+          } catch {}
+        }
+        // During initialization, don't show alert or redirect - let AuthContext handle navigation
       }
     } else {
       const isServerError = status && status >= 500;

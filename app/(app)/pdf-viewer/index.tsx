@@ -1,3 +1,4 @@
+import { Features, logFeatureUsage } from "@/services/analytics";
 import { Colors } from "@/utils/theme";
 import { Ionicons } from "@expo/vector-icons";
 import * as FileSystem from "expo-file-system";

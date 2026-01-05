@@ -1,5 +1,6 @@
 import { ChatMessage, ChatResponse, useSendChatMessage } from '@/components/Chatbot/api';
 import { useUser } from '@/contexts/UserContext';
+import { Features, logChatbotInteraction, logFeatureUsage } from '@/services/analytics';
 import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -35,6 +36,8 @@ export default function ChatbotScreen() {
 
   useEffect(() => {
     if (userProfile && chatHistory.length === 0) {
+      // Log chatbot open
+      logFeatureUsage(Features.CHATBOT, 'view');
       const welcomeMessage: ChatMessageWithActions = {
         role: 'admin',
         content: `Xin chào ${userProfile.name}, tôi có thể giúp gì cho bạn hôm nay?`,
@@ -81,6 +84,9 @@ export default function ChatbotScreen() {
             content: msg.content,
           }));
 
+    // Log user message
+    logChatbotInteraction('user');
+
     // Gửi tin nhắn
     sendChatMutation.mutate(
       {
@@ -89,6 +95,8 @@ export default function ChatbotScreen() {
       },
       {
         onSuccess: (response: ChatResponse) => {
+          // Log bot response
+          logChatbotInteraction('bot');
           // Thêm phản hồi từ AI vào history
           const aiMessage: ChatMessageWithActions = {
             role: 'admin',
@@ -180,7 +188,7 @@ export default function ChatbotScreen() {
             {isUser ? (
               <Text
                 className="!text-base !text-white"
-                style={{ fontFamily: 'Gilroy-Regular' }}
+                style={{ fontFamily: 'Inter-Regular' }}
               >
                 {msg.content}
               </Text>
@@ -189,7 +197,7 @@ export default function ChatbotScreen() {
                 style={{
                   body: {
                     color: colorScheme === 'dark' ? '#f3f4f6' : '#111827',
-                    fontFamily: 'Gilroy-Regular',
+                    fontFamily: 'Inter-Regular',
                     fontSize: 16,
                   },
                   heading1: {
@@ -307,8 +315,9 @@ export default function ChatbotScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-dark-900" edges={['top']}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         className="flex-1"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
       >
         {/* Header */}
         <View className="flex-row items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
@@ -322,7 +331,7 @@ export default function ChatbotScreen() {
 
           <Text
             className="!text-xl !font-bold !text-black dark:!text-white"
-            style={{ fontFamily: 'Gilroy-Bold' }}
+            style={{ fontFamily: 'Inter-Bold' }}
           >
             Chatbot AI
           </Text>
@@ -367,7 +376,7 @@ export default function ChatbotScreen() {
                 placeholderTextColor="#9ca3af"
                 className="flex-1 !text-black dark:!text-white !text-base"
                 style={{ 
-                  fontFamily: 'Gilroy-Regular',
+                  fontFamily: 'Inter-Regular',
                   textAlignVertical: 'center',
                   paddingVertical: 12,
                 }}

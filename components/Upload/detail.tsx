@@ -1,5 +1,6 @@
 import { useFetchUserProfile } from '@/components/Profile/api';
 import { useFetchFacultiesAndSubjects } from '@/components/searchResultScreen/api';
+import { logUploadDocument, logUploadFunnelStep, UploadFunnel } from '@/services/analytics';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { clearUploadState, setCoverImage as setReduxCoverImage, setDescription as setReduxDescription, setTitle as setReduxTitle } from '@/store/uploadSlice';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,7 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { router, useFocusEffect } from 'expo-router';
 import { Button, Spinner, Text, View } from 'native-base';
-import React from 'react';
+import { useEffect, useRef } from 'react';
 import { Alert, Image, Keyboard, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUploadDocument } from './api';
@@ -20,6 +21,16 @@ export default function UploadDetailScreen() {
     
     const dispatch = useAppDispatch();
     const uploadState = useAppSelector(state => state.upload);
+    const hasAutoFilledTitle = useRef(false);
+    const hasLoggedAddDetails = useRef(false);
+
+    // Log upload funnel step when entering this screen
+    useEffect(() => {
+        if (!hasLoggedAddDetails.current) {
+            logUploadFunnelStep(UploadFunnel.ADD_DETAILS, true);
+            hasLoggedAddDetails.current = true;
+        }
+    }, []);
 
     console.log("upload params")
     
@@ -36,9 +47,10 @@ export default function UploadDetailScreen() {
     useFocusEffect(() => {
         console.log("Upload state from Redux:", uploadState);
         
-        // Auto-fill title from document name if empty
-        if (documentFile && !title) {
+        // Auto-fill title from document name only once (first time)
+        if (documentFile && !title && !hasAutoFilledTitle.current) {
             dispatch(setReduxTitle(documentFile.name));
+            hasAutoFilledTitle.current = true;
         }
         return () => { };
     });
@@ -116,6 +128,9 @@ export default function UploadDetailScreen() {
         }
 
         try {
+            // Log SUBMIT step before uploading
+            await logUploadFunnelStep(UploadFunnel.SUBMIT, true);
+
             // Prepare file object
             const fileName = documentFile.uri.split('/').pop() || 'document.pdf';
             const fileType = fileName.endsWith('.pdf') ? 'application/pdf' : 'application/octet-stream';
@@ -207,6 +222,10 @@ export default function UploadDetailScreen() {
                 images: imageFiles.length > 0 ? imageFiles : undefined,
             });
 
+            // Log analytics
+            await logUploadDocument(title.trim(), title.trim(), subjectId);
+            await logUploadFunnelStep(UploadFunnel.SUCCESS);
+
             // Clear Redux state after successful upload
             dispatch(clearUploadState());
 
@@ -253,7 +272,7 @@ export default function UploadDetailScreen() {
                                 multiline
                                 textAlignVertical="top"
                                 placeholderTextColor={'#9CA3AF'}
-                                className="h-24 border-b border-gray-200 dark:border-gray-700 text-lg font-[Gilroy-Regular] text-black dark:text-white"
+                                className="h-24 border-b border-gray-200 dark:border-gray-700 text-lg font-[Inter-Regular] text-black dark:text-white"
                             />
                         </View>
                     </View>
@@ -278,7 +297,7 @@ export default function UploadDetailScreen() {
                         value={description}
                         onChangeText={(text) => dispatch(setReduxDescription(text))}
                         placeholderTextColor={'#9CA3AF'}
-                        className='mt-6 h-20 border-b border-gray-200 dark:border-gray-700 text-lg font-[Gilroy-Regular] text-black dark:text-white'
+                        className='mt-6 h-20 border-b border-gray-200 dark:border-gray-700 text-lg font-[Inter-Regular] text-black dark:text-white'
                         multiline
                         textAlignVertical="top"
                     />

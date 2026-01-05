@@ -44,3 +44,5 @@ app-example
 
 .env
 .env.local
+
+google-services.json

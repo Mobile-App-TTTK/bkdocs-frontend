@@ -5,14 +5,17 @@ import { ThemeProvider } from '@/contexts/ThemeContext';
 import { UserProvider } from '@/contexts/UserContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useSplashScreen } from '@/hooks/use-splash-screen';
+import { logAppOpen, logNotificationOpened, logScreenView, logSessionStart, trackScreenEnter, trackScreenExit } from '@/services/analytics';
+import { addNotificationResponseReceivedListener } from '@/services/pushNotification';
 import { store } from '@/store';
 import { useAppFonts } from '@/utils/fonts';
 import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 import * as Sentry from '@sentry/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Stack } from 'expo-router';
+import { Stack, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider, extendTheme } from 'native-base';
+import { useEffect, useRef } from 'react';
 import 'react-native-reanimated';
 import { Provider as ReduxProvider } from 'react-redux';
 import '../global.css';
@@ -48,6 +51,51 @@ export default Sentry.wrap(function RootLayout() {
   const colorScheme = useColorScheme();
   const { isLoading, finishLoading } = useSplashScreen(1000);
   const fontsLoaded = useAppFonts();
+  const pathname = usePathname();
+  const previousPathnameRef = useRef<string | null>(null);
+
+  // Log app open for analytics
+  useEffect(() => {
+    logAppOpen();
+    logSessionStart();
+  }, []);
+
+  // Track screen views and screen time
+  useEffect(() => {
+    if (!pathname) return;
+    
+    const screenName = pathname.replace(/\//g, '_').replace(/^_/, '') || 'home';
+    
+    // Exit previous screen
+    if (previousPathnameRef.current) {
+      const prevScreenName = previousPathnameRef.current.replace(/\//g, '_').replace(/^_/, '') || 'home';
+      trackScreenExit(prevScreenName);
+    }
+    
+    // Enter new screen and log screen view
+    trackScreenEnter(screenName);
+    logScreenView(screenName);
+    
+    previousPathnameRef.current = pathname;
+    
+    // Cleanup on unmount
+    return () => {
+      if (previousPathnameRef.current) {
+        const exitScreenName = previousPathnameRef.current.replace(/\//g, '_').replace(/^_/, '') || 'home';
+        trackScreenExit(exitScreenName);
+      }
+    };
+  }, [pathname]);
+
+  // Listen for notification taps
+  useEffect(() => {
+    const subscription = addNotificationResponseReceivedListener((response) => {
+      const notificationType = response.notification?.request?.content?.data?.type as string || 'general';
+      logNotificationOpened(notificationType);
+    });
+
+    return () => subscription.remove();
+  }, []);
 
   if (isLoading || !fontsLoaded) {
     return (
@@ -61,9 +109,9 @@ export default Sentry.wrap(function RootLayout() {
       initialColorMode: 'light',
     },
     fonts: {
-      heading: 'Gilroy-Bold',
-      body: 'Gilroy-Regular',
-      mono: 'Gilroy-Medium',
+      heading: 'Inter-Bold',
+      body: 'Inter-Regular',
+      mono: 'Inter-Medium',
     },
     colors: {
       primary: {
@@ -90,7 +138,7 @@ export default Sentry.wrap(function RootLayout() {
             bg: `${colorScheme}.500`,
             _text: {
               color: 'white',
-              fontFamily: 'Gilroy-Semibold',
+              fontFamily: 'Inter-Semibold',
             },
             _pressed: { bg: `${colorScheme}.600` },
             _hover: { bg: `${colorScheme}.400` },
@@ -99,12 +147,12 @@ export default Sentry.wrap(function RootLayout() {
       },
       Text: {
         defaultProps: {
-          fontFamily: 'Gilroy-Regular',
+          fontFamily: 'Inter-Regular',
         },
       },
       Heading: {
         defaultProps: {
-          fontFamily: 'Gilroy-Bold',
+          fontFamily: 'Inter-Bold',
         },
       },
     },

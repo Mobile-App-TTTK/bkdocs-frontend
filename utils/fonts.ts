@@ -1,10 +1,16 @@
-import { useFonts } from 'expo-font';
+import {
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    useFonts,
+} from '@expo-google-fonts/inter';
 
 export const fontConfig = {
-  'Gilroy-Regular': require('../assets/Gilroy/400-Gilroy-Regular.ttf'),
-  'Gilroy-Medium': require('../assets/Gilroy/500-Gilroy-Medium.ttf'),
-  'Gilroy-Semibold': require('../assets/Gilroy/600-Gilroy-Semibold.ttf'),
-  'Gilroy-Bold': require('../assets/Gilroy/700-Gilroy-Bold.ttf'),
+  'Inter-Regular': Inter_400Regular,
+  'Inter-Medium': Inter_500Medium,
+  'Inter-Semibold': Inter_600SemiBold,
+  'Inter-Bold': Inter_700Bold,
 };
 
 export const useAppFonts = () => {
@@ -13,5 +19,5 @@ export const useAppFonts = () => {
 };
 
 export const fontFamily = {
-  default: 'Gilroy-Regular',
+  default: 'Inter-Regular',
 } as const;

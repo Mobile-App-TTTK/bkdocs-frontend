@@ -9,10 +9,11 @@ export const fetchUserProfile = async () => {
   return res.data.data;
 };
 
-export const useFetchUserProfile = () => {  
+export const useFetchUserProfile = (options?: { enabled?: boolean }) => {  
   return useQuery<UserProfile>({
     queryKey: ["user-profile"],
     queryFn: fetchUserProfile,
+    enabled: options?.enabled ?? true,
   });
 };
 

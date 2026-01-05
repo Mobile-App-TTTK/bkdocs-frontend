@@ -1,3 +1,4 @@
+import { logSearch } from '@/services/analytics';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { router, useFocusEffect } from 'expo-router';
 import { ScrollView, Skeleton, Text, View } from 'native-base';
@@ -46,6 +47,7 @@ export default function SearchScreen() {
 
   const handleSearch = (query: string) => {    
     if (query?.trim()) {
+      logSearch(query.trim());
       router.push({
         pathname: '/(app)/(tabs)/search/result',
         params: { query: query.trim() },
@@ -70,7 +72,7 @@ export default function SearchScreen() {
               autoCapitalize="none"
               returnKeyType="search"
               keyboardType="default"
-              className="flex-1 h-full text-base text-black dark:text-white font-[Gilroy-Regular] leading-5"
+              className="flex-1 h-full text-base text-black dark:text-white font-[Inter-Regular] leading-5"
               value={searchQuery}
               onChangeText={setSearchQuery}
               onSubmitEditing={() => handleSearch(searchQuery)}

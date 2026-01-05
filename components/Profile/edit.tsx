@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { Image, Spinner, Text, View } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Modal, Platform, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFetchUserProfile, useUpdateProfile } from './api';
@@ -173,7 +173,7 @@ export default function EditProfileScreen() {
 
                     <Text
                         className="!text-xl !font-bold text-black dark:text-white"
-                        style={{ fontFamily: 'Gilroy-Bold' }}
+                        style={{ fontFamily: 'Inter-Bold' }}
                     >
                         Chỉnh sửa hồ sơ
                     </Text>
@@ -217,7 +217,7 @@ export default function EditProfileScreen() {
 
                     <Text
                         className="text-xl font-bold text-black dark:text-white mb-2"
-                        style={{ fontFamily: 'Gilroy-Bold' }}
+                        style={{ fontFamily: 'Inter-Bold' }}
                     >
                         {fullName}
                     </Text>
@@ -225,7 +225,7 @@ export default function EditProfileScreen() {
                     <TouchableOpacity onPress={handleEditAvatar} activeOpacity={0.7}>
                         <Text
                             className="text-sm"
-                            style={{ fontFamily: 'Gilroy-Medium', color: '#FF9500' }}
+                            style={{ fontFamily: 'Inter-Medium', color: '#FF9500' }}
                         >
                             Chỉnh sửa hình ảnh hồ sơ
                         </Text>

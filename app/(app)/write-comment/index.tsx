@@ -1,6 +1,7 @@
 import { api } from "@/api/apiClient";
 import { API_GET_DOC_RATINGS, API_GET_DOCUMENT_DETAIL } from "@/api/apiRoutes";
 import { useFetchUserProfile } from "@/components/Profile/api";
+import { Features, logCommentDocument, logFeatureUsage, logUserRating } from "@/services/analytics";
 import { ACCESS_TOKEN_KEY } from "@/utils/constants";
 import { Colors } from "@/utils/theme";
 import { Ionicons } from "@expo/vector-icons";
@@ -92,7 +93,13 @@ export default function WriteComment() {
           }
 
           setSucces(!!data?.success);
-          if (data?.success) router.back();
+          if (data?.success) {
+            // Log analytics
+            logCommentDocument(id || '');
+            logUserRating(score, 'document', id);
+            logFeatureUsage(Features.COMMENT, 'complete');
+            router.back();
+          }
       
         } catch (e: any) {
           console.log("submitComment error", e?.response?.data ?? e);
@@ -231,7 +238,7 @@ export default function WriteComment() {
                                 height: 100,
                                 textAlignVertical: 'top',
                                 color: isDarkMode ? "white" : "black",
-                                fontFamily: 'Gilroy-Regular',
+                                fontFamily: 'Inter-Regular',
                             }}
                             placeholderTextColor={isDarkMode ? "#9ca3af" : "#6b7280"}
                         />

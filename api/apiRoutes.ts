@@ -26,6 +26,7 @@ export const API_RATE_STAT = `${API_RATES}/statistics`;
 
 // notifications
 export const API_NOTIFICATIONS = '/notifications';
+export const API_FCM_TOKEN = `${API_NOTIFICATIONS}/fcm-token`;
 export const API_SUBSCRIBE_FACULTY = `${API_NOTIFICATIONS}/faculty`;
 export const API_UNSUBSCRIBE_FACULTY = `${API_NOTIFICATIONS}/faculty`;
 export const API_SUBSCRIBE_SUBJECT = `${API_NOTIFICATIONS}/subject`;

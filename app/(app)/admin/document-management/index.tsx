@@ -35,7 +35,7 @@ export default function DocumentManagementScreen() {
                 </TouchableOpacity>
                 <Text
                     className="!text-xl !font-bold !text-black dark:!text-white"
-                    style={{ fontFamily: 'Gilroy-Bold' }}
+                    style={{ fontFamily: 'Inter-Bold' }}
                     numberOfLines={1}
                 >
                     Kiểm duyệt tài liệu

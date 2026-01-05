@@ -222,16 +222,6 @@ export default function NotificationPage() {
                                         <View className="w-3 h-3 rounded-full bg-primary-500 self-start mt-1" />
                                     )}
                                 </View>
-                                
-                                {!notification.isRead && (
-                                    <Pressable 
-                                        className="flex flex-row items-center justify-center gap-2 mt-3 py-2 bg-primary-500 rounded-lg"
-                                        onPress={() => markAsRead(notification.id)}
-                                    >
-                                        <Ionicons name="checkmark-circle-outline" size={18} color="white" />
-                                        <Text className="!text-white !font-semibold">Đánh dấu đã đọc</Text>
-                                    </Pressable>
-                                )}
                             </Pressable>
                         ))}
                     </ScrollView>

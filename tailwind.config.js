@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['Gilroy-Regular', 'system-ui', 'sans-serif'],
+        'sans': ['Inter-Regular', 'system-ui', 'sans-serif'],
       },
       colors: {
         primary: {

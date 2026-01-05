@@ -2,15 +2,15 @@ import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import {
-  Box,
-  Button,
-  FormControl,
-  HStack,
-  Pressable,
-  Text,
-  VStack
+    Box,
+    Button,
+    FormControl,
+    HStack,
+    Pressable,
+    Text,
+    VStack
 } from 'native-base';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface LoginFormProps {
@@ -54,16 +54,21 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={{ flex: 1 }}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+      enabled={Platform.OS === 'ios'}
     >
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ 
+          flexGrow: 1,
+          paddingBottom: Platform.OS === 'android' ? 20 : 0
+        }}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
+        bounces={false}
       >
-        <Box px={6} py={8} flex={1} justifyContent="center">
+        <Box px={6} py={8} flex={1} justifyContent="center" minHeight="100%">
           <VStack space={6}>
             <VStack alignItems="center" space={1}>
               <Text className='!text-3xl !font-bold !text-primary-500'>Đăng nhập</Text>
@@ -101,7 +106,7 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
                     flex: 1,
                     fontSize: 16,
                     color: '#000000',
-                    fontFamily: 'Gilroy-Regular'
+                    fontFamily: 'Inter-Regular'
                   }}
                 />
               </View>
@@ -140,7 +145,7 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
                     flex: 1,
                     fontSize: 16,
                     color: '#000000',
-                    fontFamily: 'Gilroy-Regular'
+                    fontFamily: 'Inter-Regular'
                   }}
                 />
                 <TouchableOpacity

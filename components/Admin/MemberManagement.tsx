@@ -1,7 +1,7 @@
 import { AdminUser, useBanUser, useFetchAdminUsers, useUnbanUser } from '@/components/Admin/api';
 import { Ionicons } from '@expo/vector-icons';
 import { Image, Spinner, Text, View } from 'native-base';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Alert, Pressable, ScrollView, TextInput } from 'react-native';
 
 export default function MemberManagement() {
@@ -72,7 +72,7 @@ export default function MemberManagement() {
                             flex: 1,
                             fontSize: 16,
                             color: '#000000',
-                            fontFamily: 'Gilroy-Regular'
+                            fontFamily: 'Inter-Regular'
                         }}
                     />
                     {searchQuery.length > 0 && (

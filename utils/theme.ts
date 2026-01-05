@@ -29,22 +29,22 @@ export const Colors = {
 
 export const Fonts = Platform.select({
   ios: {
-    /** Gilroy font family for iOS */
-    sans: 'Gilroy-Regular',
-    serif: 'Gilroy-Medium',
-    rounded: 'Gilroy-Semibold',
-    mono: 'Gilroy-Bold',
+    /** Inter font family for iOS */
+    sans: 'Inter-Regular',
+    serif: 'Inter-Medium',
+    rounded: 'Inter-Semibold',
+    mono: 'Inter-Bold',
   },
   default: {
-    sans: 'Gilroy-Regular',
-    serif: 'Gilroy-Medium',
-    rounded: 'Gilroy-Semibold',
-    mono: 'Gilroy-Bold',
+    sans: 'Inter-Regular',
+    serif: 'Inter-Medium',
+    rounded: 'Inter-Semibold',
+    mono: 'Inter-Bold',
   },
   web: {
-    sans: "'Gilroy-Regular', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif: "'Gilroy-Medium', Georgia, 'Times New Roman', serif",
-    rounded: "'Gilroy-Semibold', 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono: "'Gilroy-Bold', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+    sans: "'Inter-Regular', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+    serif: "'Inter-Medium', Georgia, 'Times New Roman', serif",
+    rounded: "'Inter-Semibold', 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
+    mono: "'Inter-Bold', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
 });
