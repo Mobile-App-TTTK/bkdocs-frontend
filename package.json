@@ -8,7 +8,24 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "setupFilesAfterEnv": ["<rootDir>/jest.setup.ts"],
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg|immer|@reduxjs/toolkit)"
+    ],
+    "collectCoverageFrom": [
+      "**/*.{js,jsx,ts,tsx}",
+      "!**/node_modules/**",
+      "!**/coverage/**"
+    ],
+    "coverageThreshold": {
+      "global": { "branches": 70, "functions": 70, "lines": 70, "statements": 70 }
+    }
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
@@ -22,6 +39,7 @@
     "@reduxjs/toolkit": "^2.10.1",
     "@sentry/react-native": "^7.8.0",
     "@tanstack/react-query": "^5.90.5",
+    "@types/jest": "29.5.14",
     "axios": "^1.12.2",
     "classnames": "^2.5.1",
     "expo": "54.0.13",
@@ -44,6 +62,8 @@
     "expo-updates": "~29.0.12",
     "expo-web-browser": "~15.0.8",
     "inline-style-prefixer": "^6.0.4",
+    "jest": "~29.7.0",
+    "jest-expo": "~54.0.16",
     "native-base": "^3.4.28",
     "nativewind": "^4.2.1",
     "normalize-css-color": "^1.0.2",
@@ -65,6 +85,7 @@
     "tailwindcss": "^3.4.18"
   },
   "devDependencies": {
+    "@testing-library/react-native": "^13.3.3",
     "@types/react": "~19.1.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
