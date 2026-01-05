@@ -1,0 +1,79 @@
+﻿node.exe : [baseline-browser-mapping] The data 
+in this module is over two months old.  To 
+ensure accurate Baseline data, please update: 
+`npm i baseline-browser-mapping@latest -D`
+At C:\Program Files\nodejs\npx.ps1:29 char:3
++   & $NODE_EXE $NPX_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([ba 
+   seline-brows...ping@latest -D`:String) [], R  
+  emoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+FAIL __tests__/components/facultyScreen.test.tsx
+  FacultyScreen
+    ΓêÜ shows loading header when loading (212 
+ms)
+    ΓêÜ renders faculty info and toggles follow 
+faculty (43 ms)
+    ΓêÜ navigates back when back button is 
+pressed (38 ms)
+    ΓêÜ unsubscribes from faculty successfully 
+(30 ms)
+    ΓêÜ handles subscribe faculty error (23 ms)
+    ΓêÜ handles unsubscribe faculty error (24 ms)
+    ├ù handles toggle follow subject (subscribe 
+success) (27 ms)
+    ΓêÜ handles toggle follow subject 
+(unsubscribe success) (27 ms)
+    ΓêÜ handles toggle follow subject (subscribe 
+error) (29 ms)
+    ΓêÜ handles toggle follow subject 
+(unsubscribe error) (24 ms)
+    ΓêÜ calls logFollowUser on subscribe faculty 
+success (20 ms)
+
+  ΓùÅ FacultyScreen ΓÇ║ handles toggle follow 
+subject (subscribe success)
+
+    Found multiple elements with text: Theo d├╡i
+
+    [0m [90m 235 |[39m     render([33m<[39m
+[33mWrapper[39m[33m>[39m[33m<[39m[33mFacult
+yScreen[39m [33m/[39m[33m>[39m[33m<[39m[3
+3m/[39m[33mWrapper[39m[33m>[39m)[33m;[39m
+     [90m 236 |[39m
+    [31m[1m>[22m[39m[90m 237 |[39m     
+[36mconst[39m subFollowBtn [33m=[39m 
+screen[33m.[39mgetByText([32m'Theo 
+d├╡i'[39m)[33m;[39m
+     [90m     |[39m                            
+     [31m[1m^[22m[39m
+     [90m 238 |[39m     [90m// Note: There 
+might be multiple 'Theo d├╡i' if faculty is not 
+followed.[39m
+     [90m 239 |[39m     [90m// But here mock 
+data has 'isFollowingFaculty: undefined' (falsy) 
+-> 'Theo d├╡i' for faculty too.[39m
+     [90m 240 |[39m     [90m// Wait, faculty 
+mock in this test block doesn't specify 
+isFollowingFaculty explicitly false, but usually 
+undefined is falsy.[39m[0m
+
+      at Object.getByText (__tests__/components/f
+acultyScreen.test.tsx:237:33)
+      at asyncGeneratorStep (node_modules/@babel/
+runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpe
+rs/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyn
+cToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/
+runtime/helpers/asyncToGenerator.js:14:12)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 10 passed, 11 total
+Snapshots:   0 total
+Time:        4.722 s, estimated 6 s
+Ran all test suites matching 
+/__tests__\\components\\facultyScreen.test.tsx/i.
