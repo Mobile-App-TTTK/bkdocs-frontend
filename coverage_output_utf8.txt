@@ -1,0 +1,42 @@
+﻿node.exe : [baseline-browser-mapping] The data 
+in this module is over two months old.  To 
+ensure accurate Baseline data, please update: 
+`npm i baseline-browser-mapping@latest -D`
+At C:\Program Files\nodejs\npx.ps1:29 char:3
++   & $NODE_EXE $NPX_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([ba 
+   seline-brows...ping@latest -D`:String) [], R  
+  emoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+PASS __tests__/components/Profile/EditProfileScre
+en.test.tsx
+  EditProfileScreen Component
+    ΓêÜ renders correctly with user data (201 ms)
+    ΓêÜ shows loading spinner (15 ms)
+    ΓêÜ validates empty name (48 ms)
+    ΓêÜ validates short name (50 ms)
+    ΓêÜ validates valid name update (46 ms)
+    ΓêÜ validates enrollment year (non-numeric) 
+(62 ms)
+    ΓêÜ validates enrollment year range (53 ms)
+    ΓêÜ opens faculty modal and selects faculty 
+(71 ms)
+    ΓêÜ updates avatar successfully (95 ms)
+    ΓêÜ handles api error on save (46 ms)
+    ΓêÜ handles image picker permission denied 
+(89 ms)
+
+----------|---------|----------|---------|---------|-----------------------------
+File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s           
+----------|---------|----------|---------|---------|-----------------------------
+All files |   90.36 |    70.31 |   76.92 |   90.36 |                             
+ edit.tsx |   90.36 |    70.31 |   76.92 |   90.36 | 70-71,81-82,144,167,289-298 
+----------|---------|----------|---------|---------|-----------------------------
+Test Suites: 1 passed, 1 total
+Tests:       11 passed, 11 total
+Snapshots:   0 total
+Time:        3.996 s, estimated 21 s
+Ran all test suites matching /__tests__\\componen
+ts\\Profile\\EditProfileScreen.test.tsx/i.
