@@ -1,0 +1,218 @@
+﻿
+> bkdocs-frontend@1.0.0 test
+> jest __tests__/components/subjectScreen/SubjectScreen.test.tsx
+
+node.exe : [baseline-browser-mapping] The data 
+in this module is over two months old.  To 
+ensure accurate Baseline data, please update: 
+`npm i baseline-browser-mapping@latest -D`
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([ba 
+   seline-brows...ping@latest -D`:String) [], R  
+  emoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  console.log
+    localId:  subject-123
+
+      at log (components/subjectScreen/index.tsx:16:13)
+
+  console.log
+    subjectInfo:  null
+
+      at log (components/subjectScreen/index.tsx:18:13)
+
+  console.log
+    localId:  subject-123
+
+      at log (components/subjectScreen/index.tsx:16:13)
+
+  console.log
+    subjectInfo:  null
+
+      at log (components/subjectScreen/index.tsx:18:13)
+
+  console.log
+    localId:  subject-123
+
+      at log (components/subjectScreen/index.tsx:16:13)
+
+  console.log
+    subjectInfo:  {
+      id: 'subject-123',
+      name: 'Giß║úi t├¡ch 1',
+      followers_count: 100,
+      document_count: 0,
+      imageUrl: 'http://example.com/image.png',
+      isFollowingSubject: false,
+      typeList: []
+    }
+
+      at log (components/subjectScreen/index.tsx:18:13)
+
+  console.log
+    localId:  subject-123
+
+      at log (components/subjectScreen/index.tsx:16:13)
+
+  console.log
+    subjectInfo:  {
+      id: 'subject-123',
+      name: 'Giß║úi t├¡ch 1',
+      followers_count: 100,
+      document_count: 2,
+      isFollowingSubject: true,
+      typeList: [ { name: '─Éß╗ü thi', documents: [Array] } ]
+    }
+
+      at log (components/subjectScreen/index.tsx:18:13)
+
+  console.log
+    localId:  subject-123
+
+      at log (components/subjectScreen/index.tsx:16:13)
+
+  console.log
+    subjectInfo:  null
+
+      at log (components/subjectScreen/index.tsx:18:13)
+
+  console.log
+    localId:  subject-123
+
+      at log (components/subjectScreen/index.tsx:16:13)
+
+  console.log
+    subjectInfo:  { id: 'subject-123', name: 'M├┤n hß╗ìc A', isFollowingSubject: false }
+
+      at log (components/subjectScreen/index.tsx:18:13)
+
+  console.log
+    localId:  subject-123
+
+      at log (components/subjectScreen/index.tsx:16:13)
+
+  console.log
+    subjectInfo:  { id: 'subject-123', name: 'M├┤n hß╗ìc A', isFollowingSubject: true }
+
+      at log (components/subjectScreen/index.tsx:18:13)
+
+  console.log
+    localId:  subject-123
+
+      at log (components/subjectScreen/index.tsx:16:13)
+
+  console.log
+    subjectInfo:  { id: 'subject-123', name: 'M├┤n hß╗ìc A', isFollowingSubject: false }
+
+      at log (components/subjectScreen/index.tsx:18:13)
+
+  console.log
+    localId:  subject-123
+
+      at log (components/subjectScreen/index.tsx:16:13)
+
+  console.log
+    subjectInfo:  { id: 'subject-123', name: 'M├┤n hß╗ìc A', isFollowingSubject: false }
+
+      at log (components/subjectScreen/index.tsx:18:13)
+
+  console.log
+    localId:  subject-123
+
+      at log (components/subjectScreen/index.tsx:16:13)
+
+  console.log
+    subjectInfo:  { id: 'subject-123', name: 'M├┤n hß╗ìc A', isFollowingSubject: true }
+
+      at log (components/subjectScreen/index.tsx:18:13)
+
+FAIL __tests__/components/subjectScreen/SubjectSc
+reen.test.tsx
+  SubjectScreen
+    ΓêÜ renders loading state correctly (77 ms)
+    ΓêÜ renders empty state (not loading, no 
+props) (8 ms)
+    ├ù renders data state without documents (10 
+ms)
+    ├ù renders data state with documents (10 ms)
+    ΓêÜ navigates back when back button pressed 
+(10 ms)
+    ΓêÜ handles subscribe subject action (10 ms)
+    ΓêÜ handles unsubscribe subject action (8 ms)
+    ΓêÜ displays loading spinner on follow 
+button when pending (9 ms)
+    ΓêÜ shows error alert on subscribe failure 
+(9 ms)
+    ΓêÜ shows error alert on unsubscribe failure 
+(12 ms)
+
+  ΓùÅ SubjectScreen ΓÇ║ renders data state 
+without documents
+
+    Found multiple elements with text: Giß║úi 
+t├¡ch 1
+
+    [0m [90m 127 |[39m         
+render([33m<[39m[33mSubjectScreen[39m 
+[33m/[39m[33m>[39m)[33m;[39m
+     [90m 128 |[39m
+    [31m[1m>[22m[39m[90m 129 |[39m         
+expect(screen[33m.[39mgetByText([32m'Giß║úi 
+t├¡ch 1'[39m))[33m.[39mtoBeTruthy()[33m;[39m
+     [90m     |[39m                       
+[31m[1m^[22m[39m
+     [90m 130 |[39m         
+expect(screen[33m.[39mgetByText([32m'100 
+ng╞░ß╗¥i theo d├╡i ┬╖ 0 t├ái 
+liß╗çu'[39m))[33m.[39mtoBeTruthy()[33m;[39m
+     [90m 131 |[39m         
+expect(screen[33m.[39mgetByText([32m'Theo 
+d├╡i'[39m))[33m.[39mtoBeTruthy()[33m;[39m
+     [90m 132 |[39m         
+expect(screen[33m.[39mgetByText([32m'Ch╞░a 
+c├│ t├ái liß╗çu n├áo'[39m))[33m.[39mtoBeTruthy
+()[33m;[39m[0m
+
+      at Object.getByText (__tests__/components/s
+ubjectScreen/SubjectScreen.test.tsx:129:23)
+
+  ΓùÅ SubjectScreen ΓÇ║ renders data state with 
+documents
+
+    Found multiple elements with text: Giß║úi 
+t├¡ch 1
+
+    [0m [90m 158 |[39m         
+render([33m<[39m[33mSubjectScreen[39m 
+[33m/[39m[33m>[39m)[33m;[39m
+     [90m 159 |[39m
+    [31m[1m>[22m[39m[90m 160 |[39m         
+expect(screen[33m.[39mgetByText([32m'Giß║úi 
+t├¡ch 1'[39m))[33m.[39mtoBeTruthy()[33m;[39m
+     [90m     |[39m                       
+[31m[1m^[22m[39m
+     [90m 161 |[39m         
+expect(screen[33m.[39mgetByText([32m'Bß╗Å 
+theo 
+d├╡i'[39m))[33m.[39mtoBeTruthy()[33m;[39m
+     [90m 162 |[39m         
+expect(screen[33m.[39mgetByText([32m'─Éß╗ü 
+thi'[39m))[33m.[39mtoBeTruthy()[33m;[39m 
+[90m// Type header[39m
+     [90m 163 |[39m         
+expect(screen[33m.[39mgetByText([32m'Doc: 
+─Éß╗ü thi GK 2023'[39m))[33m.[39mtoBeTruthy()
+[33m;[39m[0m
+
+      at Object.getByText (__tests__/components/s
+ubjectScreen/SubjectScreen.test.tsx:160:23)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 8 passed, 10 total
+Snapshots:   0 total
+Time:        1.642 s, estimated 3 s
+Ran all test suites matching /__tests__\\componen
+ts\\subjectScreen\\SubjectScreen.test.tsx/i.

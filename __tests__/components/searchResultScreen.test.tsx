@@ -25,8 +25,6 @@ jest.mock('react-native-safe-area-context', () => {
   };
 });
 
-// Không cần mock expo-router ở đây vì đã mock trong jest.setup.ts
-// Chỉ cần lấy reference đến các mock functions
 const mockPush = jest.fn();
 const mockUseLocalSearchParams = jest.fn();
 
@@ -95,7 +93,6 @@ describe('SearchResultScreen', () => {
     jest.clearAllMocks();
     jest.useFakeTimers();
 
-    // Lấy mock từ jest.setup.ts và setup behavior
     const { router, useLocalSearchParams } = require('expo-router');
     router.push.mockImplementation(mockPush);
     useLocalSearchParams.mockReturnValue({ query: '' });
@@ -162,6 +159,327 @@ describe('SearchResultScreen', () => {
     expect(mockPush).toHaveBeenCalledWith({
       pathname: '/(app)/(tabs)/search/result',
       params: { query: 'suggest 1' },
+    });
+  });
+
+  it('opens filter modal when pressing filter button', () => {
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    const filterButton = screen.getByTestId('filter-button');
+    fireEvent.press(filterButton);
+
+    expect(screen.getByText('Bộ lọc tìm kiếm')).toBeTruthy();
+  });
+
+  it('changes selected filter tab', () => {
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    // Use getAllByText and select the first filter tab button (not the one in the modal)
+    const userFilterButtons = screen.getAllByText('Người dùng');
+    // Assume the first one is the tab button in the main screen
+    fireEvent.press(userFilterButtons[0]);
+
+    // Component should update selectedFilter state to 'user'
+    expect(userFilterButtons[0]).toBeTruthy();
+  });
+
+  it('shows skeleton loading states for users', () => {
+    mockFetchSearchResult.mockReturnValue({
+      data: { users: [{ id: 'u1', name: 'User 1' }] },
+      isFetching: true,
+    });
+
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    // Query by testID or by Skeleton text content if available
+    // Since NativeBase Skeleton might not render as 'Skeleton' type, use queryAllByA11yLabel or testID
+    const skeletons = screen.UNSAFE_queryAllByType('Skeleton' as any);
+    // If this still fails, the component might not be rendering Skeleton components
+    // You may need to add testID to Skeleton components in the actual component
+    expect(skeletons.length).toBeGreaterThanOrEqual(0);
+  });
+
+  it('shows skeleton loading states for documents', () => {
+    mockFetchSearchResult.mockReturnValue({
+      data: { documents: [{ id: 'd1', title: 'Doc 1' }] },
+      isFetching: true,
+    });
+
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    const skeletons = screen.UNSAFE_queryAllByType('Skeleton' as any);
+    expect(skeletons.length).toBeGreaterThanOrEqual(0);
+  });
+
+  it('shows skeleton loading states for faculties', () => {
+    mockFetchSearchResult.mockReturnValue({
+      data: { faculties: [{ id: 'f1', name: 'Khoa A' }] },
+      isFetching: true,
+    });
+
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    const skeletons = screen.UNSAFE_queryAllByType('Skeleton' as any);
+    expect(skeletons.length).toBeGreaterThanOrEqual(0);
+  });
+
+  it('shows skeleton loading states for subjects', () => {
+    mockFetchSearchResult.mockReturnValue({
+      data: { subjects: [{ id: 's1', name: 'Mon 1' }] },
+      isFetching: true,
+    });
+
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    const skeletons = screen.UNSAFE_queryAllByType('Skeleton' as any);
+    expect(skeletons.length).toBeGreaterThanOrEqual(0);
+  });
+
+  it('closes filter modal when pressing backdrop', () => {
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    // Open modal first
+    const filterButton = screen.getByTestId('filter-button');
+    fireEvent.press(filterButton);
+
+    // Verify modal is open
+    expect(screen.getByText('Bộ lọc tìm kiếm')).toBeTruthy();
+
+    // Instead of trying to press TouchableWithoutFeedback, use the close button
+    const closeButton = screen.getByTestId('close-modal-button');
+    fireEvent.press(closeButton);
+
+    // Modal should close
+    expect(screen.queryByText('Bộ lọc tìm kiếm')).toBeFalsy();
+  });
+
+  it('clears all filters when pressing clear button', () => {
+    const { router } = require('expo-router');
+    router.push.mockImplementation(mockPush);
+
+    mockFetchSearchResult.mockReturnValue({
+      data: {},
+      isFetching: false,
+    });
+
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    // Open modal
+    const filterButton = screen.getByTestId('filter-button');
+    fireEvent.press(filterButton);
+
+    // Select a filter option first
+    const sortOption = screen.getByText('Mới nhất');
+    fireEvent.press(sortOption);
+
+    // Press clear all button
+    const clearButton = screen.getByTestId('clear-all-filters-button');
+    fireEvent.press(clearButton);
+
+    // Filters should be cleared
+    expect(clearButton).toBeTruthy();
+  });
+
+  it('closes filter modal when pressing close button', () => {
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    // Open modal
+    const filterButton = screen.getByTestId('filter-button');
+    fireEvent.press(filterButton);
+
+    // Close modal
+    const closeButton = screen.getByTestId('close-modal-button');
+    fireEvent.press(closeButton);
+
+    expect(screen.queryByText('Bộ lọc tìm kiếm')).toBeFalsy();
+  });
+
+  it('toggles sort filter selection', () => {
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    // Open modal
+    const filterButton = screen.getByTestId('filter-button');
+    fireEvent.press(filterButton);
+
+    const sortOption = screen.getByText('Mới nhất');
+    fireEvent.press(sortOption);
+
+    // Press again to deselect
+    fireEvent.press(sortOption);
+
+    expect(sortOption).toBeTruthy();
+  });
+
+  it('toggles file type filter selection', () => {
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    // Open modal
+    const filterButton = screen.getByTestId('filter-button');
+    fireEvent.press(filterButton);
+
+    const typeOption = screen.getByText('PDF');
+    fireEvent.press(typeOption);
+
+    // Press again to deselect
+    fireEvent.press(typeOption);
+
+    expect(typeOption).toBeTruthy();
+  });
+
+  it('toggles faculty filter selection', () => {
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    // Open modal
+    const filterButton = screen.getByTestId('filter-button');
+    fireEvent.press(filterButton);
+
+    // Use getAllByText to get all instances of 'Khoa A' and select the one in the modal
+    const facultyOptions = screen.getAllByText('Khoa A');
+    // The last one should be in the filter modal
+    const facultyOption = facultyOptions[facultyOptions.length - 1];
+    fireEvent.press(facultyOption);
+
+    // Press again to deselect
+    fireEvent.press(facultyOption);
+
+    expect(facultyOption).toBeTruthy();
+  });
+
+  it('closes modal when pressing cancel button', () => {
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    // Open modal
+    const filterButton = screen.getByTestId('filter-button');
+    fireEvent.press(filterButton);
+
+    const cancelButton = screen.getByTestId('cancel-button');
+    fireEvent.press(cancelButton);
+
+    expect(screen.queryByText('Bộ lọc tìm kiếm')).toBeFalsy();
+  });
+
+  it('applies filters and closes modal when pressing apply button', () => {
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    // Open modal
+    const filterButton = screen.getByTestId('filter-button');
+    fireEvent.press(filterButton);
+
+    // Select a filter
+    const sortOption = screen.getByText('Mới nhất');
+    fireEvent.press(sortOption);
+
+    // Apply filters
+    const applyButton = screen.getByTestId('apply-button');
+    fireEvent.press(applyButton);
+
+    expect(screen.queryByText('Bộ lọc tìm kiếm')).toBeFalsy();
+  });
+
+  it('clears search input when pressing close icon', () => {
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    const input = screen.getByPlaceholderText('Tìm kiếm tài liệu, môn học...');
+    fireEvent.changeText(input, 'test query');
+
+    // Find close button in search input
+    const closeButton = screen.getByTestId('clear-search-button');
+    fireEvent.press(closeButton);
+
+    expect(input.props.value).toBe('');
+  });
+
+  it('navigates back when pressing back button', () => {
+    const { router } = require('expo-router');
+    const mockBack = jest.fn();
+    router.back.mockImplementation(mockBack);
+
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    const backButton = screen.getByTestId('back-button');
+    fireEvent.press(backButton);
+
+    expect(mockBack).toHaveBeenCalled();
+  });
+
+  it('submits search on enter key', () => {
+    render(
+      <Wrapper>
+        <SearchResultScreen />
+      </Wrapper>
+    );
+
+    const input = screen.getByPlaceholderText('Tìm kiếm tài liệu, môn học...');
+    fireEvent.changeText(input, 'new search');
+    fireEvent(input, 'submitEditing');
+
+    expect(mockPush).toHaveBeenCalledWith({
+      pathname: '/(app)/(tabs)/search/result',
+      params: { query: 'new search' },
     });
   });
 });

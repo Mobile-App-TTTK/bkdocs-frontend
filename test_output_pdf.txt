@@ -1,0 +1,94 @@
+﻿
+> bkdocs-frontend@1.0.0 test
+> jest __tests__/app/pdf-viewer/PdfViewer.test.tsx
+
+node.exe : [baseline-browser-mapping] The data 
+in this module is over two months old.  To 
+ensure accurate Baseline data, please update: 
+`npm i baseline-browser-mapping@latest -D`
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([ba 
+   seline-brows...ping@latest -D`:String) [], R  
+  emoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+FAIL __tests__/app/pdf-viewer/PdfViewer.test.tsx
+  PdfViewer
+    ΓêÜ renders error state when no URI provided 
+(62 ms)
+    ΓêÜ navigates back when "Quay lß║íi" button 
+pressed in error state (10 ms)
+    ├ù renders loading state initially with 
+valid URI (12 ms)
+    ΓêÜ displays title from params (4 ms)
+    ΓêÜ displays default title when no title 
+provided (5 ms)
+    ΓêÜ navigates back when back button in 
+header pressed (5 ms)
+    ΓêÜ renders WebView for remote URL (4 ms)
+    ΓêÜ handles local file URI on iOS (4 ms)
+    ΓêÜ handles local file URI on Android with 
+base64 (68 ms)
+    ΓêÜ shows error when local file does not 
+exist on Android (5 ms)
+    ΓêÜ handles array URI param (takes first 
+element) (6 ms)
+    ΓêÜ handles array title param (takes first 
+element) (5 ms)
+
+  ΓùÅ PdfViewer ΓÇ║ renders loading state 
+initially with valid URI
+
+    Unable to find an element with text: ─Éang 
+tß║úi PDF...
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mchevron-back-outline[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0mTest Document[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"webview"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mWebView Mock[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+    [0m [90m 88 |[39m
+     [90m 89 |[39m         [90m// Initially 
+should show loading[39m
+    [31m[1m>[22m[39m[90m 90 |[39m         
+expect(screen[33m.[39mgetByText([32m'─Éang 
+tß║úi 
+PDF...'[39m))[33m.[39mtoBeTruthy()[33m;[39m
+     [90m    |[39m                       
+[31m[1m^[22m[39m
+     [90m 91 |[39m     })[33m;[39m
+     [90m 92 |[39m
+     [90m 93 |[39m     it([32m'displays title 
+from params'[39m[33m,[39m [36masync[39m () 
+[33m=>[39m {[0m
+
+      at Object.getByText (__tests__/app/pdf-view
+er/PdfViewer.test.tsx:90:23)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 11 passed, 12 total
+Snapshots:   0 total
+Time:        1.301 s, estimated 2 s
+Ran all test suites matching /__tests__\\app\\pdf
+-viewer\\PdfViewer.test.tsx/i.

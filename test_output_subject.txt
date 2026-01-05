@@ -1,0 +1,51 @@
+﻿
+> bkdocs-frontend@1.0.0 test
+> jest __tests__/components/subjectScreen/SubjectScreen.test.tsx
+
+node.exe : [baseline-browser-mapping] The data 
+in this module is over two months old.  To 
+ensure accurate Baseline data, please update: 
+`npm i baseline-browser-mapping@latest -D`
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([ba 
+   seline-brows...ping@latest -D`:String) [], R  
+  emoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+FAIL __tests__/components/subjectScreen/SubjectSc
+reen.test.tsx
+  ΓùÅ Test suite failed to run
+
+    Cannot find module '../DocumentCard' from '__
+tests__/components/subjectScreen/SubjectScreen.te
+st.tsx'
+
+    [0m [90m 49 |[39m }))[33m;[39m
+     [90m 50 |[39m
+    [31m[1m>[22m[39m[90m 51 |[39m jest[33m
+.[39mmock([32m'../DocumentCard'[39m[33m,[39m
+ () [33m=>[39m {
+     [90m    |[39m      [31m[1m^[22m[39m
+     [90m 52 |[39m     [36mconst[39m { 
+[33mText[39m[33m,[39m [33mView[39m } 
+[33m=[39m 
+require([32m'react-native'[39m)[33m;[39m
+     [90m 53 |[39m     [36mreturn[39m ({ 
+title }[33m:[39m any) [33m=>[39m (
+     [90m 54 |[39m         
+[33m<[39m[33mView[39m testID[33m=[39m[32m"
+document-card"[39m[33m>[39m[0m
+
+      at Resolver._throwModNotFoundError (node_mo
+dules/jest-resolve/build/resolver.js:427:11)
+      at Object.mock (__tests__/components/subjec
+tScreen/SubjectScreen.test.tsx:51:6)
+
+Test Suites: 1 failed, 1 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        0.824 s
+Ran all test suites matching /__tests__\\componen
+ts\\subjectScreen\\SubjectScreen.test.tsx/i.

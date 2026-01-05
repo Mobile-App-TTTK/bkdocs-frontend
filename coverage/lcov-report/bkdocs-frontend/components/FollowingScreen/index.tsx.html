@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/34</span>
+                <span class='fraction'>34/34</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -233,10 +233,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -261,8 +261,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -275,7 +275,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -293,7 +293,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -315,7 +315,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -335,7 +335,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -385,11 +385,11 @@ interface FollowingScreenProps {
     onBack?: () =&gt; void;
 }
 &nbsp;
-export default function <span class="fstat-no" title="function not covered" >FollowingScreen(</span>{ onBack }: FollowingScreenProps) {
-    const [selectedFilter, setSelectedFilter] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;('all');</span>
-    const { data: followList, isLoading } = <span class="cstat-no" title="statement not covered" >useFetchFollowList();</span>
+export default function FollowingScreen({ onBack }: FollowingScreenProps) {
+    const [selectedFilter, setSelectedFilter] = useState&lt;string&gt;('all');
+    const { data: followList, isLoading } = useFetchFollowList();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
+    return (
         &lt;SafeAreaView className="flex-1 bg-white dark:!bg-dark-900" edges={['top']}&gt;
             &lt;View className="flex-row items-center justify-between px-6 pt-4 pb-2"&gt;
                 {onBack &amp;&amp; (
@@ -413,9 +413,9 @@ export default function <span class="fstat-no" title="function not covered" >Fol
             &lt;/View&gt;
 &nbsp;
             &lt;View className="flex-row items-center gap-2 py-4 px-4"&gt;
-                {filterOptionsList.map(<span class="fstat-no" title="function not covered" >(o</span>ption) =&gt; (
-<span class="cstat-no" title="statement not covered" >                    &lt;TouchableOpacity</span>
-                        key={option.value} onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setSelectedFilter(option.value)}</span>
+                {filterOptionsList.map((option) =&gt; (
+                    &lt;TouchableOpacity
+                        key={option.value} onPress={() =&gt; setSelectedFilter(option.value)}
                         className={classNames(
                             "p-3 rounded-xl border border-gray-200 dark:border-gray-700", selectedFilter === option.value ? 'bg-primary-50 border-primary-500' : '')}
                     &gt;
@@ -427,8 +427,8 @@ export default function <span class="fstat-no" title="function not covered" >Fol
             &lt;ScrollView className="flex-1" showsVerticalScrollIndicator={false}&gt;
                 {isLoading ? (
                     &lt;View className="px-4 py-8"&gt;
-                        {Array.from({ length: 3 }).map(<span class="fstat-no" title="function not covered" >(_</span>, index) =&gt; (
-<span class="cstat-no" title="statement not covered" >                            &lt;View key={index} className="flex-row items-center gap-4 mb-6"&gt;</span>
+                        {Array.from({ length: 3 }).map((_, index) =&gt; (
+                            &lt;View key={index} className="flex-row items-center gap-4 mb-6"&gt;
                                 &lt;Skeleton h="16" w="16" rounded="full" /&gt;
                                 &lt;View className="flex-1"&gt;
                                     &lt;Skeleton.Text lines={2} /&gt;
@@ -445,8 +445,8 @@ export default function <span class="fstat-no" title="function not covered" >Fol
                                     Người dùng
                                 &lt;/Text&gt;
                                 &lt;View className="flex-col gap-6"&gt;
-                                    {followList.followingUsers.map(<span class="fstat-no" title="function not covered" >(u</span>ser) =&gt; (
-<span class="cstat-no" title="statement not covered" >                                        &lt;UserCard</span>
+                                    {followList.followingUsers.map((user) =&gt; (
+                                        &lt;UserCard
                                             key={user.id}
                                             id={user.id}
                                             name={user.name}
@@ -467,8 +467,8 @@ export default function <span class="fstat-no" title="function not covered" >Fol
                                     Khoa
                                 &lt;/Text&gt;
                                 &lt;View className="flex-row flex-wrap justify-between"&gt;
-                                    {followList.subscribedFacultyIds.map(<span class="fstat-no" title="function not covered" >(f</span>aculty) =&gt; (
-<span class="cstat-no" title="statement not covered" >                                        &lt;FacultyCard</span>
+                                    {followList.subscribedFacultyIds.map((faculty) =&gt; (
+                                        &lt;FacultyCard
                                             key={faculty.id}
                                             id={faculty.id}
                                             name={faculty.name}
@@ -487,8 +487,8 @@ export default function <span class="fstat-no" title="function not covered" >Fol
                                     Môn học
                                 &lt;/Text&gt;
                                 &lt;View className="flex-row flex-wrap justify-between"&gt;
-                                    {followList.subscribedSubjectIds.map(<span class="fstat-no" title="function not covered" >(s</span>ubject) =&gt; (
-<span class="cstat-no" title="statement not covered" >                                        &lt;SubjectCard</span>
+                                    {followList.subscribedSubjectIds.map((subject) =&gt; (
+                                        &lt;SubjectCard
                                             key={subject.id}
                                             id={subject.id}
                                             name={subject.name}
@@ -529,7 +529,7 @@ export default function <span class="fstat-no" title="function not covered" >Fol
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-05T08:22:13.592Z
+                at 2026-01-05T17:47:48.418Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

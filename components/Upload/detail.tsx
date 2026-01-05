@@ -8,7 +8,10 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { router, useFocusEffect } from 'expo-router';
 import { Button, Spinner, Text, View } from 'native-base';
+<<<<<<< Updated upstream
 import { useEffect, useRef } from 'react';
+=======
+>>>>>>> Stashed changes
 import { Alert, Image, Keyboard, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUploadDocument } from './api';
@@ -18,7 +21,7 @@ export default function UploadDetailScreen() {
     const { data: facultiesData } = useFetchFacultiesAndSubjects();
     const { data: userProfile } = useFetchUserProfile();
     const uploadMutation = useUploadDocument();
-    
+
     const dispatch = useAppDispatch();
     const uploadState = useAppSelector(state => state.upload);
     const hasAutoFilledTitle = useRef(false);
@@ -33,7 +36,7 @@ export default function UploadDetailScreen() {
     }, []);
 
     console.log("upload params")
-    
+
     // Use Redux state - all values come from store
     const documentFile = uploadState.documentFile;
     const title = uploadState.title;
@@ -46,9 +49,15 @@ export default function UploadDetailScreen() {
 
     useFocusEffect(() => {
         console.log("Upload state from Redux:", uploadState);
+<<<<<<< Updated upstream
         
         // Auto-fill title from document name only once (first time)
         if (documentFile && !title && !hasAutoFilledTitle.current) {
+=======
+
+        // Auto-fill title from document name if empty
+        if (documentFile && !title) {
+>>>>>>> Stashed changes
             dispatch(setReduxTitle(documentFile.name));
             hasAutoFilledTitle.current = true;
         }
@@ -142,16 +151,16 @@ export default function UploadDetailScreen() {
                         // Extract asset ID from ph:// URI
                         const assetId = uri.replace(/^ph(-upload)?:\/\//, '').split('/')[0];
                         console.log('Getting local URI for asset:', assetId);
-                        
+
                         // Get asset info from media library
                         const asset = await MediaLibrary.getAssetInfoAsync(assetId);
                         console.log('Asset info:', asset);
-                        
+
                         if (asset && asset.localUri) {
                             console.log('Converted ph:// to local URI:', uri, '->', asset.localUri);
                             return asset.localUri;
                         }
-                        
+
                         throw new Error('Could not get local URI for photo library asset');
                     } catch (error) {
                         console.error('Error getting local URI for photo library file:', error);
@@ -242,11 +251,11 @@ export default function UploadDetailScreen() {
     };
 
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
+        <TouchableWithoutFeedback testID="keyboard-dismiss-area" onPress={() => Keyboard.dismiss()} accessible={false}>
             <View className="flex-1 px-2 !bg-white dark:!bg-dark-900">
                 <View style={{ marginTop: insets.top }} className="absolute top-0 left-0 right-0 z-10 px-3 py-2">
                     <View className='flex-row items-center justify-between'>
-                        <TouchableOpacity onPress={() => router.back()} className='w-12 h-12 rounded-full bg-gray-100 dark:bg-dark-800 items-center justify-center'>
+                        <TouchableOpacity testID="back-button" onPress={() => router.back()} className='w-12 h-12 rounded-full bg-gray-100 dark:bg-dark-800 items-center justify-center'>
                             <Ionicons name="chevron-back" size={24} className='!text-gray-700 dark:!text-gray-300' />
                         </TouchableOpacity>
                         <Text className='!text-xl !font-semibold !text-black dark:!text-white'>Thêm mô tả chi tiết</Text>
@@ -256,7 +265,7 @@ export default function UploadDetailScreen() {
 
                 <View className='flex-1 px-3' style={{ marginTop: insets.top + 60 }}>
                     <View className="flex-row items-start gap-4">
-                        <TouchableOpacity onPress={handlePickCover} className="w-24 h-24 rounded-xl bg-gray-100 dark:bg-dark-800 items-center justify-center overflow-hidden">
+                        <TouchableOpacity testID="cover-image-picker" onPress={handlePickCover} className="w-24 h-24 rounded-xl bg-gray-100 dark:bg-dark-800 items-center justify-center overflow-hidden">
                             {coverUri ? (
                                 <Image source={{ uri: coverUri }} style={{ width: '100%', height: '100%' }} />
                             ) : (
@@ -278,9 +287,9 @@ export default function UploadDetailScreen() {
                     </View>
 
                     <View className='flex-row items-center gap-3 mt-6'>
-                        <Image 
-                            source={userProfile?.imageUrl ? { uri: userProfile.imageUrl } : { uri: 'https://i.pinimg.com/1200x/24/bd/d9/24bdd9ec59a9f8966722063fe7791183.jpg' }} 
-                            className='w-16 h-16 rounded-full' 
+                        <Image
+                            source={userProfile?.imageUrl ? { uri: userProfile.imageUrl } : { uri: 'https://i.pinimg.com/1200x/24/bd/d9/24bdd9ec59a9f8966722063fe7791183.jpg' }}
+                            className='w-16 h-16 rounded-full'
                         />
                         <View>
                             <Text className='!font-semibold !text-black dark:!text-white'>
@@ -303,7 +312,7 @@ export default function UploadDetailScreen() {
                     />
 
                     <View className='mt-6'>
-                        <TouchableOpacity onPress={() => router.push('/(app)/select-images')} className='flex-row items-center justify-between py-5 border-b border-gray-200 dark:border-gray-700'>
+                        <TouchableOpacity testID="add-images-button" onPress={() => router.push('/(app)/select-images')} className='flex-row items-center justify-between py-5 border-b border-gray-200 dark:border-gray-700'>
                             <View className='flex-row items-center gap-3'>
                                 <Ionicons name='images-outline' size={22} className='!text-gray-700 dark:!text-gray-300' />
                                 <Text className='!text-lg !text-black dark:!text-white'>Thêm ảnh</Text>
@@ -319,6 +328,7 @@ export default function UploadDetailScreen() {
                         </TouchableOpacity>
 
                         <TouchableOpacity
+                            testID="select-faculty-button"
                             onPress={() =>
                                 router.push({
                                     pathname: '/(app)/select-faculty',
@@ -358,7 +368,7 @@ export default function UploadDetailScreen() {
                         </TouchableOpacity>
 
 
-                        <TouchableOpacity className='flex-row items-center justify-between py-5 border-b border-gray-200 dark:border-gray-700' onPress={() => router.push('/(app)/select-subject')}>
+                        <TouchableOpacity testID="select-subject-button" className='flex-row items-center justify-between py-5 border-b border-gray-200 dark:border-gray-700' onPress={() => router.push('/(app)/select-subject')}>
                             <View className='flex-row items-center gap-3'>
                                 <Ionicons name='book-outline' size={22} className='!text-gray-700 dark:!text-gray-300' />
                                 <Text className='!text-lg !text-black dark:!text-white'>Chọn môn học</Text>
@@ -373,7 +383,7 @@ export default function UploadDetailScreen() {
                             </View>
                         </TouchableOpacity>
 
-                        <TouchableOpacity className='flex-row items-center justify-between py-5 border-b border-gray-200 dark:border-gray-700' onPress={() => router.push('/(app)/select-list')}>
+                        <TouchableOpacity testID="select-list-button" className='flex-row items-center justify-between py-5 border-b border-gray-200 dark:border-gray-700' onPress={() => router.push('/(app)/select-list')}>
                             <View className='flex-row items-center gap-3'>
                                 <Ionicons name='list-outline' size={22} className='!text-gray-700 dark:!text-gray-300' />
                                 <Text className='!text-lg !text-black dark:!text-white'>Chọn danh sách</Text>
@@ -390,18 +400,12 @@ export default function UploadDetailScreen() {
                     </View>
 
                     <View className='absolute left-3 right-3' style={{ bottom: insets.bottom + 12 }}>
-                        <Button 
+                        <Button
+                            testID="upload-button"
                             onPress={handleUpload}
-                            isDisabled={
-                                uploadMutation.isPending ||
-                                !documentFile ||
-                                !title.trim() ||
-                                selectedFaculties.length === 0 ||
-                                selectedSubjects.length === 0 ||
-                                selectedLists.length === 0
-                            }
-                            className='!rounded-2xl !py-4' 
-                            bg="primary.500" 
+                            isDisabled={uploadMutation.isPending}
+                            className='!rounded-2xl !py-4'
+                            bg="primary.500"
                             _disabled={{ bg: 'gray.300' }}
                         >
                             {uploadMutation.isPending ? (

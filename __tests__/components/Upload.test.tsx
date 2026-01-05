@@ -20,7 +20,11 @@ let mockUploadState: any = {
 
 jest.mock('@/store/hooks', () => ({
   useAppDispatch: () => mockDispatch,
-  useAppSelector: (sel: any) => sel({ upload: mockUploadState }),
+  useAppSelector: (sel: any) => {
+    // Use a getter to access current mockUploadState
+    const getCurrentState = () => ({ upload: mockUploadState });
+    return sel(getCurrentState());
+  },
 }));
 
 jest.mock('@/store/uploadSlice', () => ({
@@ -93,7 +97,7 @@ const UploadDetailScreen = require('@/components/Upload/detail').default;
 describe('UploadDetailScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+    jest.spyOn(Alert, 'alert').mockImplementation(() => { });
     mockIsPending.value = false;
 
     mockUploadState = {
@@ -147,23 +151,12 @@ describe('UploadDetailScreen', () => {
       </Wrapper>
     );
 
-    const touchables = screen.root.findAllByType('TouchableOpacity');
-    const coverButton = touchables.find((t: any) => {
-      try {
-        const view = t.findByProps({ className: 'w-24 h-24 rounded-xl bg-gray-100 dark:bg-dark-800 items-center justify-center overflow-hidden' });
-        return !!view;
-      } catch {
-        return false;
-      }
+    const coverButton = screen.getByTestId('cover-image-picker');
+    fireEvent.press(coverButton);
+
+    await waitFor(() => {
+      expect(Alert.alert).toHaveBeenCalledWith('Cần quyền truy cập', 'Vui lòng cấp quyền truy cập thư viện ảnh');
     });
-    
-    if (coverButton) {
-      fireEvent.press(coverButton);
-      
-      await waitFor(() => {
-        expect(Alert.alert).toHaveBeenCalledWith('Cần quyền truy cập', 'Vui lòng cấp quyền truy cập thư viện ảnh');
-      });
-    }
   });
 
   it('pick cover: success dispatches setCoverImage', async () => {
@@ -179,24 +172,13 @@ describe('UploadDetailScreen', () => {
       </Wrapper>
     );
 
-    const touchables = screen.root.findAllByType('TouchableOpacity');
-    const coverButton = touchables.find((t: any) => {
-      try {
-        const view = t.findByProps({ className: 'w-24 h-24 rounded-xl bg-gray-100 dark:bg-dark-800 items-center justify-center overflow-hidden' });
-        return !!view;
-      } catch {
-        return false;
-      }
+    const coverButton = screen.getByTestId('cover-image-picker');
+    fireEvent.press(coverButton);
+
+    await waitFor(() => {
+      expect(mockLaunchImageLibraryAsync).toHaveBeenCalled();
+      expect(mockDispatch).toHaveBeenCalledWith({ type: 'upload/setCoverImage', payload: 'file:///cover.jpg' });
     });
-    
-    if (coverButton) {
-      fireEvent.press(coverButton);
-      
-      await waitFor(() => {
-        expect(mockLaunchImageLibraryAsync).toHaveBeenCalled();
-        expect(mockDispatch).toHaveBeenCalledWith({ type: 'upload/setCoverImage', payload: 'file:///cover.jpg' });
-      });
-    }
   });
 
   it('upload: media permission denied shows alert', async () => {
@@ -308,5 +290,421 @@ describe('UploadDetailScreen', () => {
     const okBtn = buttons.find((b: any) => b?.text === 'OK');
     okBtn.onPress();
     expect(mockBack).toHaveBeenCalled();
+  });
+
+  // ==================== VALIDATION ERRORS ====================
+
+  it('upload: empty title shows alert', async () => {
+    mockUploadState = {
+      ...mockUploadState,
+      documentFile: { uri: 'file:///doc.pdf', name: 'doc.pdf' },
+      title: '   ', // whitespace only
+      selectedFaculties: ['Khoa A'],
+      selectedSubjects: ['Mon 1'],
+      selectedLists: ['Slide'],
+    };
+
+    mockRequestPermissionsAsync.mockResolvedValue({ status: 'granted' });
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    fireEvent.press(screen.getByText('Tải tài liệu lên'));
+
+    await waitFor(() => {
+      expect(Alert.alert).toHaveBeenCalledWith('Lỗi', 'Vui lòng nhập tiêu đề tài liệu');
+    });
+    expect(mockMutateAsync).not.toHaveBeenCalled();
+  });
+
+  it('upload: missing document file shows alert', async () => {
+    mockUploadState = {
+      ...mockUploadState,
+      documentFile: null,
+      title: 'My Doc',
+      selectedFaculties: ['Khoa A'],
+      selectedSubjects: ['Mon 1'],
+      selectedLists: ['Slide'],
+    };
+
+    mockRequestPermissionsAsync.mockResolvedValue({ status: 'granted' });
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    fireEvent.press(screen.getByText('Tải tài liệu lên'));
+
+    await waitFor(() => {
+      expect(Alert.alert).toHaveBeenCalledWith('Lỗi', 'Không tìm thấy file tài liệu');
+    });
+    expect(mockMutateAsync).not.toHaveBeenCalled();
+  });
+
+  it('upload: no faculty selected shows alert', async () => {
+    mockUploadState = {
+      ...mockUploadState,
+      documentFile: { uri: 'file:///doc.pdf', name: 'doc.pdf' },
+      title: 'My Doc',
+      selectedFaculties: [], // empty
+      selectedSubjects: ['Mon 1'],
+      selectedLists: ['Slide'],
+    };
+
+    mockRequestPermissionsAsync.mockResolvedValue({ status: 'granted' });
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    fireEvent.press(screen.getByText('Tải tài liệu lên'));
+
+    await waitFor(() => {
+      expect(Alert.alert).toHaveBeenCalledWith('Lỗi', 'Vui lòng chọn ít nhất một khoa');
+    });
+    expect(mockMutateAsync).not.toHaveBeenCalled();
+  });
+
+  it('upload: no subject selected shows alert', async () => {
+    mockUploadState = {
+      ...mockUploadState,
+      documentFile: { uri: 'file:///doc.pdf', name: 'doc.pdf' },
+      title: 'My Doc',
+      selectedFaculties: ['Khoa A'],
+      selectedSubjects: [], // empty
+      selectedLists: ['Slide'],
+    };
+
+    mockRequestPermissionsAsync.mockResolvedValue({ status: 'granted' });
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    fireEvent.press(screen.getByText('Tải tài liệu lên'));
+
+    await waitFor(() => {
+      expect(Alert.alert).toHaveBeenCalledWith('Lỗi', 'Vui lòng chọn môn học');
+    });
+    expect(mockMutateAsync).not.toHaveBeenCalled();
+  });
+
+  it('upload: no document type selected shows alert', async () => {
+    mockUploadState = {
+      ...mockUploadState,
+      documentFile: { uri: 'file:///doc.pdf', name: 'doc.pdf' },
+      title: 'My Doc',
+      selectedFaculties: ['Khoa A'],
+      selectedSubjects: ['Mon 1'],
+      selectedLists: [], // empty
+    };
+
+    mockRequestPermissionsAsync.mockResolvedValue({ status: 'granted' });
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    fireEvent.press(screen.getByText('Tải tài liệu lên'));
+
+    await waitFor(() => {
+      expect(Alert.alert).toHaveBeenCalledWith('Lỗi', 'Vui lòng chọn loại tài liệu');
+    });
+    expect(mockMutateAsync).not.toHaveBeenCalled();
+  });
+
+  // ==================== ERROR HANDLING ====================
+
+  it('pick cover: error during launch shows alert', async () => {
+    mockRequestMediaLibraryPermissionsAsync.mockResolvedValue({ granted: true });
+    mockLaunchImageLibraryAsync.mockRejectedValue(new Error('Picker failed'));
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    const coverButton = screen.getByTestId('cover-image-picker');
+    fireEvent.press(coverButton);
+
+    await waitFor(() => {
+      expect(Alert.alert).toHaveBeenCalledWith('Lỗi', 'Không thể chọn ảnh bìa');
+    });
+  });
+
+  it('upload: photo library URI conversion error is caught', async () => {
+    mockUploadState = {
+      ...mockUploadState,
+      documentFile: { uri: 'file:///doc.pdf', name: 'doc.pdf' },
+      title: 'My Doc',
+      description: 'Desc',
+      selectedFaculties: ['Khoa A'],
+      selectedSubjects: ['Mon 1'],
+      selectedLists: ['Slide'],
+      coverImage: 'ph://ASSET_FAIL/something',
+    };
+
+    mockRequestPermissionsAsync.mockResolvedValue({ status: 'granted' });
+    mockGetAssetInfoAsync.mockRejectedValue(new Error('Asset not found'));
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    fireEvent.press(screen.getByTestId('upload-button'));
+
+    await waitFor(() => {
+      // Error should be caught and generic error message shown
+      expect(Alert.alert).toHaveBeenCalledWith('Lỗi', expect.any(String));
+    });
+    expect(mockMutateAsync).not.toHaveBeenCalled();
+  });
+
+  it('upload: server error with message shows custom alert', async () => {
+    mockUploadState = {
+      ...mockUploadState,
+      documentFile: { uri: 'file:///doc.pdf', name: 'doc.pdf' },
+      title: 'My Doc',
+      description: 'Desc',
+      selectedFaculties: ['Khoa A'],
+      selectedSubjects: ['Mon 1'],
+      selectedLists: ['Slide'],
+    };
+
+    mockRequestPermissionsAsync.mockResolvedValue({ status: 'granted' });
+    mockMutateAsync.mockRejectedValue({
+      response: {
+        data: {
+          message: 'File quá lớn',
+        },
+      },
+    });
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    fireEvent.press(screen.getByTestId('upload-button'));
+
+    await waitFor(() => {
+      expect(Alert.alert).toHaveBeenCalledWith('Lỗi', 'File quá lớn');
+    });
+  });
+
+  it('upload: server error without message shows generic alert', async () => {
+    mockUploadState = {
+      ...mockUploadState,
+      documentFile: { uri: 'file:///doc.pdf', name: 'doc.pdf' },
+      title: 'My Doc',
+      selectedFaculties: ['Khoa A'],
+      selectedSubjects: ['Mon 1'],
+      selectedLists: ['Slide'],
+    };
+
+    mockRequestPermissionsAsync.mockResolvedValue({ status: 'granted' });
+    mockMutateAsync.mockRejectedValue(new Error('Network error'));
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    fireEvent.press(screen.getByTestId('upload-button'));
+
+    await waitFor(() => {
+      expect(Alert.alert).toHaveBeenCalledWith('Lỗi', 'Không thể tải tài liệu lên');
+    });
+  });
+
+  // ==================== UI RENDERING & NAVIGATION ====================
+
+  it('renders back button and navigates back when pressed', () => {
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    const backButton = screen.getByTestId('back-button');
+    expect(backButton).toBeTruthy();
+
+    fireEvent.press(backButton);
+    expect(mockBack).toHaveBeenCalled();
+  });
+
+  it('renders keyboard dismiss on TouchableWithoutFeedback press', () => {
+    const keyboardDismissSpy = jest.spyOn(require('react-native').Keyboard, 'dismiss');
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    const touchableWithoutFeedback = screen.getByTestId('keyboard-dismiss-area');
+    fireEvent.press(touchableWithoutFeedback);
+
+    expect(keyboardDismissSpy).toHaveBeenCalled();
+    keyboardDismissSpy.mockRestore();
+  });
+
+  it('displays selected images count', () => {
+    mockUploadState = {
+      ...mockUploadState,
+      selectedImages: ['file:///img1.jpg', 'file:///img2.jpg', 'file:///img3.jpg'],
+    };
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    expect(screen.getByText('3 ảnh')).toBeTruthy();
+  });
+
+  it('displays selected faculties with count', () => {
+    mockUploadState = {
+      ...mockUploadState,
+      selectedFaculties: ['Khoa A', 'Khoa B', 'Khoa C'],
+    };
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    expect(screen.getByText(/Khoa A/)).toBeTruthy();
+    expect(screen.getByText(/\+2 khoa/)).toBeTruthy();
+  });
+
+  it('displays single faculty without count', () => {
+    mockUploadState = {
+      ...mockUploadState,
+      selectedFaculties: ['Khoa A'],
+    };
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    expect(screen.getByText('Khoa A')).toBeTruthy();
+    expect(screen.queryByText(/\+/)).toBeNull();
+  });
+
+  it('displays selected subjects with count', () => {
+    mockUploadState = {
+      ...mockUploadState,
+      selectedSubjects: ['Mon 1', 'Mon 2', 'Mon 3'],
+    };
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    expect(screen.getByText(/Mon 1/)).toBeTruthy();
+    expect(screen.getByText(/\+2/)).toBeTruthy();
+  });
+
+  it('displays selected document types with count', () => {
+    mockUploadState = {
+      ...mockUploadState,
+      selectedLists: ['Slide', 'Bài tập'],
+    };
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    expect(screen.getByText(/Slide/)).toBeTruthy();
+    expect(screen.getByText(/\+1/)).toBeTruthy();
+  });
+
+  it('navigates to select-images when pressing add images button', () => {
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    const addImagesButton = screen.getByTestId('add-images-button');
+    expect(addImagesButton).toBeTruthy();
+
+    fireEvent.press(addImagesButton);
+    expect(mockPush).toHaveBeenCalledWith('/(app)/select-images');
+  });
+
+  it('navigates to select-faculty with params when pressing select faculty button', () => {
+    mockUploadState = {
+      ...mockUploadState,
+      selectedFaculties: ['Khoa A', 'Khoa B'],
+    };
+
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    const selectFacultyButton = screen.getByTestId('select-faculty-button');
+    expect(selectFacultyButton).toBeTruthy();
+
+    fireEvent.press(selectFacultyButton);
+    expect(mockPush).toHaveBeenCalledWith({
+      pathname: '/(app)/select-faculty',
+      params: { faculties: JSON.stringify(['Khoa A', 'Khoa B']) },
+    });
+  });
+
+  it('navigates to select-subject when pressing select subject button', () => {
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    const selectSubjectButton = screen.getByTestId('select-subject-button');
+    expect(selectSubjectButton).toBeTruthy();
+
+    fireEvent.press(selectSubjectButton);
+    expect(mockPush).toHaveBeenCalledWith('/(app)/select-subject');
+  });
+
+  it('navigates to select-list when pressing select list button', () => {
+    render(
+      <Wrapper>
+        <UploadDetailScreen />
+      </Wrapper>
+    );
+
+    const selectListButton = screen.getByTestId('select-list-button');
+    expect(selectListButton).toBeTruthy();
+
+    fireEvent.press(selectListButton);
+    expect(mockPush).toHaveBeenCalledWith('/(app)/select-list');
   });
 });

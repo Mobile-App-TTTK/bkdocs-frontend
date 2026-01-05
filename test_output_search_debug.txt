@@ -1,0 +1,54 @@
+﻿
+> bkdocs-frontend@1.0.0 test
+> jest __tests__/components/searchScreen/SearchScreen.test.tsx
+
+node.exe : [baseline-browser-mapping] The data 
+in this module is over two months old.  To 
+ensure accurate Baseline data, please update: 
+`npm i baseline-browser-mapping@latest -D`
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([ba 
+   seline-brows...ping@latest -D`:String) [], R  
+  emoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+FAIL __tests__/components/searchScreen/SearchScre
+en.test.tsx
+  ΓùÅ Test suite failed to run
+
+    Cannot find module '../SubjectCard' from '__t
+ests__/components/searchScreen/SearchScreen.test.
+tsx'
+
+    [0m [90m 59 |[39m }))[33m;[39m
+     [90m 60 |[39m
+    [31m[1m>[22m[39m[90m 61 |[39m jest[33m
+.[39mmock([32m'../SubjectCard'[39m[33m,[39m 
+() [33m=>[39m {
+     [90m    |[39m      [31m[1m^[22m[39m
+     [90m 62 |[39m     [36mconst[39m { 
+[33mText[39m[33m,[39m 
+[33mView[39m[33m,[39m 
+[33mTouchableOpacity[39m } [33m=[39m 
+require([32m'react-native'[39m)[33m;[39m
+     [90m 63 |[39m     [36mreturn[39m ({ 
+name[33m,[39m onPress }[33m:[39m any) 
+[33m=>[39m (
+     [90m 64 |[39m         
+[33m<[39m[33mTouchableOpacity[39m 
+onPress[33m=[39m{onPress} testID[33m=[39m[32
+m"subject-card"[39m[33m>[39m[0m
+
+      at Resolver._throwModNotFoundError (node_mo
+dules/jest-resolve/build/resolver.js:427:11)
+      at Object.mock (__tests__/components/search
+Screen/SearchScreen.test.tsx:61:6)
+
+Test Suites: 1 failed, 1 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        0.944 s
+Ran all test suites matching /__tests__\\componen
+ts\\searchScreen\\SearchScreen.test.tsx/i.

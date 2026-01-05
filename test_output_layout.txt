@@ -1,0 +1,46 @@
+﻿
+> bkdocs-frontend@1.0.0 test
+> jest __tests__/app/AppLayout.test.tsx
+
+node.exe : [baseline-browser-mapping] The data in this 
+module is over two months old.  To ensure accurate 
+Baseline data, please update: `npm i 
+baseline-browser-mapping@latest -D`
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([baseline- 
+   brows...ping@latest -D`:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+FAIL __tests__/app/AppLayout.test.tsx
+  ΓùÅ Test suite failed to run
+
+    Cannot find module '../global.css' from 
+'__tests__/app/AppLayout.test.tsx'
+
+    [0m [90m 3 |[39m
+     [90m 4 |[39m [90m// Mocks[39m
+    [31m[1m>[22m[39m[90m 5 |[39m jest[33m.[39mmo
+ck([32m'../global.css'[39m[33m,[39m () [33m=>[39m 
+({}))[33m;[39m
+     [90m   |[39m                            
+[31m[1m^[22m[39m
+     [90m 6 |[39m
+     [90m 7 |[39m jest[33m.[39mmock([32m'@/componen
+ts/splash-screen'[39m[33m,[39m () [33m=>[39m {
+     [90m 8 |[39m     [36mconst[39m { 
+[33mView[39m[33m,[39m [33mText[39m } [33m=[39m 
+require([32m'react-native'[39m)[33m;[39m[0m
+
+      at Resolver._throwModNotFoundError 
+(node_modules/jest-resolve/build/resolver.js:427:11)
+      at Object.<anonymous> 
+(__tests__/app/AppLayout.test.tsx:5:28)
+
+Test Suites: 1 failed, 1 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        1.337 s
+Ran all test suites matching 
+/__tests__\\app\\AppLayout.test.tsx/i.
