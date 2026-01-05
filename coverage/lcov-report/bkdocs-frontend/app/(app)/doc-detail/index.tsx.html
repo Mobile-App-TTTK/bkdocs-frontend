@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.24% </span>
+                <span class="strong">83.75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>159/191</span>
+                <span class='fraction'>165/197</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.72% </span>
+                <span class="strong">63.42% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>106/169</span>
+                <span class='fraction'>111/175</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.35% </span>
+                <span class="strong">87.77% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>152/174</span>
+                <span class='fraction'>158/180</span>
             </div>
         
             
@@ -777,7 +777,19 @@
 <a name='L712'></a><a href='#L712'>712</a>
 <a name='L713'></a><a href='#L713'>713</a>
 <a name='L714'></a><a href='#L714'>714</a>
-<a name='L715'></a><a href='#L715'>715</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L715'></a><a href='#L715'>715</a>
+<a name='L716'></a><a href='#L716'>716</a>
+<a name='L717'></a><a href='#L717'>717</a>
+<a name='L718'></a><a href='#L718'>718</a>
+<a name='L719'></a><a href='#L719'>719</a>
+<a name='L720'></a><a href='#L720'>720</a>
+<a name='L721'></a><a href='#L721'>721</a>
+<a name='L722'></a><a href='#L722'>722</a>
+<a name='L723'></a><a href='#L723'>723</a>
+<a name='L724'></a><a href='#L724'>724</a>
+<a name='L725'></a><a href='#L725'>725</a>
+<a name='L726'></a><a href='#L726'>726</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -877,6 +889,10 @@
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1128,6 +1144,9 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1144,6 +1163,9 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -1494,6 +1516,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { api } from '@/api/apiClient';
 import { API_DOWNLOAD_DOCUMENT, API_GET_DOC_RATINGS, API_GET_DOCUMENT_DETAIL } from '@/api/apiRoutes';
 import { useFetchUserProfile, useFetchUserProfileById } from '@/components/Profile/api';
+import { Features, logDownloadDocument, logFeatureUsage, logShareDocument, logViewDocument } from '@/services/analytics';
 import { DocProps } from '@/utils/docInterface';
 import { downloadedDocsStorage } from '@/utils/downloadDocStorage';
 import { ROUTES } from '@/utils/routes';
@@ -1590,7 +1613,11 @@ export default function DownloadDoc() {
             setLoading(true);
             const res = await api.get(API_GET_DOCUMENT_DETAIL(id));
             const data = res.data?.data;
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (!cancelled) setDocDetail(data);
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (!cancelled) {
+              setDocDetail(data);
+              // Log view document
+              <span class="missing-if-branch" title="else path not taken" >E</span>if (data) logViewDocument(id, data.title || '', data.faculty?.name);
+            }
           } finally {
             <span class="missing-if-branch" title="else path not taken" >E</span>if (!cancelled) setLoading(false);
           }
@@ -1840,6 +1867,9 @@ export default function DownloadDoc() {
             const downloadedFile = await FileSystem.File.downloadFileAsync(downloadUrl, destFile);
             const uri = downloadedFile.uri;
             await downloadedDocsStorage.addDownloadedDoc(id);
+            // Log download document
+            logDownloadDocument(id, docDetail?.title || '');
+            logFeatureUsage(Features.DOWNLOAD, 'complete');
 &nbsp;
             if (Platform.OS === 'android') {
                 const mimeType = getMimeType(ext);
@@ -1859,6 +1889,9 @@ export default function DownloadDoc() {
             } else {
                 if (await Sharing.isAvailableAsync()) {
                     await Sharing.shareAsync(uri);
+                    // Log share document analytics for iOS
+                    logShareDocument(id, 'ios_share_sheet');
+                    logFeatureUsage(Features.SHARE, 'complete');
                 } else {
                     await Linking.openURL(uri);
                 }
@@ -2212,7 +2245,7 @@ export default function DownloadDoc() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-05T17:47:48.418Z
+                at 2026-01-05T18:32:37.968Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

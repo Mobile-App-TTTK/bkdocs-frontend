@@ -30,6 +30,7 @@ jest.mock('@sentry/react-native', () => ({
 
 jest.mock('@/utils/authEvents', () => ({
   setLogoutHandler: jest.fn(),
+  setInitializing: jest.fn(),
 }));
 
 describe('AuthContext', () => {
@@ -124,7 +125,7 @@ describe('AuthContext', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(mockToken);
       (api.get as jest.Mock).mockRejectedValue(new Error('Token expired'));
 
-      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
 
       const { result } = renderHook(() => useAuth(), { wrapper });
 
@@ -132,8 +133,8 @@ describe('AuthContext', () => {
         expect(result.current.isLoading).toBe(false);
       });
 
-      // Token is still set but profile is null
-      expect(result.current.token).toBe(mockToken);
+      // Token should be cleared if profile fetch fails
+      expect(result.current.token).toBeNull();
       expect(result.current.userProfile).toBeNull();
 
       consoleErrorSpy.mockRestore();
@@ -208,9 +209,9 @@ describe('AuthContext', () => {
 
     it('should use API error message if available', async () => {
       (api.post as jest.Mock).mockRejectedValue({
-        response: { 
-          status: 400, 
-          data: { message: 'Account is banned' } 
+        response: {
+          status: 400,
+          data: { message: 'Account is banned' }
         },
       });
 
@@ -327,7 +328,7 @@ describe('AuthContext', () => {
 
   describe('useAuth hook', () => {
     it('should throw error when used outside AuthProvider', () => {
-      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
 
       expect(() => {
         renderHook(() => useAuth());

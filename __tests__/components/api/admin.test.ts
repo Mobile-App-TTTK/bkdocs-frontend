@@ -1,19 +1,19 @@
 import { api } from '@/api/apiClient';
 import {
-    API_ADMIN_DOCUMENT_STATUS,
-    API_ADMIN_MEMBERS,
-    API_ADMIN_MEMBER_BAN_STATUS,
-    API_ADMIN_PENDING_DOCUMENTS,
-    API_ADMIN_STATISTICS
+  API_ADMIN_DOCUMENT_STATUS,
+  API_ADMIN_MEMBERS,
+  API_ADMIN_MEMBER_BAN_STATUS,
+  API_ADMIN_PENDING_DOCUMENTS,
+  API_ADMIN_STATISTICS
 } from '@/api/apiRoutes';
 import {
-    approveDocument,
-    banUser,
-    fetchAdminStatistics,
-    fetchAdminUsers,
-    fetchPendingDocuments,
-    rejectDocument,
-    unbanUser
+  approveDocument,
+  banUser,
+  fetchAdminStatistics,
+  fetchAdminUsers,
+  fetchPendingDocuments,
+  rejectDocument,
+  unbanUser
 } from '@/components/Admin/api';
 
 // Mock api client
@@ -66,8 +66,8 @@ describe('Admin API', () => {
     });
 
     it('should handle partial data', async () => {
-      (api.get as jest.Mock).mockResolvedValue({ 
-        data: { data: { totalUsers: 50 } } 
+      (api.get as jest.Mock).mockResolvedValue({
+        data: { data: { totalUsers: 50 } }
       });
 
       const result = await fetchAdminStatistics();
@@ -170,14 +170,14 @@ describe('Admin API', () => {
     });
 
     it('should include fullTextSearch when provided', async () => {
-      (api.get as jest.Mock).mockResolvedValue({ 
-        data: { data: { data: [], total: 0, page: '1', totalPages: 0 } } 
+      (api.get as jest.Mock).mockResolvedValue({
+        data: { data: { data: [], total: 0, page: '1', totalPages: 0 } }
       });
 
-      await fetchPendingDocuments({ 
-        page: 1, 
-        limit: 10, 
-        fullTextSearch: 'test query' 
+      await fetchPendingDocuments({
+        page: 1,
+        limit: 10,
+        fullTextSearch: 'test query'
       });
 
       expect(api.get).toHaveBeenCalledWith(API_ADMIN_PENDING_DOCUMENTS, {
@@ -186,8 +186,8 @@ describe('Admin API', () => {
     });
 
     it('should handle custom pagination', async () => {
-      (api.get as jest.Mock).mockResolvedValue({ 
-        data: { data: { data: [], total: 0, page: '2', totalPages: 5 } } 
+      (api.get as jest.Mock).mockResolvedValue({
+        data: { data: { data: [], total: 0, page: '2', totalPages: 5 } }
       });
 
       await fetchPendingDocuments({ page: 2, limit: 20 });
@@ -202,11 +202,11 @@ describe('Admin API', () => {
 
       const result = await fetchPendingDocuments({});
 
-      expect(result).toEqual({ 
-        data: [], 
-        total: 0, 
-        page: '1', 
-        totalPages: 0 
+      expect(result).toEqual({
+        data: [],
+        total: 0,
+        page: '1',
+        totalPages: 0
       });
     });
   });
@@ -220,7 +220,7 @@ describe('Admin API', () => {
 
       expect(api.patch).toHaveBeenCalledWith(
         API_ADMIN_DOCUMENT_STATUS('doc-123'),
-        { status: 'active' }
+        { status: 'ACTIVE' }
       );
       expect(result).toEqual(mockResponse);
     });
@@ -232,7 +232,7 @@ describe('Admin API', () => {
 
       expect(api.patch).toHaveBeenCalledWith(
         '/admin/document/abc-xyz/status',
-        { status: 'active' }
+        { status: 'ACTIVE' }
       );
     });
   });
@@ -246,7 +246,7 @@ describe('Admin API', () => {
 
       expect(api.patch).toHaveBeenCalledWith(
         API_ADMIN_DOCUMENT_STATUS('doc-123'),
-        { status: 'inactive' }
+        { status: 'INACTIVE' }
       );
       expect(result).toEqual(mockResponse);
     });

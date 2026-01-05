@@ -81,6 +81,7 @@ jest.mock('expo-router', () => ({
             },
         }
     ),
+    usePathname: jest.fn(() => '/'),
 }));
 
 jest.mock('expo-status-bar', () => ({

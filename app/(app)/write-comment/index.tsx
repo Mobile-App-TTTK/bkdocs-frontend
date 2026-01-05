@@ -1,7 +1,6 @@
 import { api } from "@/api/apiClient";
 import { API_GET_DOC_RATINGS, API_GET_DOCUMENT_DETAIL } from "@/api/apiRoutes";
 import { useFetchUserProfile } from "@/components/Profile/api";
-import { Features, logCommentDocument, logFeatureUsage, logUserRating } from "@/services/analytics";
 import { ACCESS_TOKEN_KEY } from "@/utils/constants";
 import { Colors } from "@/utils/theme";
 import { Ionicons } from "@expo/vector-icons";
@@ -95,18 +94,6 @@ export default function WriteComment() {
             setSucces(!!data?.success);
             if (data?.success) router.back();
 
-<<<<<<< Updated upstream
-          setSucces(!!data?.success);
-          if (data?.success) {
-            // Log analytics
-            logCommentDocument(id || '');
-            logUserRating(score, 'document', id);
-            logFeatureUsage(Features.COMMENT, 'complete');
-            router.back();
-          }
-      
-=======
->>>>>>> Stashed changes
         } catch (e: any) {
             console.log("submitComment error", e?.response?.data ?? e);
             console.log("url", `${process.env.EXPO_PUBLIC_API_URL}${API_GET_DOC_RATINGS(id ?? "")}`);

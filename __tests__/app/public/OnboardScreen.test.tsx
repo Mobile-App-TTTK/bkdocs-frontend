@@ -1,13 +1,7 @@
-import { slides } from '@/components/onboard/constants';
 import { ROUTES } from '@/utils/routes';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
-import { useRouter } from 'expo-router';
 import { NativeBaseProvider } from 'native-base';
 import React from 'react';
-
-jest.mock('expo-router', () => ({
-  useRouter: jest.fn(),
-}));
 
 jest.mock('react-native-safe-area-context', () => {
   const React = require('react');
@@ -26,6 +20,16 @@ jest.mock('@/components/onboard/constants', () => ({
   ],
 }));
 
+// Mock AsyncStorage
+jest.mock('@react-native-async-storage/async-storage', () =>
+  require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+);
+
+// Mock analytics
+jest.mock('@/services/analytics', () => ({
+  logOnboardingComplete: jest.fn(() => Promise.resolve()),
+}));
+
 import OnboardScreen from '@/app/(public)/onboard';
 
 const inset = {
@@ -40,13 +44,19 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => (
 );
 
 describe('OnboardScreen', () => {
-  const mockReplace = jest.fn();
+  let mockReplace: jest.Mock;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    (useRouter as jest.Mock).mockReturnValue({
-      replace: mockReplace,
-    });
+
+    // Get the mocked expo-router module
+    const expoRouter = require('expo-router');
+
+    // Create a new mock function for replace
+    mockReplace = jest.fn();
+
+    // Update the router.replace mock
+    expoRouter.router.replace = mockReplace;
   });
 
   it('should render first slide', () => {
@@ -71,7 +81,7 @@ describe('OnboardScreen', () => {
     expect(screen.getByText('Bỏ qua')).toBeTruthy();
   });
 
-  it('should navigate to login when skip is pressed', () => {
+  it('should navigate to login when skip is pressed', async () => {
     render(
       <TestWrapper>
         <OnboardScreen />
@@ -80,7 +90,10 @@ describe('OnboardScreen', () => {
 
     fireEvent.press(screen.getByText('Bỏ qua'));
 
-    expect(mockReplace).toHaveBeenCalledWith(ROUTES.LOGIN);
+    // Wait for async operations to complete
+    await waitFor(() => {
+      expect(mockReplace).toHaveBeenCalledWith(ROUTES.LOGIN);
+    });
   });
 
   it('should render slide description', () => {
@@ -101,7 +114,7 @@ describe('OnboardScreen', () => {
     );
 
     fireEvent.press(screen.getByText('Tiếp theo'));
-    
+
     await waitFor(() => {
       expect(screen.getByText('Slide 2')).toBeTruthy();
     });
@@ -114,7 +127,9 @@ describe('OnboardScreen', () => {
 
     fireEvent.press(screen.getByText('Bắt đầu'));
 
-    expect(mockReplace).toHaveBeenCalledWith(ROUTES.LOGIN);
+    // Wait for async operations to complete
+    await waitFor(() => {
+      expect(mockReplace).toHaveBeenCalledWith(ROUTES.LOGIN);
+    });
   });
 });
-

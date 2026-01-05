@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.38% </span>
+                <span class="strong">65.78% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>47/73</span>
+                <span class='fraction'>50/76</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.5% </span>
+                <span class="strong">67.07% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>54/80</span>
+                <span class='fraction'>55/82</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.88% </span>
+                <span class="strong">65.33% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>46/72</span>
+                <span class='fraction'>49/75</span>
             </div>
         
             
@@ -468,7 +468,17 @@
 <a name='L403'></a><a href='#L403'>403</a>
 <a name='L404'></a><a href='#L404'>404</a>
 <a name='L405'></a><a href='#L405'>405</a>
-<a name='L406'></a><a href='#L406'>406</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a>
+<a name='L413'></a><a href='#L413'>413</a>
+<a name='L414'></a><a href='#L414'>414</a>
+<a name='L415'></a><a href='#L415'>415</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -505,6 +515,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">75x</span>
 <span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -555,10 +567,15 @@
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -775,6 +792,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">75x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -875,6 +893,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ChatMessage, ChatResponse, useSendChatMessage } from '@/components/Chatbot/api';
 import { useUser } from '@/contexts/UserContext';
+import { Features, logChatbotInteraction, logFeatureUsage } from '@/services/analytics';
 import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -910,6 +929,8 @@ export default function ChatbotScreen() {
 &nbsp;
   useEffect(() =&gt; {
     if (userProfile &amp;&amp; chatHistory.length === 0) {
+      // Log chatbot open
+      logFeatureUsage(Features.CHATBOT, 'view');
       const welcomeMessage: ChatMessageWithActions = {
         role: 'admin',
         content: `Xin chào ${userProfile.name}, tôi có thể giúp gì cho bạn hôm nay?`,
@@ -956,6 +977,9 @@ export default function ChatbotScreen() {
             content: msg.content,
           }));
 &nbsp;
+    // Log user message
+    logChatbotInteraction('user');
+&nbsp;
     // Gửi tin nhắn
     sendChatMutation.mutate(
       {
@@ -964,6 +988,8 @@ export default function ChatbotScreen() {
       },
       {
         onSuccess: (response: ChatResponse) =&gt; {
+          // Log bot response
+          logChatbotInteraction('bot');
           // Thêm phản hồi từ AI vào history
           const aiMessage: ChatMessageWithActions = {
             role: 'admin',
@@ -1055,7 +1081,7 @@ export default function ChatbotScreen() {
             {isUser ? (
               &lt;Text
                 className="!text-base !text-white"
-                style={{ fontFamily: 'Gilroy-Regular' }}
+                style={{ fontFamily: 'Inter-Regular' }}
               &gt;
                 {msg.content}
               &lt;/Text&gt;
@@ -1064,7 +1090,7 @@ export default function ChatbotScreen() {
                 style={{
                   body: {
                     color: colorScheme === 'dark' ? <span class="branch-0 cbranch-no" title="branch not covered" >'#f3f4f6' </span>: '#111827',
-                    fontFamily: 'Gilroy-Regular',
+                    fontFamily: 'Inter-Regular',
                     fontSize: 16,
                   },
                   heading1: {
@@ -1182,8 +1208,9 @@ export default function ChatbotScreen() {
   return (
     &lt;SafeAreaView className="flex-1 bg-white dark:bg-dark-900" edges={['top']}&gt;
       &lt;KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : <span class="branch-1 cbranch-no" title="branch not covered" >'height'}</span>
+        behavior={Platform.OS === 'ios' ? 'padding' : <span class="branch-1 cbranch-no" title="branch not covered" >undefined}</span>
         className="flex-1"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : <span class="branch-1 cbranch-no" title="branch not covered" >0}</span>
       &gt;
         {/* Header */}
         &lt;View className="flex-row items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700"&gt;
@@ -1197,7 +1224,7 @@ export default function ChatbotScreen() {
 &nbsp;
           &lt;Text
             className="!text-xl !font-bold !text-black dark:!text-white"
-            style={{ fontFamily: 'Gilroy-Bold' }}
+            style={{ fontFamily: 'Inter-Bold' }}
           &gt;
             Chatbot AI
           &lt;/Text&gt;
@@ -1242,7 +1269,7 @@ export default function ChatbotScreen() {
                 placeholderTextColor="#9ca3af"
                 className="flex-1 !text-black dark:!text-white !text-base"
                 style={{ 
-                  fontFamily: 'Gilroy-Regular',
+                  fontFamily: 'Inter-Regular',
                   textAlignVertical: 'center',
                   paddingVertical: 12,
                 }}
@@ -1285,7 +1312,7 @@ export default function ChatbotScreen() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-05T17:47:48.418Z
+                at 2026-01-05T18:32:37.968Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

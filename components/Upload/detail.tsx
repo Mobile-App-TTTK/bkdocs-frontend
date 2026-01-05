@@ -8,10 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { router, useFocusEffect } from 'expo-router';
 import { Button, Spinner, Text, View } from 'native-base';
-<<<<<<< Updated upstream
 import { useEffect, useRef } from 'react';
-=======
->>>>>>> Stashed changes
 import { Alert, Image, Keyboard, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUploadDocument } from './api';
@@ -21,6 +18,7 @@ export default function UploadDetailScreen() {
     const { data: facultiesData } = useFetchFacultiesAndSubjects();
     const { data: userProfile } = useFetchUserProfile();
     const uploadMutation = useUploadDocument();
+
 
     const dispatch = useAppDispatch();
     const uploadState = useAppSelector(state => state.upload);
@@ -37,6 +35,7 @@ export default function UploadDetailScreen() {
 
     console.log("upload params")
 
+
     // Use Redux state - all values come from store
     const documentFile = uploadState.documentFile;
     const title = uploadState.title;
@@ -49,15 +48,9 @@ export default function UploadDetailScreen() {
 
     useFocusEffect(() => {
         console.log("Upload state from Redux:", uploadState);
-<<<<<<< Updated upstream
-        
+
         // Auto-fill title from document name only once (first time)
         if (documentFile && !title && !hasAutoFilledTitle.current) {
-=======
-
-        // Auto-fill title from document name if empty
-        if (documentFile && !title) {
->>>>>>> Stashed changes
             dispatch(setReduxTitle(documentFile.name));
             hasAutoFilledTitle.current = true;
         }
@@ -152,14 +145,17 @@ export default function UploadDetailScreen() {
                         const assetId = uri.replace(/^ph(-upload)?:\/\//, '').split('/')[0];
                         console.log('Getting local URI for asset:', assetId);
 
+
                         // Get asset info from media library
                         const asset = await MediaLibrary.getAssetInfoAsync(assetId);
                         console.log('Asset info:', asset);
+
 
                         if (asset && asset.localUri) {
                             console.log('Converted ph:// to local URI:', uri, '->', asset.localUri);
                             return asset.localUri;
                         }
+
 
                         throw new Error('Could not get local URI for photo library asset');
                     } catch (error) {

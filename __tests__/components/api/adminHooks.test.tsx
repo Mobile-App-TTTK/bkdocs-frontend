@@ -179,7 +179,7 @@ describe('Admin Hooks', () => {
 
             await result.current.mutateAsync('doc-1');
 
-            expect(api.patch).toHaveBeenCalledWith(expect.stringContaining('doc-1'), expect.objectContaining({ status: 'active' }));
+            expect(api.patch).toHaveBeenCalledWith(expect.stringContaining('doc-1'), expect.objectContaining({ status: 'ACTIVE' }));
             expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ['admin-pending-documents'] });
             expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ['admin-statistics'] });
         });
@@ -199,7 +199,7 @@ describe('Admin Hooks', () => {
 
             await result.current.mutateAsync('doc-1');
 
-            expect(api.patch).toHaveBeenCalledWith(expect.stringContaining('doc-1'), expect.objectContaining({ status: 'inactive' }));
+            expect(api.patch).toHaveBeenCalledWith(expect.stringContaining('doc-1'), expect.objectContaining({ status: 'INACTIVE' }));
             expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ['admin-pending-documents'] });
             expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ['admin-statistics'] });
         });
