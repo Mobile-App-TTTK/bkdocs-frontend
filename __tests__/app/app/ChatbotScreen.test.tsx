@@ -4,8 +4,12 @@ import { NativeBaseProvider } from 'native-base';
 import React from 'react';
 
 import ChatbotScreen from '@/app/(app)/chatbot';
+import { ROUTES } from '@/utils/routes';
 
 jest.mock('@expo/vector-icons', () => ({ Ionicons: 'Ionicons' }));
+jest.mock('react-native/Libraries/Utilities/useColorScheme', () => ({
+  default: jest.fn(),
+}));
 
 const mockBack = jest.fn();
 const mockPush = jest.fn();
@@ -25,8 +29,32 @@ jest.mock('@/contexts/UserContext', () => ({
 }));
 
 jest.mock('react-native-markdown-display', () => {
-  const { Text } = require('react-native');
-  return ({ children }: { children: string }) => <Text>{children}</Text>;
+  const { Text, View } = require('react-native');
+  return ({ children, rules }: { children: string, rules: any }) => {
+    // Basic mock that applies rules if provided
+    if (rules && rules.code_inline) {
+      // Simulate parsing for UUIDs if rules are present
+      const uuidMatch = children.match(/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i);
+      if (uuidMatch) {
+        const uuid = uuidMatch[0];
+        const parts = children.split(uuid);
+
+        // We need to invoke the rule's render function to get the actual component with onPress
+        // The component passes: (node, children, parent, styles)
+        // We mock the node content
+        const mockNode = { content: uuid, key: 'mock-key' };
+        const renderedUuid = rules.code_inline(mockNode, [], {}, {});
+
+        return (
+          <View>
+            <Text>{parts[0]}</Text>
+            {renderedUuid}
+          </View>
+        );
+      }
+    }
+    return <Text>{children}</Text>;
+  };
 });
 
 const inset = {
@@ -44,6 +72,7 @@ describe('ChatbotScreen', () => {
     mockMutate = jest.fn();
     mockIsPending = false;
     mockUserProfile = { name: 'Thuận' };
+    require('react-native/Libraries/Utilities/useColorScheme').default.mockReturnValue('light');
   });
 
 
@@ -432,4 +461,79 @@ describe('ChatbotScreen', () => {
       expect(input.props.maxLength).toBe(1000);
     });
   });
+
+  // ==================== FEATURES TESTS ====================
+
+  describe('Feature Logic', () => {
+    it('parses UUID and navigates to document on press', async () => {
+      const uuid = '12345678-1234-1234-1234-1234567890ab';
+      mockMutate = jest.fn((params, callbacks) => {
+        callbacks?.onSuccess?.({ reply: `Check this doc: ${uuid}`, suggestedActions: [] });
+      });
+
+      render(<Wrapper><ChatbotScreen /></Wrapper>);
+
+      const input = screen.getByPlaceholderText('Nhập nội dung tin nhắn...');
+      fireEvent.changeText(input, 'Find doc');
+      fireEvent(input, 'submitEditing');
+
+      await waitFor(() => {
+        expect(screen.getByText(/Check this doc:/)).toBeTruthy();
+      });
+
+      // Based on our updated mock, the UUID should be its own Text element
+      const uuidElement = screen.getByText(uuid);
+      expect(uuidElement).toBeTruthy();
+
+      fireEvent.press(uuidElement);
+      expect(mockPush).toHaveBeenCalledWith({
+        pathname: ROUTES.DOWNLOAD_DOC,
+        params: { id: uuid },
+      });
+    });
+
+    it('uses different colors in dark mode', () => {
+      const { useColorScheme } = require('react-native');
+      useColorScheme.mockReturnValue('dark');
+
+      render(<Wrapper><ChatbotScreen /></Wrapper>);
+
+      // Verify header text color for dark mode (white)
+      const headerTitle = screen.getByText('Chatbot AI');
+      // NativeBase styling might not reflect in "style" prop directly if using utility props, 
+      // but our component uses inline style override for fontFamily which also has colors in some places?
+      // Let's check the markdown color prop which we pass in renderMessage
+
+      // We need to render a message to check markdown styles
+      // But simpler: Check the container background or text color if possible.
+      // The component: className="!text-xl !font-bold !text-black dark:!text-white"
+
+      // Testing tailwind classes application via RNTL is tricky without full style computation.
+      // However, we can check if specific elements are rendered that only appear in dark mode or check props if conditional.
+
+      // Alternative: Check the UUID style color which is conditional in our code:
+      // color: colorScheme === 'dark' ? '#60a5fa' : '#2563eb'
+
+      const uuid = '12345678-1234-1234-1234-1234567890ab';
+      mockMutate = jest.fn((params, callbacks) => {
+        callbacks?.onSuccess?.({ reply: `Doc: ${uuid}`, suggestedActions: [] });
+      });
+
+      const input = screen.getByPlaceholderText('Nhập nội dung tin nhắn...');
+      fireEvent.changeText(input, 'Find doc');
+      fireEvent(input, 'submitEditing');
+
+      const uuidText = screen.getByText(uuid);
+      // The style prop is a nested array. Flatten it to find the color object easily.
+      const flatStyle = [uuidText.props.style].flat(Infinity);
+      expect(flatStyle).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ color: '#60a5fa' })
+        ])
+      );
+    });
+  });
+
+  // NOTE: Scroll behavior is hard to test with reliable assertions on scroll position in RNTL without layout.
+  // We will skip scroll test for now as implementation detail often mocked out.
 });

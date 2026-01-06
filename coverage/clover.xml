@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1767687094179" clover="3.2.0">
-  <project timestamp="1767687094179" name="All files">
-    <metrics statements="2570" coveredstatements="1841" conditionals="1694" coveredconditionals="1110" methods="770" coveredmethods="482" elements="5034" coveredelements="3433" complexity="0" loc="2570" ncloc="2570" packages="71" files="130" classes="130"/>
+<coverage generated="1767689809367" clover="3.2.0">
+  <project timestamp="1767689809368" name="All files">
+    <metrics statements="2570" coveredstatements="1847" conditionals="1694" coveredconditionals="1122" methods="770" coveredmethods="486" elements="5034" coveredelements="3455" complexity="0" loc="2570" ncloc="2570" packages="71" files="130" classes="130"/>
     <package name="bkdocs-frontend">
       <metrics statements="12" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="app.config.js" path="D:\bkdocs-frontend\app.config.js">
@@ -559,53 +559,53 @@
       </file>
     </package>
     <package name="bkdocs-frontend.app.(app).chatbot">
-      <metrics statements="75" coveredstatements="49" conditionals="82" coveredconditionals="55" methods="22" coveredmethods="14"/>
+      <metrics statements="75" coveredstatements="55" conditionals="82" coveredconditionals="67" methods="22" coveredmethods="18"/>
       <file name="index.tsx" path="D:\bkdocs-frontend\app\(app)\chatbot\index.tsx">
-        <metrics statements="75" coveredstatements="49" conditionals="82" coveredconditionals="55" methods="22" coveredmethods="14"/>
-        <line num="27" count="75" type="stmt"/>
-        <line num="28" count="75" type="stmt"/>
-        <line num="29" count="75" type="stmt"/>
-        <line num="30" count="75" type="stmt"/>
-        <line num="31" count="75" type="stmt"/>
-        <line num="32" count="75" type="stmt"/>
-        <line num="33" count="75" type="stmt"/>
-        <line num="35" count="75" type="stmt"/>
-        <line num="37" count="75" type="stmt"/>
-        <line num="38" count="23" type="cond" truecount="4" falsecount="0"/>
-        <line num="40" count="22" type="stmt"/>
-        <line num="41" count="22" type="stmt"/>
-        <line num="45" count="22" type="stmt"/>
-        <line num="49" count="75" type="stmt"/>
-        <line num="50" count="58" type="stmt"/>
-        <line num="51" count="56" type="stmt"/>
-        <line num="55" count="75" type="stmt"/>
-        <line num="56" count="15" type="cond" truecount="4" falsecount="0"/>
-        <line num="58" count="13" type="stmt"/>
-        <line num="64" count="13" type="stmt"/>
-        <line num="65" count="13" type="stmt"/>
-        <line num="66" count="13" type="stmt"/>
-        <line num="67" count="13" type="stmt"/>
-        <line num="71" count="13" type="cond" truecount="2" falsecount="0"/>
-        <line num="72" count="13" type="cond" truecount="2" falsecount="0"/>
+        <metrics statements="75" coveredstatements="55" conditionals="82" coveredconditionals="67" methods="22" coveredmethods="18"/>
+        <line num="27" count="83" type="stmt"/>
+        <line num="28" count="83" type="stmt"/>
+        <line num="29" count="83" type="stmt"/>
+        <line num="30" count="83" type="stmt"/>
+        <line num="31" count="83" type="stmt"/>
+        <line num="32" count="83" type="stmt"/>
+        <line num="33" count="83" type="stmt"/>
+        <line num="35" count="83" type="stmt"/>
+        <line num="37" count="83" type="stmt"/>
+        <line num="38" count="25" type="cond" truecount="4" falsecount="0"/>
+        <line num="40" count="24" type="stmt"/>
+        <line num="41" count="24" type="stmt"/>
+        <line num="45" count="24" type="stmt"/>
+        <line num="49" count="83" type="stmt"/>
+        <line num="50" count="64" type="stmt"/>
+        <line num="51" count="61" type="stmt"/>
+        <line num="55" count="83" type="stmt"/>
+        <line num="56" count="17" type="cond" truecount="4" falsecount="0"/>
+        <line num="58" count="15" type="stmt"/>
+        <line num="64" count="15" type="stmt"/>
+        <line num="65" count="15" type="stmt"/>
+        <line num="66" count="15" type="stmt"/>
+        <line num="67" count="15" type="stmt"/>
+        <line num="71" count="15" type="cond" truecount="2" falsecount="0"/>
+        <line num="72" count="15" type="cond" truecount="2" falsecount="0"/>
         <line num="77" count="6" type="cond" truecount="5" falsecount="0"/>
         <line num="78" count="2" type="stmt"/>
         <line num="80" count="4" type="stmt"/>
         <line num="82" count="4" type="stmt"/>
-        <line num="88" count="13" type="stmt"/>
-        <line num="91" count="13" type="stmt"/>
-        <line num="99" count="7" type="stmt"/>
-        <line num="101" count="7" type="stmt"/>
-        <line num="106" count="7" type="stmt"/>
+        <line num="88" count="15" type="stmt"/>
+        <line num="91" count="15" type="stmt"/>
+        <line num="99" count="9" type="stmt"/>
+        <line num="101" count="9" type="stmt"/>
+        <line num="106" count="9" type="stmt"/>
         <line num="110" count="3" type="stmt"/>
         <line num="114" count="3" type="stmt"/>
-        <line num="120" count="75" type="stmt"/>
+        <line num="120" count="83" type="stmt"/>
         <line num="121" count="1" type="stmt"/>
-        <line num="124" count="75" type="stmt"/>
-        <line num="126" count="75" type="stmt"/>
-        <line num="127" count="0" type="stmt"/>
-        <line num="130" count="75" type="stmt"/>
-        <line num="131" count="0" type="stmt"/>
-        <line num="137" count="75" type="stmt"/>
+        <line num="124" count="83" type="stmt"/>
+        <line num="126" count="83" type="stmt"/>
+        <line num="127" count="2" type="stmt"/>
+        <line num="130" count="83" type="stmt"/>
+        <line num="131" count="1" type="stmt"/>
+        <line num="137" count="83" type="stmt"/>
         <line num="138" count="0" type="stmt"/>
         <line num="139" count="0" type="stmt"/>
         <line num="140" count="0" type="stmt"/>
@@ -620,23 +620,23 @@
         <line num="166" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="167" count="0" type="stmt"/>
         <line num="170" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="173" count="75" type="stmt"/>
-        <line num="174" count="85" type="stmt"/>
-        <line num="176" count="85" type="stmt"/>
-        <line num="255" count="0" type="stmt"/>
-        <line num="256" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="257" count="0" type="stmt"/>
-        <line num="260" count="0" type="stmt"/>
-        <line num="273" count="0" type="stmt"/>
-        <line num="276" count="0" type="stmt"/>
-        <line num="277" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="278" count="0" type="stmt"/>
-        <line num="284" count="0" type="stmt"/>
-        <line num="298" count="4" type="stmt"/>
-        <line num="300" count="1" type="stmt"/>
-        <line num="315" count="75" type="stmt"/>
-        <line num="325" count="0" type="stmt"/>
-        <line num="351" count="85" type="stmt"/>
+        <line num="173" count="83" type="stmt"/>
+        <line num="174" count="95" type="stmt"/>
+        <line num="176" count="95" type="stmt"/>
+        <line num="254" count="2" type="stmt"/>
+        <line num="255" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="256" count="2" type="stmt"/>
+        <line num="259" count="1" type="stmt"/>
+        <line num="272" count="0" type="stmt"/>
+        <line num="275" count="0" type="stmt"/>
+        <line num="276" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="277" count="0" type="stmt"/>
+        <line num="283" count="0" type="stmt"/>
+        <line num="297" count="4" type="stmt"/>
+        <line num="299" count="1" type="stmt"/>
+        <line num="314" count="83" type="stmt"/>
+        <line num="324" count="0" type="stmt"/>
+        <line num="350" count="95" type="stmt"/>
       </file>
     </package>
     <package name="bkdocs-frontend.app.(app).doc-detail">
@@ -2898,9 +2898,9 @@
       <file name="analytics.ts" path="D:\bkdocs-frontend\services\analytics.ts">
         <metrics statements="126" coveredstatements="126" conditionals="23" coveredconditionals="18" methods="35" coveredmethods="35"/>
         <line num="11" count="12" type="stmt"/>
-        <line num="12" count="203" type="stmt"/>
-        <line num="13" count="203" type="stmt"/>
-        <line num="14" count="179" type="stmt"/>
+        <line num="12" count="209" type="stmt"/>
+        <line num="13" count="209" type="stmt"/>
+        <line num="14" count="185" type="stmt"/>
         <line num="16" count="24" type="stmt"/>
         <line num="23" count="12" type="stmt"/>
         <line num="24" count="2" type="stmt"/>
@@ -2943,7 +2943,7 @@
         <line num="134" count="12" type="stmt"/>
         <line num="135" count="1" type="stmt"/>
         <line num="140" count="12" type="stmt"/>
-        <line num="141" count="21" type="stmt"/>
+        <line num="141" count="25" type="stmt"/>
         <line num="153" count="12" type="stmt"/>
         <line num="154" count="1" type="stmt"/>
         <line num="164" count="12" type="stmt"/>
@@ -2966,7 +2966,7 @@
         <line num="239" count="12" type="cond" truecount="1" falsecount="0"/>
         <line num="240" count="33" type="stmt"/>
         <line num="250" count="12" type="stmt"/>
-        <line num="251" count="35" type="stmt"/>
+        <line num="251" count="37" type="stmt"/>
         <line num="258" count="12" type="stmt"/>
         <line num="276" count="12" type="stmt"/>
         <line num="278" count="3" type="cond" truecount="2" falsecount="0"/>

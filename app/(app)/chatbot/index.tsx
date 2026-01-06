@@ -342,7 +342,6 @@ export default function ChatbotScreen() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView
             ref={scrollViewRef}
-            testID="chat-scroll-view"
             className="flex-1 px-4 pt-4"
             contentContainerStyle={{ paddingBottom: 50 }}
             showsVerticalScrollIndicator={false}
