@@ -14,14 +14,16 @@ export default function ForgotPasswordScreen() {
         setIsLoading(true);
         try {
             await api.post(API_PASSWORD_RESET_REQUEST, { email });
-            
-            await AsyncStorage.removeItem('signup_temp_data');
-            
+
+            // Store forgot password data first
             await AsyncStorage.setItem('forgot_password_temp_data', JSON.stringify({
                 email,
                 flow: 'forgot-password'
             }));
-            
+
+            // Then clean up any old signup data
+            await AsyncStorage.removeItem('signup_temp_data');
+
             router.push(ROUTES.OTP_CODE);
         } catch (error: any) {
             const message = error?.response?.data?.message || 'Gửi mã OTP thất bại';
@@ -33,7 +35,7 @@ export default function ForgotPasswordScreen() {
 
     return (
         <View className="flex-1 bg-white dark:bg-dark-900">
-          <ForgotPasswordForm isLoading={isLoading} onSubmit={handleSubmit} />
+            <ForgotPasswordForm isLoading={isLoading} onSubmit={handleSubmit} />
         </View>
-  );
+    );
 }
