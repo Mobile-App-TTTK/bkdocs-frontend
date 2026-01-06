@@ -38,7 +38,6 @@ export default function OtpCodeScreen() {
     const handleSubmit = async (otpCode: string) => {
         setIsLoading(true);
         try {
-            // Verify OTP (dùng chung cho cả 2 flow)
             const verifyResponse = await api.post(API_VERIFY_OTP, {
                 email,
                 otp: otpCode
@@ -50,7 +49,6 @@ export default function OtpCodeScreen() {
             }
 
             if (flow === 'register') {
-                // Flow đăng ký
                 const tempData = await AsyncStorage.getItem('signup_temp_data');
                 if (!tempData) throw new Error('Không tìm thấy thông tin đăng ký');
                 
@@ -70,7 +68,6 @@ export default function OtpCodeScreen() {
                     { text: 'OK', onPress: () => router.replace(ROUTES.LOGIN) }
                 ]);
             } else {
-                // Flow quên mật khẩu - chuyển sang trang đặt mật khẩu mới
                 await AsyncStorage.setItem('reset_password_token', token);
                 router.push(ROUTES.NEW_PASSWORD);
             }
