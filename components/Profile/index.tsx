@@ -51,6 +51,7 @@ export default function ProfileScreen() {
     <SafeAreaView className="flex-1 bg-white dark:!bg-dark-900" edges={['top']}>
       <View className="flex-row items-center justify-between px-6 pt-4 pb-2">
         <TouchableOpacity
+          testID="btn-back"
           onPress={() => router.back()}
           className="w-12 h-12 rounded-full bg-gray-100 dark:bg-dark-800 items-center justify-center"
           activeOpacity={0.7}
@@ -66,6 +67,7 @@ export default function ProfileScreen() {
         </Text>
 
         <TouchableOpacity
+          testID="btn-edit"
           onPress={() => router.push(ROUTES.EDIT_PROFILE)}
           className="w-12 h-12 rounded-full bg-orange-50 !items-center !justify-center"
           activeOpacity={0.7}
@@ -191,6 +193,7 @@ export default function ProfileScreen() {
 
         <View className="px-6 mt-6 mb-8">
           <TouchableOpacity
+            testID="btn-logout"
             onPress={handleLogout}
             className="w-full bg-gray-800 dark:bg-gray-700 rounded-2xl py-4 items-center justify-center"
             activeOpacity={0.8}
