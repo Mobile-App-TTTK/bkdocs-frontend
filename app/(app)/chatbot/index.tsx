@@ -69,20 +69,20 @@ export default function ChatbotScreen() {
     // Lọc history để chỉ gửi các tin nhắn từ conversation thực tế
     // Bỏ qua welcome message (tin nhắn đầu tiên từ admin)
     const isFirstMessage = chatHistory.length === 1 && chatHistory[0].role === 'admin';
-    const historyToSend: ChatMessage[] = isFirstMessage 
-      ? [] 
+    const historyToSend: ChatMessage[] = isFirstMessage
+      ? []
       : chatHistory
-          .filter((msg) => {
-            // Bỏ qua welcome message
-            if (msg.role === 'admin' && msg.content.includes('Xin chào') && msg.content.includes('tôi có thể giúp gì cho bạn hôm nay')) {
-              return false;
-            }
-            return true;
-          })
-          .map((msg) => ({
-            role: msg.role,
-            content: msg.content,
-          }));
+        .filter((msg) => {
+          // Bỏ qua welcome message
+          if (msg.role === 'admin' && msg.content.includes('Xin chào') && msg.content.includes('tôi có thể giúp gì cho bạn hôm nay')) {
+            return false;
+          }
+          return true;
+        })
+        .map((msg) => ({
+          role: msg.role,
+          content: msg.content,
+        }));
 
     // Log user message
     logChatbotInteraction('user');
@@ -145,7 +145,7 @@ export default function ChatbotScreen() {
       if (match.index > lastIndex) {
         parts.push(text.substring(lastIndex, match.index));
       }
-      
+
       const uuid = match[0];
       parts.push(
         <Text
@@ -159,7 +159,7 @@ export default function ChatbotScreen() {
           {uuid}
         </Text>
       );
-      
+
       lastIndex = match.index + match[0].length;
     }
 
@@ -172,18 +172,17 @@ export default function ChatbotScreen() {
 
   const renderMessage = (msg: ChatMessageWithActions, index: number) => {
     const isUser = msg.role === 'student';
-    
+
     return (
       <View key={index}>
         <View
           className={`flex-row mb-2 ${isUser ? 'justify-end' : 'justify-start'}`}
         >
           <View
-            className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-              isUser
+            className={`max-w-[80%] rounded-2xl px-4 py-3 ${isUser
                 ? '!bg-primary-500 !rounded-tr-sm'
                 : '!bg-gray-200 dark:!bg-gray-700 !rounded-tl-sm'
-            }`}
+              }`}
           >
             {isUser ? (
               <Text
@@ -290,7 +289,7 @@ export default function ChatbotScreen() {
             )}
           </View>
         </View>
-        
+
         {/* Suggested Actions cho tin nhắn AI */}
         {!isUser && msg.suggestedActions && msg.suggestedActions.length > 0 && (
           <View className="flex-row flex-wrap gap-2 mb-4">
@@ -343,13 +342,14 @@ export default function ChatbotScreen() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView
             ref={scrollViewRef}
+            testID="chat-scroll-view"
             className="flex-1 px-4 pt-4"
             contentContainerStyle={{ paddingBottom: 50 }}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
           >
             {chatHistory.map((msg, index) => renderMessage(msg, index))}
-            
+
             {sendChatMutation.isPending && (
               <View className="flex-row mb-4 justify-start">
                 <View className="bg-gray-200 dark:bg-gray-700 rounded-2xl rounded-tl-sm px-4 py-3">
@@ -375,7 +375,7 @@ export default function ChatbotScreen() {
                 placeholder="Nhập nội dung tin nhắn..."
                 placeholderTextColor="#9ca3af"
                 className="flex-1 !text-black dark:!text-white !text-base"
-                style={{ 
+                style={{
                   fontFamily: 'Inter-Regular',
                   textAlignVertical: 'center',
                   paddingVertical: 12,
@@ -388,11 +388,10 @@ export default function ChatbotScreen() {
             <TouchableOpacity
               onPress={handleSendMessage}
               disabled={!message.trim() || sendChatMutation.isPending}
-              className={`w-12 h-12 rounded-full items-center justify-center ${
-                message.trim() && !sendChatMutation.isPending
+              className={`w-12 h-12 rounded-full items-center justify-center ${message.trim() && !sendChatMutation.isPending
                   ? 'bg-primary-500'
                   : 'bg-gray-300 dark:bg-gray-700'
-              }`}
+                }`}
               activeOpacity={0.7}
             >
               {sendChatMutation.isPending ? (

@@ -1,0 +1,2792 @@
+﻿node.exe : [baseline-browser-mapping] The data 
+in this module is over two months old.  To 
+ensure accurate Baseline data, please update: 
+`npm i baseline-browser-mapping@latest -D`
+At C:\Program Files\nodejs\npx.ps1:29 char:3
++   & $NODE_EXE $NPX_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([ba 
+   seline-brows...ping@latest -D`:String) [], R  
+  emoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: download_document { document_id: '123', document_title: '' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    [Analytics] Event logged: feature_usage { feature_name: 'download', action: 'complete' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    [Analytics] Event logged: feature_usage { feature_name: 'share', action: 'complete' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: download_document { document_id: '123', document_title: '' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    [Analytics] Event logged: feature_usage { feature_name: 'download', action: 'complete' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.error
+    Error downloading document Error: Network error
+        at D:\bkdocs-frontend\__tests__\app\app\DocDetail.test.tsx:271:33
+        at D:\bkdocs-frontend\node_modules\jest-mock\build\index.js:397:39
+        at D:\bkdocs-frontend\node_modules\jest-mock\build\index.js:404:13
+        at mockConstructor (D:\bkdocs-frontend\node_modules\jest-mock\build\index.js:148:19)
+        at Object.apply [as get] (D:\bkdocs-frontend\__tests__\app\app\DocDetail.test.tsx:43:45)
+        at get (D:\bkdocs-frontend\app\(app)\doc-detail\index.tsx:323:35)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:14:12
+        at apply (D:\bkdocs-frontend\app\(app)\doc-detail\index.tsx:316:25)
+        at handler (D:\bkdocs-frontend\node_modules\@testing-library\react-native\src\fire-event.ts:123:19)
+        at callback (D:\bkdocs-frontend\node_modules\@testing-library\react-native\src\act.ts:31:24)
+        at Object.<anonymous>.process.env.NODE_ENV.exports.act (D:\bkdocs-frontend\node_modules\react\cjs\react.development.js:789:22)
+        at actImplementation (D:\bkdocs-frontend\node_modules\@testing-library\react-native\src\act.ts:30:25)
+        at fireEvent (D:\bkdocs-frontend\node_modules\@testing-library\react-native\src\fire-event.ts:122:11)
+        at Function.fireEvent [as press] (D:\bkdocs-frontend\node_modules\@testing-library\react-native\src\fire-event.ts:130:3)
+        at Object.press (D:\bkdocs-frontend\__tests__\app\app\DocDetail.test.tsx:288:17)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:3:17)
+        at _next (D:\bkdocs-frontend\node_modules\@babel\runtime\helpers\asyncToGenerator.js:17:9)
+
+    [0m [90m 384 |[39m             }
+     [90m 385 |[39m         } [36mcatch[39m (error) {
+    [31m[1m>[22m[39m[90m 386 |[39m             console[33m.[39merror([32m"Error downloading document"[39m[33m,[39m error)[33m;[39m
+     [90m     |[39m                     [31m[1m^[22m[39m
+     [90m 387 |[39m             [33mAlert[39m[33m.[39malert([32m"Lß╗ùi"[39m[33m,[39m [32m"Tß║úi vß╗ü thß║Ñt bß║íi. Vui l├▓ng thß╗¡ lß║íi."[39m)[33m;[39m
+     [90m 388 |[39m         } [36mfinally[39m {
+     [90m 389 |[39m             setIsDownloading([36mfalse[39m)[33m;[39m[0m
+
+      at error (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:386:21)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.log
+    [Analytics] Event logged: feature_usage { feature_name: 'share', action: 'complete' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: download_document { document_id: '123', document_title: '' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    [Analytics] Event logged: feature_usage { feature_name: 'download', action: 'complete' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: download_document { document_id: '123', document_title: '' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    [Analytics] Event logged: feature_usage { feature_name: 'download', action: 'complete' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: download_document { document_id: '123', document_title: '' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    [Analytics] Event logged: feature_usage { feature_name: 'download', action: 'complete' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: download_document { document_id: '123', document_title: '' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    [Analytics] Event logged: feature_usage { feature_name: 'download', action: 'complete' }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: null
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    [Analytics] Event logged: view_document { document_id: '123', document_title: '', faculty_name: undefined }
+
+      at log (services/analytics.ts:14:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+  console.log
+    id 123
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:78:13)
+
+  console.log
+    docDetail: []
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:255:13)
+
+  console.log
+    images: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:256:13)
+
+  console.log
+    thumbnailUrl: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:257:13)
+
+  console.log
+    rawImg: undefined
+
+      at log (D:\bkdocs-frontend\app\(app)../doc-detail/index.tsx:258:13)
+
+FAIL __tests__/app/app/DocDetail.test.tsx (8.441 
+s)
+  DocDetailScreen
+    Rendering
+      ΓêÜ renders download button (312 ms)
+      ΓêÜ renders document sections (121 ms)
+      ΓêÜ renders follow button (106 ms)
+      ΓêÜ renders category section (102 ms)
+    Navigation
+      ΓêÜ navigates back when back button 
+pressed (100 ms)
+      ΓêÜ navigates to search when search button 
+pressed (102 ms)
+      ΓêÜ navigates to all comments (108 ms)
+      ΓêÜ navigates to write comment (110 ms)
+    Download Flow
+      ΓêÜ pressing download triggers share flow 
+(iOS-like) (177 ms)
+      ΓêÜ shows loading state during download 
+(129 ms)
+      ΓêÜ handles download error gracefully (180 
+ms)
+      ΓêÜ handles missing download URL (165 ms)
+      ΓêÜ falls back to Linking when sharing not 
+available (136 ms)
+    Android Download Flow
+      ΓêÜ shows success popup on successful 
+Android download (167 ms)
+      ΓêÜ shows cancelled popup when user 
+cancels SAF (175 ms)
+      ΓêÜ shows error popup on Android download 
+failure (177 ms)
+    User Interactions
+      ΓêÜ toggles following state on press (142 
+ms)
+    User Rating Status
+      ΓêÜ shows write comment button if user has 
+not rated (90 ms)
+      ├ù shows rated message if user has rated 
+(1085 ms)
+    Edge Cases
+      ΓêÜ renders with empty ratings array (129 
+ms)
+      ΓêÜ renders with missing uploader info 
+(112 ms)
+      ΓêÜ renders with no images (fallback to 
+default) (102 ms)
+      ΓêÜ handles null document response 
+gracefully (112 ms)
+    Image and Modal
+      ΓêÜ renders and interacts with image modal 
+(172 ms)
+
+  ΓùÅ DocDetailScreen ΓÇ║ User Rating Status ΓÇ║ 
+shows rated message if user has rated
+
+    Unable to find an element with text: Bß║ín 
+─æ├ú ─æ├ính gi├í t├ái liß╗çu n├áy
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"btn-back"[39m
+        [36m>[39m
+          [36m<Ionicons />[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"btn-search"[39m
+        [36m>[39m
+          [36m<Ionicons />[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<RCTScrollView>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    
+[33maccessible[39m=[32m{true}[39m
+                    
+[33mtestID[39m=[32m"btn-open-image"[39m
+                  [36m>[39m
+                    [36m<Image[39m
+                      
+[33maccessibilityLabel[39m=[32m"Document 
+Image"[39m
+                      
+[33malt[39m=[32m"Document Image"[39m
+                    [36m/>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</RCTScrollView>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<Text />[39m
+                [36m<View>[39m
+                  [36m<View>[39m
+                    [36m<Ionicons />[39m
+                    [36m<Text>[39m
+                      [0m0[0m
+                      [0m l╞░ß╗út[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<View>[39m
+                    [36m<Ionicons />[39m
+                    [36m<Text>[39m
+                      [0m0[0m
+                      [0m ([0m
+                      [0m0[0m
+                      [0m)[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<Image[39m
+                    
+[33maccessibilityLabel[39m=[32m"User 
+Avatar"[39m
+                    [33malt[39m=[32m"User 
+Avatar"[39m
+                  [36m/>[39m
+                  [36m<View>[39m
+                    [36m<View>[39m
+                      [36m<Text />[39m
+                      [36m<Text>[39m
+                        [0mΓÇó[0m
+                      [36m</Text>[39m
+                      [36m<View[39m
+                        
+[33maccessible[39m=[32m{true}[39m
+                      [36m>[39m
+                        [36m<Text>[39m
+                          [0mTheo d├╡i[0m
+                        [36m</Text>[39m
+                      [36m</View>[39m
+                    [36m</View>[39m
+                    [36m<Text>[39m
+                      [0mHCMUT[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mDanh mß╗Ñc t├ái liß╗çu[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mKhoa: [0m
+                [0m [0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mM├┤n hß╗ìc: [0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mM├┤ tß║ú[0m
+              [36m</Text>[39m
+              [36m<Text />[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mGß╗¡i ─æ├ính gi├í v├á nhß║¡n 
+x├⌐t[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<Image[39m
+                  
+[33maccessibilityLabel[39m=[32m"User 
+Avatar"[39m
+                  [33malt[39m=[32m"User 
+Avatar"[39m
+                [36m/>[39m
+                [36m<View[39m
+                  
+[33maccessible[39m=[32m{true}[39m
+                  
+[33mtestID[39m=[32m"btn-write-comment"[39m
+                [36m>[39m
+                  [36m<Ionicons />[39m
+                  [36m<Ionicons />[39m
+                  [36m<Ionicons />[39m
+                  [36m<Ionicons />[39m
+                  [36m<Ionicons />[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0m─É├ính gi├í ([0m
+                  [0m0[0m
+                  [0m)[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mΓÇó[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0m0[0m
+                [36m</Text>[39m
+                [36m<Ionicons />[39m
+              [36m</View>[39m
+              [36m<View[39m
+                
+[33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mTß║Ñt cß║ú[0m
+                [36m</Text>[39m
+                [36m<Ionicons />[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View />[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View[39m
+        
+[33maccessibilityRole[39m=[32m"button"[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mTß║úi vß╗ü[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+    [0m [90m 455 |[39m
+     [90m 456 |[39m       render([33m<[39m[3
+3mWrapper[39m[33m>[39m[33m<[39m[33mDocDetai
+l[39m [33m/[39m[33m>[39m[33m<[39m[33m/[3
+9m[33mWrapper[39m[33m>[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 457 |[39m       
+[36mawait[39m waitFor(() [33m=>[39m 
+expect(screen[33m.[39mgetByText([32m'Bß║ín 
+─æ├ú ─æ├ính gi├í t├ái liß╗çu 
+n├áy'[39m))[33m.[39mtoBeTruthy())[33m;[39m
+     [90m     |[39m                    
+[31m[1m^[22m[39m
+     [90m 458 |[39m       expect(screen[33m.[
+39mqueryByTestId([32m'btn-write-comment'[39m))
+[33m.[39mtoBeNull()[33m;[39m
+     [90m 459 |[39m     })[33m;[39m
+     [90m 460 |[39m   })[33m;[39m[0m
+
+      at Object.<anonymous> 
+(__tests__/app/app/DocDetail.test.tsx:457:20)
+      at asyncGeneratorStep (node_modules/@babel/
+runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpe
+rs/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyn
+cToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/
+runtime/helpers/asyncToGenerator.js:14:12)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 23 passed, 24 total
+Snapshots:   0 total
+Time:        8.706 s, estimated 17 s
+Ran all test suites matching 
+/__tests__\\app\\app\\DocDetail.test.tsx/i.

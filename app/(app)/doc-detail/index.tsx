@@ -23,8 +23,8 @@ type ApiDocDetail = {
     downloadCount?: number;
     uploadDate?: string;
     thumbnailUrl?: string;
-    uploader?: { 
-        name?: string; 
+    uploader?: {
+        name?: string;
         id?: string;
         isVerified?: boolean;
     };
@@ -33,7 +33,7 @@ type ApiDocDetail = {
     score?: number;
     ratingsCount?: number;
     faculty?: any;
-  };
+};
 
 type ApiDocRating = {
     userName: string;
@@ -69,7 +69,7 @@ const sampleDoc: DocProps = {
 };
 
 
-export default function DownloadDoc() {    
+export default function DownloadDoc() {
     const colorScheme = useColorScheme();
     const isDarkMode = colorScheme === 'dark';
 
@@ -91,28 +91,28 @@ export default function DownloadDoc() {
 
     useEffect(() => {
         if (!id) return;
-        
+
         let cancelled = false;
         (async () => {
-          try {
-            setLoading(true);
-            const res = await api.get(API_GET_DOCUMENT_DETAIL(id));
-            const data = res.data?.data;
-            if (!cancelled) {
-              setDocDetail(data);
-              // Log view document
-              if (data) logViewDocument(id, data.title || '', data.faculty?.name);
+            try {
+                setLoading(true);
+                const res = await api.get(API_GET_DOCUMENT_DETAIL(id));
+                const data = res.data?.data;
+                if (!cancelled) {
+                    setDocDetail(data);
+                    // Log view document
+                    if (data) logViewDocument(id, data.title || '', data.faculty?.name);
+                }
+            } finally {
+                if (!cancelled) setLoading(false);
             }
-          } finally {
-            if (!cancelled) setLoading(false);
-          }
         })();
-    
+
         return () => {
-          cancelled = true;
+            cancelled = true;
         };
     }, [id]);
-    
+
     const DownloadPopup = () => {
         if (!showPopup) return null;
 
@@ -182,11 +182,11 @@ export default function DownloadDoc() {
     };
     const allImages = React.useMemo(() => {
         const images: string[] = [];
-        
+
         if (docDetail?.thumbnailUrl && docDetail.thumbnailUrl.trim().length > 0) {
             images.push(docDetail.thumbnailUrl.trim());
         }
-        
+
         if (docDetail?.images && docDetail.images.length > 0) {
             docDetail.images.forEach(img => {
                 if (typeof img === 'string' && img.trim().length > 0 && img.trim() !== docDetail.thumbnailUrl?.trim()) {
@@ -194,7 +194,7 @@ export default function DownloadDoc() {
                 }
             });
         }
-        
+
         return images;
     }, [docDetail?.thumbnailUrl, docDetail?.images]);
 
@@ -217,23 +217,23 @@ export default function DownloadDoc() {
 
     useEffect(() => {
         if (!id) return;
-    
+
         let cancelled = false;
         (async () => {
             try {
                 const res1 = await api.get(API_GET_DOC_RATINGS(id));
                 const data1 = res1.data?.data;
-                
+
                 if (!cancelled) {
                     // Lấy 5 comment gần nhất
                     const recentRatings = (data1 ?? []).slice(0, 5);
                     setDocRecentRatings(recentRatings);
-                    
+
                     setRatingsCount(data1?.length ?? 0);
                     setRatingsAverage(data1?.reduce((acc: number, comment: ApiDocRating) => acc + comment.score, 0) / data1?.length);
-    
+
                     if (userProfile?.name && data1) {
-                        const userRating = data1.find((rating: ApiDocRating) => 
+                        const userRating = data1.find((rating: ApiDocRating) =>
                             rating.userName === userProfile.name
                         );
                         setHasUserRated(!!userRating);
@@ -243,66 +243,66 @@ export default function DownloadDoc() {
                 if (!cancelled) setLoading(false);
             }
         })();
-    
+
         return () => {
             cancelled = true;
         };
     }, [id]);
 
 
-    const rawImg = docDetail?.images?.[selectedImage]; 
+    const rawImg = docDetail?.images?.[selectedImage];
 
     console.log('docDetail:', docDetail);
     console.log('images:', docDetail?.images);
     console.log('thumbnailUrl:', docDetail?.thumbnailUrl);
     console.log('rawImg:', rawImg);
-    
+
     const imageSource =
-      typeof rawImg === 'string' && rawImg.trim().length > 0
-        ? { uri: rawImg.trim() }
-        : docDetail?.thumbnailUrl && docDetail.thumbnailUrl.trim().length > 0
-          ? { uri: docDetail.thumbnailUrl.trim() }
-          : require('@/assets/images/sampleDoc1.png');
+        typeof rawImg === 'string' && rawImg.trim().length > 0
+            ? { uri: rawImg.trim() }
+            : docDetail?.thumbnailUrl && docDetail.thumbnailUrl.trim().length > 0
+                ? { uri: docDetail.thumbnailUrl.trim() }
+                : require('@/assets/images/sampleDoc1.png');
 
     const { data: uploaderProfile, isLoading: isLoadingUploaderProfile, error: errorUploaderProfile } = useFetchUserProfileById(docDetail?.uploader?.id ?? "");
     const uploaderAvatar = uploaderProfile?.imageUrl ? { uri: uploaderProfile.imageUrl } : require("@/assets/images/userAvatar.jpg");
 
-    const {data: userProfile, isLoading: isLoadingUserProfile, error: errorUserProfile} = useFetchUserProfile();
+    const { data: userProfile, isLoading: isLoadingUserProfile, error: errorUserProfile } = useFetchUserProfile();
     const userAvatar = userProfile?.imageUrl ? { uri: userProfile.imageUrl } : require("@/assets/images/userAvatar.jpg");
 
 
     const [following, setFollowing] = useState(false);
 
     type DownloadResult =
-    | { status: "saved"; uri?: string }      // Android SAF: uri là content://...
-    | { status: "shared" }                  // iOS: chỉ biết đã mở share sheet
-    | { status: "cancelled" }
-    | { status: "error"; error: unknown };
-  
+        | { status: "saved"; uri?: string }      // Android SAF: uri là content://...
+        | { status: "shared" }                  // iOS: chỉ biết đã mở share sheet
+        | { status: "cancelled" }
+        | { status: "error"; error: unknown };
+
     async function saveWithSAFAndroid(sourceUri: string, fileName: string, mimeType: string) {
         try {
-          const SAF = FSLegacy.StorageAccessFramework; // ✅ legacy
-      
-          const perm = await SAF.requestDirectoryPermissionsAsync();
-          if (!perm.granted) return { status: "cancelled" as const };
-      
-          const destUri = await SAF.createFileAsync(perm.directoryUri, fileName, mimeType);
-      
-          const base64 = await FSLegacy.readAsStringAsync(sourceUri, {
-            encoding: FSLegacy.EncodingType.Base64, // ✅ EncodingType ở legacy
-          });
-      
-          await FSLegacy.writeAsStringAsync(destUri, base64, {
-            encoding: FSLegacy.EncodingType.Base64,
-          });
-      
-          return { status: "saved" as const, uri: destUri };
-        } catch (e) {
-          return { status: "error" as const, error: e };
-        }
-      }
+            const SAF = FSLegacy.StorageAccessFramework; // ✅ legacy
 
-      const refetchDocDetail = useCallback(async () => {
+            const perm = await SAF.requestDirectoryPermissionsAsync();
+            if (!perm.granted) return { status: "cancelled" as const };
+
+            const destUri = await SAF.createFileAsync(perm.directoryUri, fileName, mimeType);
+
+            const base64 = await FSLegacy.readAsStringAsync(sourceUri, {
+                encoding: FSLegacy.EncodingType.Base64, // ✅ EncodingType ở legacy
+            });
+
+            await FSLegacy.writeAsStringAsync(destUri, base64, {
+                encoding: FSLegacy.EncodingType.Base64,
+            });
+
+            return { status: "saved" as const, uri: destUri };
+        } catch (e) {
+            return { status: "error" as const, error: e };
+        }
+    }
+
+    const refetchDocDetail = useCallback(async () => {
         if (!id) return;
         try {
             const res = await api.get(API_GET_DOCUMENT_DETAIL(id));
@@ -316,39 +316,39 @@ export default function DownloadDoc() {
     const handleDownload = async () => {
         if (!id) return;
         if (isDownloading) return;
-      
+
         setIsDownloading(true);
 
         try {
-          const res = await api.get(API_DOWNLOAD_DOCUMENT(id));
-          const data = res.data?.data;
-      
-          const downloadUrl =
-            (typeof data === "string" ? data : undefined) ??
-            data?.downloadUrl ??
-            data?.url ??
-            data?.fileUrl ??
-            (docDetail as any)?.downloadUrl ??
-            (docDetail as any)?.fileUrl;
-      
-          if (!downloadUrl || typeof downloadUrl !== "string") {
-            Alert.alert("Lỗi", "Không lấy được link tải về từ server.");
-            return;
-          }
-      
-          const safeTitle = (docDetail?.title ?? "document")
-            .replace(/[<>:"/\\|?*\x00-\x1F]/g, "_")
-            .slice(0, 80);
+            const res = await api.get(API_DOWNLOAD_DOCUMENT(id));
+            const data = res.data?.data;
+
+            const downloadUrl =
+                (typeof data === "string" ? data : undefined) ??
+                data?.downloadUrl ??
+                data?.url ??
+                data?.fileUrl ??
+                (docDetail as any)?.downloadUrl ??
+                (docDetail as any)?.fileUrl;
+
+            if (!downloadUrl || typeof downloadUrl !== "string") {
+                Alert.alert("Lỗi", "Không lấy được link tải về từ server.");
+                return;
+            }
+
+            const safeTitle = (docDetail?.title ?? "document")
+                .replace(/[<>:"/\\|?*\x00-\x1F]/g, "_")
+                .slice(0, 80);
 
             const extMatch = downloadUrl.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
             const ext = extMatch?.[1] ? `.${extMatch[1]}` : ".pdf";
-        
+
             const destFile = new FileSystem.File(FileSystem.Paths.document, `${safeTitle}${ext}`);
 
             if (destFile.exists) {
-            destFile.delete();
+                destFile.delete();
             }
-        
+
             const downloadedFile = await FileSystem.File.downloadFileAsync(downloadUrl, destFile);
             const uri = downloadedFile.uri;
             await downloadedDocsStorage.addDownloadedDoc(id);
@@ -359,7 +359,7 @@ export default function DownloadDoc() {
             if (Platform.OS === 'android') {
                 const mimeType = getMimeType(ext);
                 const saved = await saveWithSAFAndroid(uri, `${safeTitle}${ext}`, mimeType);
-            
+
                 if (saved.status === "saved") {
                     setPopupType('success');
                     setShowPopup(true);
@@ -381,23 +381,23 @@ export default function DownloadDoc() {
                     await Linking.openURL(uri);
                 }
                 await refetchDocDetail();
-            }              
+            }
         } catch (error) {
-          console.error("Error downloading document", error);
-          Alert.alert("Lỗi", "Tải về thất bại. Vui lòng thử lại.");
+            console.error("Error downloading document", error);
+            Alert.alert("Lỗi", "Tải về thất bại. Vui lòng thử lại.");
         } finally {
-          setIsDownloading(false);
+            setIsDownloading(false);
         }
-      };
+    };
 
-      useFocusEffect(
+    useFocusEffect(
         useCallback(() => {
             if (!id) return;
-    
+
             let cancelled = false;
             (async () => {
                 try {
-                    
+
                     const resDoc = await api.get(API_GET_DOCUMENT_DETAIL(id));
                     if (!cancelled) {
                         setDocDetail(resDoc.data?.data);
@@ -408,12 +408,12 @@ export default function DownloadDoc() {
                     if (!cancelled) {
                         const recentRatings = (data1 ?? []).slice(0, 5);
                         setDocRecentRatings(recentRatings);
-                        
+
                         setRatingsCount(data1?.length ?? 0);
                         setRatingsAverage(data1?.reduce((acc: number, comment: ApiDocRating) => acc + comment.score, 0) / data1?.length);
-    
+
                         if (userProfile?.name && data1) {
-                            const userRating = data1.find((rating: ApiDocRating) => 
+                            const userRating = data1.find((rating: ApiDocRating) =>
                                 rating.userName === userProfile.name
                             );
                             setHasUserRated(!!userRating);
@@ -423,13 +423,13 @@ export default function DownloadDoc() {
                     if (!cancelled) setLoading(false);
                 }
             })();
-    
+
             return () => {
                 cancelled = true;
             };
         }, [id, userProfile?.name])
     );
-    
+
     return (
         <GestureHandlerRootView style={{
             flex: 1,
@@ -452,19 +452,21 @@ export default function DownloadDoc() {
                 <Pressable
                     className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center"
                     onPress={() => router.back()}
+                    testID="btn-back"
                 >
                     <Ionicons name="chevron-back-outline" size={24} color={"#888888"} />
                 </Pressable>
-                
+
                 <Pressable
                     className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center"
                     onPress={() => router.push(ROUTES.SEARCH)}
+                    testID="btn-search"
                 >
                     <Ionicons name="search-outline" size={24} color={"#888888"} />
                 </Pressable>
             </View>
 
-            <ScrollView 
+            <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{
                     paddingBottom: 100,
@@ -484,7 +486,7 @@ export default function DownloadDoc() {
                         }}
                         keyExtractor={(_, index) => index.toString()}
                         renderItem={({ item }) => (
-                            <Pressable onPress={() => setSelectedImageUrl(allImages[selectedImage])}> 
+                            <Pressable onPress={() => setSelectedImageUrl(allImages[selectedImage])} testID="btn-open-image">
                                 <Image
                                     source={
                                         typeof item === 'string' && item.trim().length > 0
@@ -529,12 +531,12 @@ export default function DownloadDoc() {
                 }}>
                     <View className='flex flex-row items-center gap-10 mt-2'>
                         <View className="flex-1">
-                            
+
                             {/*Tên doc*/}
-                            <Text className="!font-bold !text-3xl !overflow-ellipsis !truncate">{docDetail?.title ?? ""}</Text> 
-                            
+                            <Text className="!font-bold !text-3xl !overflow-ellipsis !truncate">{docDetail?.title ?? ""}</Text>
+
                             {/*Lượt tải + đánh giá*/}
-                            <View className="mt-1 flex flex-row gap-4"> 
+                            <View className="mt-1 flex flex-row gap-4">
                                 <View className="flex flex-row items-center justify-center gap-1">
                                     <Ionicons name="download-outline" size={18} color={isDarkMode ? "white" : "gray.500"} />
                                     <Text>{docDetail?.downloadCount ?? 0} lượt</Text>
@@ -542,15 +544,15 @@ export default function DownloadDoc() {
 
                                 <View className="flex flex-row items-center justify-center gap-1">
                                     <Ionicons name="star-outline" size={18} color={isDarkMode ? "white" : "gray.500"} />
-                                    <Text>{docRecentRatings.length > 0 
-                                    ? (docRecentRatings.reduce((acc, comment) => acc + comment.score, 0) / docRecentRatings.length).toFixed(1) 
-                                    : 0} ({docRecentRatings.length ?? 0})</Text>
+                                    <Text>{docRecentRatings.length > 0
+                                        ? (docRecentRatings.reduce((acc, comment) => acc + comment.score, 0) / docRecentRatings.length).toFixed(1)
+                                        : 0} ({docRecentRatings.length ?? 0})</Text>
                                 </View>
                             </View>
 
                             <View className="mt-4 flex flex-row items-center gap-3">
-                                <Image source={uploaderAvatar} width={16} height={16} alt={"User Avatar"} className="rounded-full !shadow-md"/>
-                            
+                                <Image source={uploaderAvatar} width={16} height={16} alt={"User Avatar"} className="rounded-full !shadow-md" />
+
                                 <View>
                                     <View className="flex flex-row items-center gap-1.5">
                                         <Text className="!font-bold !text-xl">{docDetail?.uploader?.name ?? ""}</Text>
@@ -563,7 +565,7 @@ export default function DownloadDoc() {
                                             </Text>
                                         </Pressable>
                                     </View>
-                                    <Text>{uploaderProfile?.faculty ?? ""}</Text>    
+                                    <Text>{uploaderProfile?.faculty ?? ""}</Text>
                                 </View>
                             </View>
                         </View>
@@ -585,17 +587,17 @@ export default function DownloadDoc() {
                         {
                             hasUserRated ? (
                                 <View className='flex flex-row items-center gap-2 mt-2'>
-                                <Ionicons name="checkmark-circle" size={24} color="#22c55e" />
-                                <Text className='text-gray-500'>Bạn đã đánh giá tài liệu này</Text>
-                            </View>
+                                    <Ionicons name="checkmark-circle" size={24} color="#22c55e" />
+                                    <Text className='text-gray-500'>Bạn đã đánh giá tài liệu này</Text>
+                                </View>
                             ) : (
                                 <View className='flex flex-row items-center gap-1 mt-2'>
-                                    <Image source={userAvatar} width={12} height={12} alt={"User Avatar"} className="rounded-full !shadow-md"/>
+                                    <Image source={userAvatar} width={12} height={12} alt={"User Avatar"} className="rounded-full !shadow-md" />
                                     <Pressable className='flex flex-row gap-1 ml-1' onPress={() => router.push({
-                                    pathname: ROUTES.WRITE_COMMENT,
-                                    params: {id: id}
-                                        } as any
-                                    )}>
+                                        pathname: ROUTES.WRITE_COMMENT,
+                                        params: { id: id }
+                                    } as any
+                                    )} testID="btn-write-comment">
                                         <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
                                         <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
                                         <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
@@ -624,17 +626,17 @@ export default function DownloadDoc() {
                         </Pressable>
                     </View>
 
-                    
+
                     <View className="mt-4 mb-24">
                         <View className="flex flex-col gap-6">
                             {
                                 docRecentRatings.map((comment, index) => (
                                     <View key={index} className='flex flex-row gap-4'>
-                                        <Image 
-                                            source={require("@/assets/images/userAvatar.jpg")} 
-                                            width={12} 
-                                            height={12} 
-                                            alt={"User Avatar"} 
+                                        <Image
+                                            source={require("@/assets/images/userAvatar.jpg")}
+                                            width={12}
+                                            height={12}
+                                            alt={"User Avatar"}
                                             className="rounded-full !shadow-md"
                                         />
                                         <View className='flex-1 flex-shrink'>
@@ -651,11 +653,11 @@ export default function DownloadDoc() {
                                                 {
                                                     comment.imageUrl && (
                                                         <Pressable onPress={() => setSelectedImageUrl(comment.imageUrl)}>
-                                                            <Image 
-                                                                source={{ uri: comment.imageUrl }} 
-                                                                width={12} 
-                                                                height={12} 
-                                                                alt={"Image"} 
+                                                            <Image
+                                                                source={{ uri: comment.imageUrl }}
+                                                                width={12}
+                                                                height={12}
+                                                                alt={"Image"}
                                                                 className="rounded-md !shadow-md"
                                                             />
                                                         </Pressable>
@@ -672,7 +674,7 @@ export default function DownloadDoc() {
             </ScrollView>
 
             {/* Download Button - Fixed at bottom */}
-            <Button 
+            <Button
                 className="!rounded-xl h-14 absolute z-10 bottom-[60px]"
                 style={{ left: 32, right: 32 }}
                 onPress={handleDownload}
@@ -703,6 +705,7 @@ export default function DownloadDoc() {
                             borderRadius: 25,
                             padding: 8,
                         }}
+                        testID="btn-close-modal"
                     >
                         <Ionicons name="close" size={28} color="white" />
                     </Pressable>
