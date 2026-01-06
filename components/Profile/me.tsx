@@ -18,7 +18,7 @@ export default function MeScreen() {
     hasNextPage,
     isFetchingNextPage,
   } = useFetchUserDocuments(userProfile?.id || '', 10);
-  
+
   const avatar = require('@/assets/images/userAvatar1.png');
 
   console.log("documentsData: ", documentsData?.pages);
@@ -165,6 +165,7 @@ export default function MeScreen() {
           onPress={() => router.back()}
           className="w-12 h-12 rounded-full bg-gray-100 dark:bg-dark-800 items-center justify-center"
           activeOpacity={0.7}
+          testID="btn-back"
         >
           <Ionicons name="chevron-back-outline" size={24} color="#888" />
         </TouchableOpacity>
@@ -180,12 +181,14 @@ export default function MeScreen() {
           onPress={() => router.push(ROUTES.EDIT_PROFILE)}
           className="w-12 h-12 rounded-full bg-orange-50 !items-center !justify-center"
           activeOpacity={0.7}
+          testID="btn-edit"
         >
           <Ionicons name="create-outline" size={20} color="#FF9500" />
         </TouchableOpacity>
       </View>
 
       <FlatList
+        testID="document-list"
         data={documents}
         numColumns={2}
         keyExtractor={(item, index) => `${item.id}-${index}`}

@@ -37,7 +37,7 @@ export default function SearchResultScreen() {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-        setDebouncedSearchQuery(searchQuery.trim());
+            setDebouncedSearchQuery(searchQuery.trim());
         }, 100);
 
         return () => clearTimeout(timeout);
@@ -69,7 +69,7 @@ export default function SearchResultScreen() {
                 className="absolute top-0 left-0 right-0 z-10 px-3 py-2"
             >
                 <View className='flex-row items-center justify-between gap-3'>
-                    <Pressable onPress={() => router.back()}>
+                    <Pressable testID="back-button" onPress={() => router.back()}>
                         <Ionicons name="chevron-back" size={30} className='!text-black dark:!text-white' />
                     </Pressable>
                     <View className="flex-row items-center flex-1 bg-gray-100 dark:bg-dark-800 h-12 px-3 rounded-2xl">
@@ -91,7 +91,7 @@ export default function SearchResultScreen() {
                             onSubmitEditing={() => handleSearch(searchQuery)}
                         />
                         {searchQuery.length > 0 && (
-                            <Pressable onPress={() => {
+                            <Pressable testID="clear-search-button" onPress={() => {
                                 setSearchQuery('');
                                 setDebouncedSearchQuery('');
                                 setShowSuggestions(false);
@@ -100,11 +100,12 @@ export default function SearchResultScreen() {
                             </Pressable>
                         )}
                     </View>
-                    <Pressable 
+                    <Pressable
+                        testID="filter-button"
                         onPress={() => {
                             setFilterOptions(appliedFilters);
                             setShowFilterModal(true);
-                        }} 
+                        }}
                         className="relative pl-2 pr-2 py-2"
                         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                     >
@@ -117,8 +118,8 @@ export default function SearchResultScreen() {
 
                 <View className={classNames("flex-row items-center gap-2 py-4", showSuggestions ? 'hidden' : 'block')}>
                     {filterOptionsList.map((option) => (
-                        <TouchableOpacity 
-                            key={option.value} onPress={() => setSelectedFilter(option.value)} 
+                        <TouchableOpacity
+                            key={option.value} onPress={() => setSelectedFilter(option.value)}
                             className={classNames(
                                 "p-3 rounded-xl border border-gray-200 dark:border-gray-700", selectedFilter === option.value ? 'bg-primary-50 border-primary-500' : '')}
                         >
@@ -152,7 +153,7 @@ export default function SearchResultScreen() {
                     </View>
                 ) : (
                     <View className='pb-20'>
-                        { (selectedFilter === 'all' ? (Array.isArray(users) && users?.length > 0) : selectedFilter === 'user') && (
+                        {(selectedFilter === 'all' ? (Array.isArray(users) && users?.length > 0) : selectedFilter === 'user') && (
                             <View className='pt-4'>
                                 <Text className="!text-lg !font-semibold">Người dùng</Text>
                                 {isFetchingSearchResult ? (
@@ -186,8 +187,8 @@ export default function SearchResultScreen() {
                                     </View>
                                 )}
                             </View>
-                        ) }
-                        { (selectedFilter === 'all' ? (Array.isArray(documents) && documents?.length > 0) : selectedFilter === 'document') && (
+                        )}
+                        {(selectedFilter === 'all' ? (Array.isArray(documents) && documents?.length > 0) : selectedFilter === 'document') && (
                             <View className='pt-4'>
                                 <Text className="!text-lg !font-semibold">Tài liệu</Text>
                                 {isFetchingSearchResult ? (
@@ -221,9 +222,9 @@ export default function SearchResultScreen() {
                                         <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy tài liệu</Text>
                                     </View>
                                 )}
-                            </View> 
+                            </View>
                         )}
-                        { (selectedFilter === 'all' ? (Array.isArray(searchFaculties) && searchFaculties?.length > 0) : selectedFilter === 'faculty') && (
+                        {(selectedFilter === 'all' ? (Array.isArray(searchFaculties) && searchFaculties?.length > 0) : selectedFilter === 'faculty') && (
                             <View className='pt-4'>
                                 <Text className="!text-lg !font-semibold">Khoa</Text>
                                 {isFetchingSearchResult ? (
@@ -252,10 +253,10 @@ export default function SearchResultScreen() {
                                         <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy khoa</Text>
                                     </View>
                                 )}
-                            </View> 
+                            </View>
                         )}
 
-                        { (selectedFilter === 'all' ? (Array.isArray(subjects) && subjects?.length > 0) : selectedFilter === 'subject') && (
+                        {(selectedFilter === 'all' ? (Array.isArray(subjects) && subjects?.length > 0) : selectedFilter === 'subject') && (
                             <View className='pt-4'>
                                 <Text className="!text-lg !font-semibold">Môn học</Text>
                                 {isFetchingSearchResult ? (
@@ -284,9 +285,9 @@ export default function SearchResultScreen() {
                                         <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy môn học</Text>
                                     </View>
                                 )}
-                            </View> 
+                            </View>
                         )}
-                        
+
                         {(!Array.isArray(users) || users?.length === 0) && (!Array.isArray(documents) || documents?.length === 0) && (!Array.isArray(searchFaculties) || searchFaculties?.length === 0) && (!Array.isArray(subjects) || subjects?.length === 0) && !isFetchingSearchResult && (
                             <View className="w-full flex items-center justify-center py-8">
                                 <Text className="text-gray-500 dark:text-gray-400">Không tìm thấy kết quả nào</Text>
@@ -306,126 +307,129 @@ export default function SearchResultScreen() {
             >
                 <TouchableWithoutFeedback onPress={() => setShowFilterModal(false)}>
                     <View className="flex-1 bg-black/50 justify-end">
-                        <TouchableWithoutFeedback onPress={() => {}}>
+                        <TouchableWithoutFeedback onPress={() => { }}>
                             <View className="bg-white dark:bg-dark-800 rounded-t-3xl max-h-[80%] min-h-[50%]">
-                        <View className="flex-row justify-between items-center p-5 border-b border-gray-200">
-                            <Text className="!text-base !font-bold text-gray-800">Bộ lọc tìm kiếm</Text>
-                            <View className="flex-row items-center gap-3">
-                                {Object.keys(filterOptions || {}).length > 0 && (
+                                <View className="flex-row justify-between items-center p-5 border-b border-gray-200">
+                                    <Text className="!text-base !font-bold text-gray-800">Bộ lọc tìm kiếm</Text>
+                                    <View className="flex-row items-center gap-3">
+                                        {Object.keys(filterOptions || {}).length > 0 && (
+                                            <TouchableOpacity
+                                                testID="clear-all-filters-button"
+                                                onPress={() => {
+                                                    setFilterOptions({});
+                                                }}
+                                                className="p-2 rounded-lg bg-red-50"
+                                            >
+                                                <Text className="!text-sm !font-medium !text-red-600">Xóa tất cả</Text>
+                                            </TouchableOpacity>
+                                        )}
+                                        <TouchableOpacity testID="close-modal-button" onPress={() => setShowFilterModal(false)}>
+                                            <Ionicons name="close" size={30} className='!text-gray-600 dark:!text-gray-400' />
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+
+                                <ScrollView className="flex-1 p-5" showsVerticalScrollIndicator={false}>
+                                    <View className="mb-6">
+                                        <Text className="!text-base !font-semibold mb-3">Sắp xếp theo</Text>
+                                        <View className="space-y-2 flex-row flex-wrap gap-3">
+                                            {[
+                                                { value: SearchSortOption.NEWEST, label: 'Mới nhất' },
+                                                { value: SearchSortOption.OLDEST, label: 'Cũ nhất' },
+                                                { value: SearchSortOption.DOWNLOAD_COUNT, label: 'Tải nhiều nhất' }
+                                            ].map((option) => (
+                                                <TouchableOpacity
+                                                    key={option.value}
+                                                    onPress={() => setFilterOptions(prev => ({ ...prev, sort: prev?.sort === option.value ? undefined : option.value }))}
+                                                    className={`p-3 rounded-xl border ${filterOptions?.sort === option.value
+                                                        ? 'bg-primary-50 border-primary-500'
+                                                        : 'bg-gray-50 border-gray-200'
+                                                        }`}
+                                                >
+                                                    <Text className={`!font-medium ${filterOptions?.sort === option.value
+                                                        ? '!text-primary-500'
+                                                        : '!text-gray-700'
+                                                        }`}>
+                                                        {option.label}
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            ))}
+                                        </View>
+                                    </View>
+
+                                    <View className="mb-6">
+                                        <Text className="!text-base !font-semibold mb-3">Loại tài liệu</Text>
+                                        <View className="space-y-2 flex-row flex-wrap gap-3">
+                                            {[
+                                                { value: SearchFileType.PDF, label: 'PDF' },
+                                                { value: SearchFileType.WORD, label: 'Word' },
+                                                { value: SearchFileType.POWERPOINT, label: 'PowerPoint' },
+                                                { value: SearchFileType.IMAGE, label: 'Hình ảnh' },
+                                            ].map((option) => (
+                                                <TouchableOpacity
+                                                    key={option.value}
+                                                    onPress={() => setFilterOptions(prev => ({ ...prev, type: prev?.type === option.value ? undefined : option.value }))}
+                                                    className={`p-3 rounded-xl border ${filterOptions?.type === option.value
+                                                        ? 'bg-primary-50 border-primary-500'
+                                                        : 'bg-gray-50 border-gray-200'
+                                                        }`}
+                                                >
+                                                    <Text className={`!font-medium ${filterOptions?.type === option.value
+                                                        ? '!text-primary-500'
+                                                        : '!text-gray-700'
+                                                        }`}>
+                                                        {option.label}
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            ))}
+                                        </View>
+                                    </View>
+
+                                    <View className="mb-6">
+                                        <Text className="!text-base !font-semibold mb-3">Khoa</Text>
+                                        <View className="space-y-2 flex-row flex-wrap gap-3">
+                                            {faculties?.map((option) => (
+                                                <TouchableOpacity
+                                                    key={option.id}
+                                                    onPress={() => setFilterOptions(prev => ({ ...prev, faculty: prev?.faculty === option.name ? undefined : option.name }))}
+                                                    className={`p-3 rounded-xl border ${filterOptions?.faculty === option.name
+                                                        ? 'bg-primary-50 border-primary-500'
+                                                        : 'bg-gray-50 border-gray-200'
+                                                        }`}
+                                                >
+                                                    <Text className={`!font-medium ${filterOptions?.faculty === option.name
+                                                        ? '!text-primary-500'
+                                                        : '!text-gray-700'
+                                                        }`}>
+                                                        {option.name}
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            ))}
+                                        </View>
+                                    </View>
+                                </ScrollView>
+
+                                <View className="flex-row p-5 gap-3 border-t border-gray-200">
                                     <TouchableOpacity
-                                        onPress={() => {
-                                            setFilterOptions({});
-                                        }}
-                                        className="p-2 rounded-lg bg-red-50"
+                                        testID="cancel-button"
+                                        className="flex-1 p-4 rounded-xl border border-gray-300 items-center"
+                                        onPress={() => setShowFilterModal(false)}
                                     >
-                                        <Text className="!text-sm !font-medium !text-red-600">Xóa tất cả</Text>
+                                        <Text className="!text-base !font-medium !text-gray-600 dark:!text-white">Hủy</Text>
                                     </TouchableOpacity>
-                                )}
-                                <TouchableOpacity onPress={() => setShowFilterModal(false)}>
-                                    <Ionicons name="close" size={30} className='!text-gray-600 dark:!text-gray-400' />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
 
-                        <ScrollView className="flex-1 p-5" showsVerticalScrollIndicator={false}>
-                            <View className="mb-6">
-                                <Text className="!text-base !font-semibold mb-3">Sắp xếp theo</Text>
-                                <View className="space-y-2 flex-row flex-wrap gap-3">
-                                    {[
-                                        { value: SearchSortOption.NEWEST, label: 'Mới nhất' },
-                                        { value: SearchSortOption.OLDEST, label: 'Cũ nhất' },
-                                        { value: SearchSortOption.DOWNLOAD_COUNT, label: 'Tải nhiều nhất' }
-                                    ].map((option) => (
-                                        <TouchableOpacity
-                                            key={option.value}
-                                            onPress={() => setFilterOptions(prev => ({ ...prev, sort: prev?.sort === option.value ? undefined : option.value }))}
-                                            className={`p-3 rounded-xl border ${filterOptions?.sort === option.value
-                                                    ? 'bg-primary-50 border-primary-500'
-                                                    : 'bg-gray-50 border-gray-200'
-                                                }`}
-                                        >
-                                            <Text className={`!font-medium ${filterOptions?.sort === option.value
-                                                    ? '!text-primary-500'
-                                                    : '!text-gray-700'
-                                                }`}>
-                                                {option.label}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    ))}
+                                    <TouchableOpacity
+                                        testID="apply-button"
+                                        className="flex-1 p-4 rounded-xl bg-primary-500 items-center"
+                                        onPress={() => {
+                                            setAppliedFilters(filterOptions);
+                                            console.log('Applied filters:', filterOptions);
+                                            setShowFilterModal(false);
+                                        }}
+                                    >
+                                        <Text className="!text-base !font-semibold !text-white">Áp dụng</Text>
+                                    </TouchableOpacity>
                                 </View>
-                            </View>
-
-                            <View className="mb-6">
-                                <Text className="!text-base !font-semibold mb-3">Loại tài liệu</Text>
-                                <View className="space-y-2 flex-row flex-wrap gap-3">
-                                    {[
-                                        { value: SearchFileType.PDF, label: 'PDF' },
-                                        { value: SearchFileType.WORD, label: 'Word' },
-                                        { value: SearchFileType.POWERPOINT, label: 'PowerPoint' },
-                                        { value: SearchFileType.IMAGE, label: 'Hình ảnh' },
-                                    ].map((option) => (
-                                        <TouchableOpacity
-                                            key={option.value}
-                                            onPress={() => setFilterOptions(prev => ({ ...prev, type: prev?.type === option.value ? undefined : option.value }))}
-                                            className={`p-3 rounded-xl border ${filterOptions?.type === option.value
-                                                    ? 'bg-primary-50 border-primary-500'
-                                                    : 'bg-gray-50 border-gray-200'
-                                                }`}
-                                        >
-                                            <Text className={`!font-medium ${filterOptions?.type === option.value
-                                                    ? '!text-primary-500'
-                                                    : '!text-gray-700'
-                                                }`}>
-                                                {option.label}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    ))}
-                                </View>
-                            </View>
-
-                            <View className="mb-6">
-                                <Text className="!text-base !font-semibold mb-3">Khoa</Text>
-                                <View className="space-y-2 flex-row flex-wrap gap-3">
-                                    {faculties?.map((option) => (
-                                        <TouchableOpacity
-                                            key={option.id}
-                                            onPress={() => setFilterOptions(prev => ({ ...prev, faculty: prev?.faculty === option.name ? undefined : option.name }))}
-                                            className={`p-3 rounded-xl border ${filterOptions?.faculty === option.name
-                                                    ? 'bg-primary-50 border-primary-500'
-                                                    : 'bg-gray-50 border-gray-200'
-                                                }`}
-                                        >
-                                            <Text className={`!font-medium ${filterOptions?.faculty === option.name
-                                                    ? '!text-primary-500'
-                                                    : '!text-gray-700'
-                                                }`}>
-                                                {option.name}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    ))}
-                                </View>
-                            </View>
-                        </ScrollView>
-
-                        <View className="flex-row p-5 gap-3 border-t border-gray-200">
-                            <TouchableOpacity
-                                className="flex-1 p-4 rounded-xl border border-gray-300 items-center"
-                                onPress={() => setShowFilterModal(false)}
-                            >
-                                <Text className="!text-base !font-medium !text-gray-600 dark:!text-white">Hủy</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                className="flex-1 p-4 rounded-xl bg-primary-500 items-center"
-                                onPress={() => {
-                                    setAppliedFilters(filterOptions);
-                                    console.log('Applied filters:', filterOptions);
-                                    setShowFilterModal(false);
-                                }}
-                            >
-                                <Text className="!text-base !font-semibold !text-white">Áp dụng</Text>
-                            </TouchableOpacity>
-                        </View>
 
                             </View>
                         </TouchableWithoutFeedback>

@@ -1,7 +1,6 @@
 import { api } from "@/api/apiClient";
 import { API_GET_DOC_RATINGS, API_GET_DOCUMENT_DETAIL } from "@/api/apiRoutes";
 import { useFetchUserProfile } from "@/components/Profile/api";
-import { Features, logCommentDocument, logFeatureUsage, logUserRating } from "@/services/analytics";
 import { ACCESS_TOKEN_KEY } from "@/utils/constants";
 import { Colors } from "@/utils/theme";
 import { Ionicons } from "@expo/vector-icons";
@@ -31,132 +30,126 @@ export default function WriteComment() {
 
     const [rating, setRating] = useState<ApiDocRating | null>(null);
     const [succes, setSucces] = useState<boolean | null>(null);
-    
+
     const [score, setScore] = useState<number>(0);
     const [comment, setComment] = useState<string>("");
     const [docTitle, setDocTitle] = useState<string>("");
 
     const submitComment = async () => {
         try {
-          if (!id) {
-            Alert.alert("Lỗi", "Thiếu document id");
-            return;
-          }
-          if (!score) {
-            Alert.alert("Thiếu đánh giá", "Vui lòng chọn số sao");
-            return;
-          }
-          if (!comment.trim()) {
-            Alert.alert("Thiếu nội dung", "Vui lòng nhập nội dung");
-            return;
-          }
+            if (!id) {
+                Alert.alert("Lỗi", "Thiếu document id");
+                return;
+            }
+            if (!score) {
+                Alert.alert("Thiếu đánh giá", "Vui lòng chọn số sao");
+                return;
+            }
+            if (!comment.trim()) {
+                Alert.alert("Thiếu nội dung", "Vui lòng nhập nội dung");
+                return;
+            }
 
-          const trimmed = comment.trim();
+            const trimmed = comment.trim();
 
             const form = new FormData();
             form.append("score", String(score));
             form.append("content", trimmed);
 
             for (let i = 0; i < imageUris.length; i++) {
-            const rawUri = imageUris[i];
-            const uri = await getLocalUri(rawUri);
+                const rawUri = imageUris[i];
+                const uri = await getLocalUri(rawUri);
 
-            const fileNameFromUri = uri.split("/").pop() || `review-${i + 1}.jpg`;
-            const ext = (fileNameFromUri.split(".").pop() || "jpg").toLowerCase();
-            const mimeExt = ext === "jpg" ? "jpeg" : ext;
+                const fileNameFromUri = uri.split("/").pop() || `review-${i + 1}.jpg`;
+                const ext = (fileNameFromUri.split(".").pop() || "jpg").toLowerCase();
+                const mimeExt = ext === "jpg" ? "jpeg" : ext;
 
-            form.append("image", {
-                uri,
-                name: fileNameFromUri,
-                type: `image/${mimeExt}`,
-            } as any);
+                form.append("image", {
+                    uri,
+                    name: fileNameFromUri,
+                    type: `image/${mimeExt}`,
+                } as any);
             }
 
-          const token = await AsyncStorage.getItem(ACCESS_TOKEN_KEY);
-          const baseUrl = (process.env.EXPO_PUBLIC_API_URL ?? "").replace(/\/$/, "");
-          const url = `${baseUrl}${API_GET_DOC_RATINGS(id)}`;
-          console.log("submitComment url", url, "id", id); // <-- log trước fetch
-          
-          const resp = await fetch(url, {
-            method: "POST",
-            headers: token
-              ? { Authorization: `Bearer ${token}`, Accept: "application/json" }
-              : { Accept: "application/json" },
-            body: form,
-          });
-          
-          const data = await resp.json().catch(() => null);
-          
-          if (!resp.ok) {
-            console.log("submitComment failed", { url, status: resp.status, data });
-            throw new Error(data?.message ?? `HTTP ${resp.status}`); // <-- ép vào catch
-          }
+            const token = await AsyncStorage.getItem(ACCESS_TOKEN_KEY);
+            const baseUrl = (process.env.EXPO_PUBLIC_API_URL ?? "").replace(/\/$/, "");
+            const url = `${baseUrl}${API_GET_DOC_RATINGS(id)}`;
+            console.log("submitComment url", url, "id", id); // <-- log trước fetch
 
-          setSucces(!!data?.success);
-          if (data?.success) {
-            // Log analytics
-            logCommentDocument(id || '');
-            logUserRating(score, 'document', id);
-            logFeatureUsage(Features.COMMENT, 'complete');
-            router.back();
-          }
-      
+            const resp = await fetch(url, {
+                method: "POST",
+                headers: token
+                    ? { Authorization: `Bearer ${token}`, Accept: "application/json" }
+                    : { Accept: "application/json" },
+                body: form,
+            });
+
+            const data = await resp.json().catch(() => null);
+
+            if (!resp.ok) {
+                console.log("submitComment failed", { url, status: resp.status, data });
+                throw new Error(data?.message ?? `HTTP ${resp.status}`); // <-- ép vào catch
+            }
+
+            setSucces(!!data?.success);
+            if (data?.success) router.back();
+
         } catch (e: any) {
-          console.log("submitComment error", e?.response?.data ?? e);
-          console.log("url", `${process.env.EXPO_PUBLIC_API_URL}${API_GET_DOC_RATINGS(id ?? "")}`);
-          setSucces(false);
-          Alert.alert("Lỗi", "Gửi đánh giá thất bại");
+            console.log("submitComment error", e?.response?.data ?? e);
+            console.log("url", `${process.env.EXPO_PUBLIC_API_URL}${API_GET_DOC_RATINGS(id ?? "")}`);
+            setSucces(false);
+            Alert.alert("Lỗi", "Gửi đánh giá thất bại");
         }
-      };
+    };
     const colorScheme = useColorScheme();
     const isDarkMode = colorScheme === 'dark';
 
-    const {data: userProfile, isLoading: isLoadingUserProfile, error: errorUserProfile} = useFetchUserProfile();
+    const { data: userProfile, isLoading: isLoadingUserProfile, error: errorUserProfile } = useFetchUserProfile();
     const userAvatar = userProfile?.imageUrl ? { uri: userProfile.imageUrl } : require("@/assets/images/userAvatar.jpg");
 
     const getLocalUri = async (uri: string): Promise<string> => {
         if (uri.startsWith("ph://") || uri.startsWith("ph-upload://")) {
-          const assetId = uri.replace(/^ph(-upload)?:\/\//, "").split("/")[0];
-          const asset = await MediaLibrary.getAssetInfoAsync(assetId);
-          if (asset?.localUri) return asset.localUri;
+            const assetId = uri.replace(/^ph(-upload)?:\/\//, "").split("/")[0];
+            const asset = await MediaLibrary.getAssetInfoAsync(assetId);
+            if (asset?.localUri) return asset.localUri;
         }
         return uri;
-      };
+    };
 
-      const pickImages = async () => {
+    const pickImages = async () => {
         console.log("pickImages pressed");
         if (imageUris.length >= 2) {
-          Alert.alert("Giới hạn", "Bạn chỉ có thể chọn tối đa 2 ảnh");
-          return;
+            Alert.alert("Giới hạn", "Bạn chỉ có thể chọn tối đa 2 ảnh");
+            return;
         }
-      
+
         const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (!perm.granted) {
-          Alert.alert("Cần quyền truy cập", "Vui lòng cấp quyền truy cập thư viện ảnh");
-          return;
+            Alert.alert("Cần quyền truy cập", "Vui lòng cấp quyền truy cập thư viện ảnh");
+            return;
         }
-      
+
         const result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ["images"],
-          allowsMultipleSelection: true,
-          selectionLimit: 1 - imageUris.length,
-          quality: 0.8,
+            mediaTypes: ["images"],
+            allowsMultipleSelection: true,
+            selectionLimit: 1 - imageUris.length,
+            quality: 0.8,
         });
-      
+
         if (result.canceled) return;
-      
+
         const newUris = (result.assets ?? []).map(a => a.uri).filter(Boolean);
         const merged = [...imageUris, ...newUris].slice(0, 2);
         setImageUris(merged);
-      };
-      
-      const removeImage = (uri: string) => {
-        setImageUris(prev => prev.filter(u => u !== uri));
-      };
+    };
 
-      useEffect(() => {
+    const removeImage = (uri: string) => {
+        setImageUris(prev => prev.filter(u => u !== uri));
+    };
+
+    useEffect(() => {
         if (!id) return;
-        
+
         let cancelled = false;
         (async () => {
             try {
@@ -167,10 +160,10 @@ export default function WriteComment() {
                 console.log("Error fetching doc detail", e);
             }
         })();
-    
+
         return () => { cancelled = true; };
     }, [id]);
-    
+
     return (
         <GestureHandlerRootView style={{
             flex: 1,
@@ -250,13 +243,13 @@ export default function WriteComment() {
                         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12, marginTop: 8 }}>
                             {imageUris.map((uri) => (
                                 <View key={uri} style={{ position: "relative" }}>
-                                <Image source={{ uri }} alt="selected" style={{ width: 80, height: 80, borderRadius: 12 }} />
-                                <Pressable
-                                    onPress={() => removeImage(uri)}
-                                    style={{ position: "absolute", top: -8, right: -8 }}
-                                >
-                                    <Ionicons name="close-circle" size={22} color="#ef4444" />
-                                </Pressable>
+                                    <Image source={{ uri }} alt="selected" style={{ width: 80, height: 80, borderRadius: 12 }} />
+                                    <Pressable
+                                        onPress={() => removeImage(uri)}
+                                        style={{ position: "absolute", top: -8, right: -8 }}
+                                    >
+                                        <Ionicons name="close-circle" size={22} color="#ef4444" />
+                                    </Pressable>
                                 </View>
                             ))}
                         </View>
@@ -264,7 +257,7 @@ export default function WriteComment() {
                     </View>
                 </View>
             </TouchableWithoutFeedback>
-            
+
             <View className="absolute bottom-10 left-0 right-0 px-[16px]">
                 <Button className="!bg-primary-500 !rounded-xl !py-4" onPress={submitComment}>
                     <Text className="!text-white !font-bold !text-lg">Gửi đánh giá</Text>

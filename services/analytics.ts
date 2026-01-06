@@ -1,5 +1,20 @@
-import analytics from '@react-native-firebase/analytics';
-import perf from '@react-native-firebase/perf';
+import Constants from 'expo-constants';
+
+// Check if running in Expo Go (no native modules available)
+const isExpoGo = Constants.appOwnership === 'expo';
+
+// Lazy load Firebase modules only when not in Expo Go
+let analytics: any = null;
+let perf: any = null;
+
+if (!isExpoGo) {
+  try {
+    analytics = require('@react-native-firebase/analytics').default;
+    perf = require('@react-native-firebase/perf').default;
+  } catch (error) {
+    console.warn('[Analytics] Firebase modules not available:', error);
+  }
+}
 
 // =====================
 // FIREBASE ANALYTICS SERVICE
@@ -9,6 +24,10 @@ import perf from '@react-native-firebase/perf';
  * Log custom events
  */
 export const logEvent = async (eventName: string, params?: Record<string, any>) => {
+  if (isExpoGo || !analytics) {
+    console.log(`[Analytics - Mock] Event logged: ${eventName}`, params);
+    return;
+  }
   try {
     await analytics().logEvent(eventName, params);
     console.log(`[Analytics] Event logged: ${eventName}`, params);
@@ -21,6 +40,10 @@ export const logEvent = async (eventName: string, params?: Record<string, any>) 
  * Set user ID for analytics
  */
 export const setUserId = async (userId: string | null) => {
+  if (isExpoGo || !analytics) {
+    console.log('[Analytics - Mock] User ID set:', userId);
+    return;
+  }
   try {
     await analytics().setUserId(userId);
     console.log('[Analytics] User ID set:', userId);
@@ -33,6 +56,10 @@ export const setUserId = async (userId: string | null) => {
  * Set user properties
  */
 export const setUserProperties = async (properties: Record<string, string | null>) => {
+  if (isExpoGo || !analytics) {
+    console.log('[Analytics - Mock] User properties set:', properties);
+    return;
+  }
   try {
     for (const [key, value] of Object.entries(properties)) {
       await analytics().setUserProperty(key, value);
@@ -47,6 +74,10 @@ export const setUserProperties = async (properties: Record<string, string | null
  * Log screen view - for tracking retention and engagement
  */
 export const logScreenView = async (screenName: string, screenClass?: string) => {
+  if (isExpoGo || !analytics) {
+    console.log(`[Analytics - Mock] Screen view: ${screenName}`);
+    return;
+  }
   try {
     await analytics().logEvent('screen_view', {
       screen_name: screenName,
@@ -71,6 +102,10 @@ export const logSignUp = async (method: string = 'email') => {
 };
 
 export const logSearch = async (searchTerm: string) => {
+  if (isExpoGo || !analytics) {
+    console.log('[Analytics - Mock] Search:', searchTerm);
+    return;
+  }
   await analytics().logSearch({ search_term: searchTerm });
 };
 
@@ -98,6 +133,10 @@ export const logUploadDocument = async (documentId: string, documentTitle: strin
 };
 
 export const logShareDocument = async (documentId: string, method: string) => {
+  if (isExpoGo || !analytics) {
+    console.log('[Analytics - Mock] Share:', documentId, method);
+    return;
+  }
   await analytics().logShare({
     content_type: 'document',
     item_id: documentId,
@@ -287,6 +326,10 @@ export const logEngagementLevel = async (actionsCount: number) => {
 // =====================
 
 export const logAppOpen = async () => {
+  if (isExpoGo || !analytics) {
+    console.log('[Analytics - Mock] App open');
+    return;
+  }
   await analytics().logAppOpen();
 };
 
@@ -312,6 +355,10 @@ export const logNotificationOpened = async (notificationType: string) => {
  * Create a custom trace for performance monitoring
  */
 export const startTrace = async (traceName: string) => {
+  if (isExpoGo || !perf) {
+    console.log(`[Performance - Mock] Trace started: ${traceName}`);
+    return null;
+  }
   try {
     const trace = await perf().startTrace(traceName);
     console.log(`[Performance] Trace started: ${traceName}`);
@@ -377,6 +424,10 @@ export const measureApiCall = async <T>(
  * Enable/disable analytics collection
  */
 export const setAnalyticsCollectionEnabled = async (enabled: boolean) => {
+  if (isExpoGo || !analytics) {
+    console.log(`[Analytics - Mock] Collection ${enabled ? 'enabled' : 'disabled'}`);
+    return;
+  }
   try {
     await analytics().setAnalyticsCollectionEnabled(enabled);
     console.log(`[Analytics] Collection ${enabled ? 'enabled' : 'disabled'}`);
@@ -389,6 +440,10 @@ export const setAnalyticsCollectionEnabled = async (enabled: boolean) => {
  * Enable/disable performance monitoring
  */
 export const setPerformanceCollectionEnabled = async (enabled: boolean) => {
+  if (isExpoGo || !perf) {
+    console.log(`[Performance - Mock] Collection ${enabled ? 'enabled' : 'disabled'}`);
+    return;
+  }
   try {
     await perf().setPerformanceCollectionEnabled(enabled);
     console.log(`[Performance] Collection ${enabled ? 'enabled' : 'disabled'}`);

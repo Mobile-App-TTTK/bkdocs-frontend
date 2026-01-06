@@ -20,6 +20,10 @@ export const resetLogoutFlag = () => {
   isLoggingOut = false;
 };
 
+export const resetServerErrorFlag = () => {
+  isNavigatingToServerError = false;
+};
+
 api.interceptors.request.use(
   async (config) => {
     const requestUrl = config.url || '';

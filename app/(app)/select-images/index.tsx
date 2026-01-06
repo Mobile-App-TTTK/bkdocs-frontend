@@ -5,7 +5,7 @@ import { Image as ExpoImage } from 'expo-image';
 import * as MediaLibrary from 'expo-media-library';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Button, Text, View } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -14,11 +14,11 @@ export default function SelectImagesScreen() {
   const dispatch = useAppDispatch();
   const params = useLocalSearchParams<{ single?: string }>();
   const singleMode = typeof params.single === 'string' && params.single === '1';
-  
+
   // Get from Redux
   const coverImageFromRedux = useAppSelector(state => state.upload.coverImage);
   const selectedImagesFromRedux = useAppSelector(state => state.upload.selectedImages);
-  
+
   const initial = singleMode ? (coverImageFromRedux ? [coverImageFromRedux] : []) : selectedImagesFromRedux;
   const [selected, setSelected] = useState<string[]>(() => [...initial]);
   const [libraryImages, setLibraryImages] = useState<string[]>([]);
@@ -62,7 +62,7 @@ export default function SelectImagesScreen() {
     <View className="flex-1 px-2 !bg-white dark:!bg-dark-900">
       <View style={{ marginTop: insets.top }} className="absolute top-0 left-0 right-0 z-10 px-3 py-2">
         <View className="flex-row items-center justify-between">
-          <TouchableOpacity onPress={() => router.back()} className="w-12 h-12 rounded-full bg-gray-100 dark:bg-dark-800 items-center justify-center">
+          <TouchableOpacity testID="back-button" onPress={() => router.back()} className="w-12 h-12 rounded-full bg-gray-100 dark:bg-dark-800 items-center justify-center">
             <Ionicons name="chevron-back" size={24} className="!text-gray-700 dark:!text-gray-300" />
           </TouchableOpacity>
           <Text className="!text-xl !font-semibold !text-black dark:!text-white">Thêm ảnh</Text>
@@ -80,6 +80,7 @@ export default function SelectImagesScreen() {
               return (
                 <Pressable
                   key={uri}
+                  testID={`image-pressable-${index}`}
                   onPress={() => toggle(uri)}
                   className="w-[32%] aspect-square mb-2 rounded-lg overflow-hidden"
                 >
@@ -102,6 +103,7 @@ export default function SelectImagesScreen() {
                   <View key={uri} className="mr-3 relative">
                     <ExpoImage source={{ uri }} style={{ width: 80, height: 80, borderRadius: 12 }} contentFit="cover" />
                     <TouchableOpacity
+                      testID={`remove-selected-${uri}`}
                       onPress={() => remove(uri)}
                       className="absolute -top-1 -right-1 w-6 h-6 bg-black/50 rounded-full items-center justify-center"
                     >
