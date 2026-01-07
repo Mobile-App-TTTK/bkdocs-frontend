@@ -11,12 +11,11 @@ import {
   Animated,
   Keyboard,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  useColorScheme,
+  useColorScheme
 } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -218,8 +217,8 @@ export default function ChatbotScreen() {
           )}
           <View
             className={`max-w-[75%] rounded-2xl px-4 py-3 ${isUser
-                ? '!bg-primary-500 !rounded-tr-sm'
-                : '!bg-gray-200 dark:!bg-gray-700 !rounded-tl-sm'
+              ? '!bg-primary-500 !rounded-tr-sm'
+              : '!bg-gray-200 dark:!bg-gray-700 !rounded-tl-sm'
               }`}
           >
             {isUser ? (
@@ -369,9 +368,9 @@ export default function ChatbotScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-dark-900" edges={['top']}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior="padding"
         className="flex-1"
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+        keyboardVerticalOffset={0}
       >
         {/* Header */}
         <View className="flex-row items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
@@ -443,8 +442,8 @@ export default function ChatbotScreen() {
               onPress={handleSendMessage}
               disabled={!message.trim() || sendChatMutation.isPending}
               className={`w-12 h-12 rounded-full items-center justify-center ${message.trim() && !sendChatMutation.isPending
-                  ? 'bg-primary-500'
-                  : 'bg-gray-300 dark:bg-gray-700'
+                ? 'bg-primary-500'
+                : 'bg-gray-300 dark:bg-gray-700'
                 }`}
               activeOpacity={0.7}
             >
