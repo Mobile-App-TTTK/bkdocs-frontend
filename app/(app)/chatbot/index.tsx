@@ -314,7 +314,7 @@ export default function ChatbotScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-dark-900" edges={['top']}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
       >

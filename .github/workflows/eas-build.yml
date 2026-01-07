@@ -35,5 +35,5 @@ jobs:
       - name: Publish OTA Update
         run: npx eas update --branch preview --message "Auto deploy from GitHub"
 
-      - name: Build Android APK
-        run: npx eas build -p android --profile preview
+      - name: Build Android APK (no wait)
+        run: npx eas build -p android --profile preview --no-wait --non-interactive

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1767694025499" clover="3.2.0">
-  <project timestamp="1767694025500" name="All files">
+<coverage generated="1767705659233" clover="3.2.0">
+  <project timestamp="1767705659233" name="All files">
     <metrics statements="2570" coveredstatements="2021" conditionals="1694" coveredconditionals="1230" methods="770" coveredmethods="551" elements="5034" coveredelements="3802" complexity="0" loc="2570" ncloc="2570" packages="71" files="130" classes="130"/>
     <package name="bkdocs-frontend">
       <metrics statements="12" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -577,7 +577,7 @@
         <line num="45" count="24" type="stmt"/>
         <line num="49" count="83" type="stmt"/>
         <line num="50" count="64" type="stmt"/>
-        <line num="51" count="60" type="stmt"/>
+        <line num="51" count="61" type="stmt"/>
         <line num="55" count="83" type="stmt"/>
         <line num="56" count="17" type="cond" truecount="4" falsecount="0"/>
         <line num="58" count="15" type="stmt"/>
@@ -1713,8 +1713,8 @@
         <line num="52" count="2" type="stmt"/>
         <line num="53" count="2" type="stmt"/>
         <line num="56" count="2" type="stmt"/>
-        <line num="57" count="1" type="stmt"/>
-        <line num="59" count="1" type="stmt"/>
+        <line num="57" count="2" type="stmt"/>
+        <line num="59" count="2" type="stmt"/>
         <line num="60" count="1" type="stmt"/>
         <line num="62" count="1" type="stmt"/>
         <line num="67" count="2" type="stmt"/>

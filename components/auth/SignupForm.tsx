@@ -3,13 +3,13 @@ import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import {
-    Box,
-    Button,
-    FormControl,
-    HStack,
-    Pressable,
-    Text,
-    VStack
+  Box,
+  Button,
+  FormControl,
+  HStack,
+  Pressable,
+  Text,
+  VStack
 } from 'native-base';
 import { useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
@@ -36,12 +36,10 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
   const hasLoggedEmailStep = useRef(false);
   const hasLoggedPasswordStep = useRef(false);
 
-  // Log signup funnel start when component mounts
   useEffect(() => {
     logSignupFunnelStep(SignupFunnel.START, true);
   }, []);
 
-  // Log funnel steps when user enters email/password
   useEffect(() => {
     if (email.trim() && !hasLoggedEmailStep.current) {
       logSignupFunnelStep(SignupFunnel.ENTER_EMAIL, true);
@@ -71,8 +69,8 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
 
     if (!password.trim()) {
       newErrors.password = 'Mật khẩu là bắt buộc';
-    } else if (password.length < 6) {
-      newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
+    } else if (password.length < 8) {
+      newErrors.password = 'Mật khẩu phải có ít nhất 8 ký tự';
     }
 
     if (!confirmPassword.trim()) {
@@ -98,8 +96,8 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
       enabled={Platform.OS === 'ios'}
     >
-      <ScrollView 
-        contentContainerStyle={{ 
+      <ScrollView
+        contentContainerStyle={{
           flexGrow: 1,
           paddingBottom: Platform.OS === 'android' ? 20 : 0
         }}
@@ -115,85 +113,85 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
             </VStack>
 
             <FormControl isInvalid={!!errors.name}>
-                <FormControl.Label>Tên</FormControl.Label>
-                <View style={{
-                    height: 48,
-                    borderRadius: 12,
-                    borderWidth: errors.name ? 2 : 1,
-                    borderColor: errors.name ? '#ef4444' : '#d1d5db',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    paddingHorizontal: 12,
-                    backgroundColor: '#ffffff',
-                    marginTop: 4,
-                }}>
-                    <Ionicons name="person-outline" size={20} color="#6b7280" style={{ marginRight: 8 }} />
-                    <TextInput 
-                        placeholder="Nhập tên của bạn"
-                        ref={nameRef}
-                        value={name}
-                        onChangeText={setName}
-                        returnKeyType="next"
-                        blurOnSubmit={false}
-                        enablesReturnKeyAutomatically={true}
-                        placeholderTextColor="#9ca3af"
-                        onSubmitEditing={() => emailRef.current?.focus()}
-                        editable={!isLoading}
-                        style={{
-                            flex: 1,
-                            fontSize: 16,
-                            color: '#000000',
-                            fontFamily: 'Inter-Regular',
-                            height: '100%'
-                        }}
-                    />
-                </View>
+              <FormControl.Label>Tên</FormControl.Label>
+              <View style={{
+                height: 48,
+                borderRadius: 12,
+                borderWidth: errors.name ? 2 : 1,
+                borderColor: errors.name ? '#ef4444' : '#d1d5db',
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingHorizontal: 12,
+                backgroundColor: '#ffffff',
+                marginTop: 4,
+              }}>
+                <Ionicons name="person-outline" size={20} color="#6b7280" style={{ marginRight: 8 }} />
+                <TextInput
+                  placeholder="Nhập tên của bạn"
+                  ref={nameRef}
+                  value={name}
+                  onChangeText={setName}
+                  returnKeyType="next"
+                  blurOnSubmit={false}
+                  enablesReturnKeyAutomatically={true}
+                  placeholderTextColor="#9ca3af"
+                  onSubmitEditing={() => emailRef.current?.focus()}
+                  editable={!isLoading}
+                  style={{
+                    flex: 1,
+                    fontSize: 16,
+                    color: '#000000',
+                    fontFamily: 'Inter-Regular',
+                    height: '100%'
+                  }}
+                />
+              </View>
             </FormControl>
-                
+
 
 
 
             <FormControl isInvalid={!!errors.email}>
-                <FormControl.Label>Email</FormControl.Label>
-                    <View style={{
-                        height: 48,
-                        borderRadius: 12,
-                        borderWidth: errors.email ? 2 : 1,
-                        borderColor: errors.email ? '#ef4444' : '#d1d5db',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        paddingHorizontal: 12,
-                        backgroundColor: '#ffffff',
-                        marginTop: 4
-                    }}>
-                        <Ionicons name="mail-outline" size={20} color="#6b7280" style={{ marginRight: 8 }} />
-                        <TextInput
-                        ref={emailRef}
-                        value={email}
-                        onChangeText={setEmail}
-                        placeholder="Nhập email của bạn"
-                        placeholderTextColor="#9ca3af"
-                        autoCapitalize="none"
-                        keyboardType="email-address"
-                        editable={!isLoading}
-                        returnKeyType="next"
-                        blurOnSubmit={false}
-                        enablesReturnKeyAutomatically={true}
-                        onSubmitEditing={() => passwordRef.current?.focus()}
-                        style={{
-                            flex: 1,
-                            fontSize: 16,
-                            color: '#000000',
-                            fontFamily: 'Inter-Regular',
-                            height: '100%'
-                        }}
-                        />
-                    </View>
-                    {errors.email && (
-                        <FormControl.ErrorMessage>{errors.email}</FormControl.ErrorMessage>
-                    )}
-                </FormControl>
-              
+              <FormControl.Label>Email</FormControl.Label>
+              <View style={{
+                height: 48,
+                borderRadius: 12,
+                borderWidth: errors.email ? 2 : 1,
+                borderColor: errors.email ? '#ef4444' : '#d1d5db',
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingHorizontal: 12,
+                backgroundColor: '#ffffff',
+                marginTop: 4
+              }}>
+                <Ionicons name="mail-outline" size={20} color="#6b7280" style={{ marginRight: 8 }} />
+                <TextInput
+                  ref={emailRef}
+                  value={email}
+                  onChangeText={setEmail}
+                  placeholder="Nhập email của bạn"
+                  placeholderTextColor="#9ca3af"
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  editable={!isLoading}
+                  returnKeyType="next"
+                  blurOnSubmit={false}
+                  enablesReturnKeyAutomatically={true}
+                  onSubmitEditing={() => passwordRef.current?.focus()}
+                  style={{
+                    flex: 1,
+                    fontSize: 16,
+                    color: '#000000',
+                    fontFamily: 'Inter-Regular',
+                    height: '100%'
+                  }}
+                />
+              </View>
+              {errors.email && (
+                <FormControl.ErrorMessage>{errors.email}</FormControl.ErrorMessage>
+              )}
+            </FormControl>
+
             <FormControl isInvalid={!!errors.password}>
               <FormControl.Label>Mật khẩu</FormControl.Label>
               <View style={{
@@ -228,15 +226,15 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                     height: '100%',
                   }}
                 />
-                <TouchableOpacity 
-                  onPress={() => setShowPassword(!showPassword)} 
+                <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}
                   disabled={isLoading}
                   style={{ padding: 4 }}
                 >
-                  <Ionicons 
-                    name={showPassword ? 'eye-outline' : 'eye-off-outline'} 
-                    size={20} 
-                    color="#6b7280" 
+                  <Ionicons
+                    name={showPassword ? 'eye-outline' : 'eye-off-outline'}
+                    size={20}
+                    color="#6b7280"
                   />
                 </TouchableOpacity>
               </View>
@@ -246,7 +244,7 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
             </FormControl>
 
 
-              
+
             <FormControl isInvalid={!!errors.confirmPassword}>
               <FormControl.Label>Xác nhận mật khẩu</FormControl.Label>
               <View style={{
@@ -281,15 +279,15 @@ export default function SignupForm({ onSubmit, isLoading = false }: SignupFormPr
                     height: '100%'
                   }}
                 />
-                <TouchableOpacity 
-                  onPress={() => setShowConfirmPassword(!showConfirmPassword)} 
+                <TouchableOpacity
+                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
                   disabled={isLoading}
                   style={{ padding: 4 }}
                 >
-                  <Ionicons 
-                    name={showConfirmPassword ? 'eye-outline' : 'eye-off-outline'} 
-                    size={20} 
-                    color="#6b7280" 
+                  <Ionicons
+                    name={showConfirmPassword ? 'eye-outline' : 'eye-off-outline'}
+                    size={20}
+                    color="#6b7280"
                   />
                 </TouchableOpacity>
               </View>
