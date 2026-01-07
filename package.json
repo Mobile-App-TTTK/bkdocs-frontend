@@ -54,6 +54,7 @@
     "axios": "^1.12.2",
     "classnames": "^2.5.1",
     "expo": "54.0.13",
+    "expo-clipboard": "~8.0.8",
     "expo-constants": "~18.0.9",
     "expo-device": "^8.0.10",
     "expo-document-picker": "~14.0.7",

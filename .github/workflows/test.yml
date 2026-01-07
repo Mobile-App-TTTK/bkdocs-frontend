@@ -2,7 +2,8 @@ name: Test Coverage
 
 on:
   push:
-  pull_request:
+    branches-ignore:
+      - main
 
 jobs:
   test:
@@ -16,10 +17,10 @@ jobs:
           node-version: '18'
       
       - name: Install dependencies
-        run: yarn install
-      
+        run: npm ci
+
       - name: Run tests with coverage
-        run: yarn test:coverage
+        run: npm run test:coverage
       
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
