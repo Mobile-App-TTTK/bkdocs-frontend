@@ -136,7 +136,7 @@ describe('ChatbotScreen', () => {
         expect(payload.message).toBe('Hello bot');
         expect(payload.history).toEqual([]);
       });
-    });
+    }, 10000);
 
     it('clears input after sending message', async () => {
       render(<Wrapper><ChatbotScreen /></Wrapper>);

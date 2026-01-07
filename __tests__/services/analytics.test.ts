@@ -1,4 +1,55 @@
 
+// Mock expo-constants to disable isExpoGo
+jest.mock('expo-constants', () => ({
+    default: {
+        appOwnership: 'standalone', // Not 'expo', so isExpoGo will be false
+    },
+}));
+
+// Access the mocked modules
+const mockLogEvent = jest.fn();
+const mockSetUserId = jest.fn();
+const mockSetUserProperty = jest.fn();
+const mockLogSearch = jest.fn();
+const mockLogShare = jest.fn();
+const mockLogAppOpen = jest.fn();
+const mockSetAnalyticsCollectionEnabled = jest.fn();
+
+const mockStartTrace = jest.fn();
+const mockSetPerformanceCollectionEnabled = jest.fn();
+const mockPutMetric = jest.fn();
+const mockPutAttribute = jest.fn();
+const mockStop = jest.fn();
+const mockTraceObj = {
+    putMetric: mockPutMetric,
+    putAttribute: mockPutAttribute,
+    stop: mockStop,
+};
+
+// Re-mock the modules for this test file
+jest.mock('@react-native-firebase/analytics', () => {
+    return {
+        default: jest.fn(() => ({
+            logEvent: mockLogEvent,
+            setUserId: mockSetUserId,
+            setUserProperty: mockSetUserProperty,
+            logSearch: mockLogSearch,
+            logShare: mockLogShare,
+            logAppOpen: mockLogAppOpen,
+            setAnalyticsCollectionEnabled: mockSetAnalyticsCollectionEnabled,
+        })),
+    };
+});
+
+jest.mock('@react-native-firebase/perf', () => {
+    return {
+        default: jest.fn(() => ({
+            startTrace: mockStartTrace,
+            setPerformanceCollectionEnabled: mockSetPerformanceCollectionEnabled,
+        })),
+    };
+});
+
 import {
     Features,
     SignupFunnel,
@@ -39,46 +90,6 @@ import {
     trackScreenEnter,
     trackScreenExit
 } from '@/services/analytics';
-
-// Access the mocked modules
-const mockLogEvent = jest.fn();
-const mockSetUserId = jest.fn();
-const mockSetUserProperty = jest.fn();
-const mockLogSearch = jest.fn();
-const mockLogShare = jest.fn();
-const mockLogAppOpen = jest.fn();
-const mockSetAnalyticsCollectionEnabled = jest.fn();
-
-const mockStartTrace = jest.fn();
-const mockSetPerformanceCollectionEnabled = jest.fn();
-const mockPutMetric = jest.fn();
-const mockPutAttribute = jest.fn();
-const mockStop = jest.fn();
-const mockTraceObj = {
-    putMetric: mockPutMetric,
-    putAttribute: mockPutAttribute,
-    stop: mockStop,
-};
-
-// Re-mock the modules for this test file
-jest.mock('@react-native-firebase/analytics', () => {
-    return jest.fn(() => ({
-        logEvent: mockLogEvent,
-        setUserId: mockSetUserId,
-        setUserProperty: mockSetUserProperty,
-        logSearch: mockLogSearch,
-        logShare: mockLogShare,
-        logAppOpen: mockLogAppOpen,
-        setAnalyticsCollectionEnabled: mockSetAnalyticsCollectionEnabled,
-    }));
-});
-
-jest.mock('@react-native-firebase/perf', () => {
-    return jest.fn(() => ({
-        startTrace: mockStartTrace,
-        setPerformanceCollectionEnabled: mockSetPerformanceCollectionEnabled,
-    }));
-});
 
 describe('Analytics Service', () => {
     beforeEach(() => {
