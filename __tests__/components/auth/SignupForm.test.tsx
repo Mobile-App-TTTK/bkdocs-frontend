@@ -150,7 +150,7 @@ describe('SignupForm', () => {
       fireEvent.press(submitButtons[1]);
 
       await waitFor(() => {
-        expect(screen.getByText('Mật khẩu phải có ít nhất 6 ký tự')).toBeTruthy();
+        expect(screen.getByText('Mật khẩu phải có ít nhất 8 ký tự')).toBeTruthy();
       });
       expect(mockOnSubmit).not.toHaveBeenCalled();
     });

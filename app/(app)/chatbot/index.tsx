@@ -3,10 +3,12 @@ import { useUser } from '@/contexts/UserContext';
 import { Features, logChatbotInteraction, logFeatureUsage } from '@/services/analytics';
 import { ROUTES } from '@/utils/routes';
 import { Ionicons } from '@expo/vector-icons';
+import * as Clipboard from 'expo-clipboard';
 import { useRouter } from 'expo-router';
 import { Spinner, Text, View } from 'native-base';
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  Animated,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -29,6 +31,8 @@ export default function ChatbotScreen() {
   const colorScheme = useColorScheme();
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState<ChatMessageWithActions[]>([]);
+  const [showCopyToast, setShowCopyToast] = useState(false);
+  const toastOpacity = useRef(new Animated.Value(0)).current;
   const scrollViewRef = useRef<ScrollView>(null);
   const sendChatMutation = useSendChatMessage();
 
@@ -151,6 +155,7 @@ export default function ChatbotScreen() {
         <Text
           key={`uuid-${key++}`}
           onPress={() => handleDocumentClick(uuid)}
+          selectable={true}
           style={{
             color: colorScheme === 'dark' ? '#60a5fa' : '#2563eb',
             textDecorationLine: 'underline',
@@ -170,16 +175,49 @@ export default function ChatbotScreen() {
     return parts.length > 0 ? parts : [text];
   };
 
+  const handleCopyMessage = async (content: string) => {
+    await Clipboard.setStringAsync(content);
+    // Show toast
+    setShowCopyToast(true);
+    Animated.sequence([
+      Animated.timing(toastOpacity, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.delay(1200),
+      Animated.timing(toastOpacity, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start(() => setShowCopyToast(false));
+  };
+
   const renderMessage = (msg: ChatMessageWithActions, index: number) => {
     const isUser = msg.role === 'student';
 
     return (
       <View key={index}>
         <View
-          className={`flex-row mb-2 ${isUser ? 'justify-end' : 'justify-start'}`}
+          className={`flex-row mb-2 items-end gap-1 ${isUser ? 'justify-end' : 'justify-start'}`}
         >
+          {/* Copy button for AI messages (left side) */}
+          {!isUser && (
+            <TouchableOpacity
+              onPress={() => handleCopyMessage(msg.content)}
+              className="w-7 h-7 rounded-full items-center justify-center mb-1"
+              activeOpacity={0.6}
+            >
+              <Ionicons
+                name="copy-outline"
+                size={16}
+                color={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'}
+              />
+            </TouchableOpacity>
+          )}
           <View
-            className={`max-w-[80%] rounded-2xl px-4 py-3 ${isUser
+            className={`max-w-[75%] rounded-2xl px-4 py-3 ${isUser
                 ? '!bg-primary-500 !rounded-tr-sm'
                 : '!bg-gray-200 dark:!bg-gray-700 !rounded-tl-sm'
               }`}
@@ -188,6 +226,7 @@ export default function ChatbotScreen() {
               <Text
                 className="!text-base !text-white"
                 style={{ fontFamily: 'Inter-Regular' }}
+                selectable={true}
               >
                 {msg.content}
               </Text>
@@ -257,6 +296,7 @@ export default function ChatbotScreen() {
                         <Text
                           key={node.key}
                           onPress={() => handleDocumentClick(content)}
+                          selectable={true}
                           style={[
                             styles.code_inline,
                             {
@@ -269,25 +309,40 @@ export default function ChatbotScreen() {
                         </Text>
                       );
                     }
-                    return <Text key={node.key} style={styles.code_inline}>{content}</Text>;
+                    return <Text key={node.key} style={styles.code_inline} selectable={true}>{content}</Text>;
                   },
                   text: (node, children, parent, styles) => {
                     const content = node.content;
                     if (UUID_REGEX.test(content)) {
                       return (
-                        <Text key={node.key} style={styles.text}>
+                        <Text key={node.key} style={styles.text} selectable={true}>
                           {parseTextWithUUIDs(content)}
                         </Text>
                       );
                     }
-                    return <Text key={node.key} style={styles.text}>{content}</Text>;
+                    return <Text key={node.key} style={styles.text} selectable={true}>{content}</Text>;
                   },
                 }}
+                mergeStyle={true}
               >
                 {msg.content}
               </Markdown>
             )}
           </View>
+          {/* Copy button for user messages (right side) */}
+          {isUser && (
+            <TouchableOpacity
+              onPress={() => handleCopyMessage(msg.content)}
+              className="w-7 h-7 rounded-full items-center justify-center mb-1"
+              activeOpacity={0.6}
+            >
+              <Ionicons
+                name="copy-outline"
+                size={16}
+                color={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'}
+              />
+            </TouchableOpacity>
+          )}
         </View>
 
         {/* Suggested Actions cho tin nhắn AI */}
@@ -406,6 +461,40 @@ export default function ChatbotScreen() {
           </View>
         </View>
       </KeyboardAvoidingView>
+
+      {showCopyToast && (
+        <Animated.View
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: [
+              { translateX: -60 },
+              { translateY: -60 },
+            ],
+            width: 120,
+            height: 120,
+            backgroundColor: colorScheme === 'dark' ? '#374151' : '#1f2937',
+            borderRadius: 16,
+            opacity: toastOpacity,
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 8,
+          }}
+        >
+          <Ionicons name="checkmark-circle" size={32} color="#22c55e" />
+          <Text
+            style={{
+              color: '#fff',
+              fontSize: 14,
+              fontFamily: 'Inter-Regular',
+              textAlign: 'center',
+            }}
+          >
+            Đã copy
+          </Text>
+        </Animated.View>
+      )}
     </SafeAreaView>
   );
 }
