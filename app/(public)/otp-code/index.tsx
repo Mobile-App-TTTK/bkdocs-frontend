@@ -23,7 +23,7 @@ export default function OtpCodeScreen() {
                 setFlow('forgot-password');
                 return;
             }
-            
+
             // Then check registration flow
             const signupData = await AsyncStorage.getItem('signup_temp_data');
             if (signupData) {
@@ -34,7 +34,7 @@ export default function OtpCodeScreen() {
         };
         loadData();
     }, []);
-    
+
     const handleSubmit = async (otpCode: string) => {
         setIsLoading(true);
         try {
@@ -51,24 +51,28 @@ export default function OtpCodeScreen() {
             if (flow === 'register') {
                 const tempData = await AsyncStorage.getItem('signup_temp_data');
                 if (!tempData) throw new Error('Không tìm thấy thông tin đăng ký');
-                
+
                 const { name, email, password } = JSON.parse(tempData);
-                
+
                 await api.post(API_REGISTER_COMPLETE, {
                     name, email, password, token
                 });
-                
+
                 await AsyncStorage.removeItem('signup_temp_data');
-                
+
                 // Log analytics
                 await logSignUp('email');
                 await logSignupFunnelStep(SignupFunnel.SUCCESS);
-                
+
                 Alert.alert('Thành công', 'Đăng ký tài khoản thành công!', [
                     { text: 'OK', onPress: () => router.replace(ROUTES.LOGIN) }
                 ]);
             } else {
+                // Forgot password flow - save token and clean up temporary data
                 await AsyncStorage.setItem('reset_password_token', token);
+                await AsyncStorage.removeItem('forgot_password_temp_data');
+
+                // Navigate to new password screen
                 router.push(ROUTES.NEW_PASSWORD);
             }
         } catch (error: any) {
