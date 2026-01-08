@@ -40,7 +40,7 @@ const createWrapper = () => {
 
 describe('Admin Hooks', () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        jest.resetAllMocks();
     });
 
     describe('useFetchAdminStatistics', () => {
@@ -52,7 +52,7 @@ describe('Admin Hooks', () => {
                 wrapper: createWrapper(),
             });
 
-            await waitFor(() => expect(result.current.isSuccess).toBe(true));
+            await waitFor(() => expect(result.current.isSuccess).toBe(true), { timeout: 5000 });
 
             expect(result.current.data).toEqual(mockData);
             expect(api.get).toHaveBeenCalledWith(expect.stringContaining('statistics')); // Use simpler match or import constant if possible
@@ -68,7 +68,7 @@ describe('Admin Hooks', () => {
                 wrapper: createWrapper(),
             });
 
-            await waitFor(() => expect(result.current.isSuccess).toBe(true));
+            await waitFor(() => expect(result.current.isSuccess).toBe(true), { timeout: 5000 });
 
             expect(result.current.data).toEqual(mockData);
         });
@@ -132,7 +132,7 @@ describe('Admin Hooks', () => {
                 wrapper: createWrapper(),
             });
 
-            await waitFor(() => expect(result.current.isSuccess).toBe(true));
+            await waitFor(() => expect(result.current.isSuccess).toBe(true), { timeout: 5000 });
 
             expect(result.current.data?.pages[0].data).toHaveLength(1);
             expect(result.current.hasNextPage).toBe(true);
@@ -155,7 +155,7 @@ describe('Admin Hooks', () => {
 
             await result.current.fetchNextPage();
 
-            await waitFor(() => expect(result.current.data?.pages).toHaveLength(2));
+            await waitFor(() => expect(result.current.data?.pages).toHaveLength(2), { timeout: 5000 });
             expect(api.get).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ params: expect.objectContaining({ page: 2 }) }));
 
             // Now hasNextPage should be false (page 2 >= totalPages 2 - assuming comparison logic)

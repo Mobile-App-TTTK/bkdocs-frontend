@@ -382,7 +382,7 @@ export default function DocumentManagementScreen() {
                 </View>
             </ScrollView>
 
-            <View className="absolute bottom-0 left-0 right-0 p-4 bg-white dark:bg-dark-900 border-t border-gray-200 dark:border-gray-800 flex-row gap-4">
+            <View className="absolute bottom-10 left-0 right-0 p-4 bg-white dark:bg-dark-900 border-t border-gray-200 dark:border-gray-800 flex-row gap-4">
                 <Pressable
                     onPress={handlePreview}
                     className="flex-1 bg-blue-50 dark:bg-blue-900/20 rounded-xl py-3 items-center justify-center"
