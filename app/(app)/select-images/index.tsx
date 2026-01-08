@@ -6,7 +6,7 @@ import * as MediaLibrary from 'expo-media-library';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Button, Text, View } from 'native-base';
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, TouchableOpacity } from 'react-native';
+import { Alert, Linking, Pressable, ScrollView, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function SelectImagesScreen() {
@@ -27,7 +27,20 @@ export default function SelectImagesScreen() {
     (async () => {
       const { status } = await MediaLibrary.requestPermissionsAsync();
       if (status !== 'granted') {
-        alert('Cần quyền truy cập thư viện ảnh!');
+        Alert.alert(
+          'Cần quyền truy cập',
+          'Ứng dụng cần quyền truy cập thư viện ảnh để hiển thị ảnh. Vui lòng cấp quyền trong cài đặt.',
+          [
+            { text: 'Hủy', style: 'cancel', onPress: () => router.back() },
+            {
+              text: 'Mở cài đặt',
+              onPress: () => {
+                Linking.openSettings();
+                router.back();
+              }
+            },
+          ]
+        );
         return;
       }
 

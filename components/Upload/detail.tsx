@@ -9,7 +9,7 @@ import * as MediaLibrary from 'expo-media-library';
 import { router, useFocusEffect } from 'expo-router';
 import { Button, Spinner, Text, View } from 'native-base';
 import { useEffect, useRef } from 'react';
-import { Alert, Image, Keyboard, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { Alert, Image, Keyboard, Linking, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUploadDocument } from './api';
 
@@ -59,9 +59,16 @@ export default function UploadDetailScreen() {
 
     const handlePickCover = async () => {
         try {
-            const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-            if (!permissionResult.granted) {
-                Alert.alert('Cần quyền truy cập', 'Vui lòng cấp quyền truy cập thư viện ảnh');
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+                Alert.alert(
+                    'Cần quyền truy cập',
+                    'Vui lòng cấp quyền truy cập thư viện ảnh để chọn ảnh bìa.',
+                    [
+                        { text: 'Hủy', style: 'cancel' },
+                        { text: 'Mở cài đặt', onPress: () => Linking.openSettings() },
+                    ]
+                );
                 return;
             }
             const result = await ImagePicker.launchImageLibraryAsync({
