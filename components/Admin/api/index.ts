@@ -147,14 +147,14 @@ export const useFetchPendingDocuments = (fullTextSearch?: string) => {
 
 export const approveDocument = async (docId: string) => {
   const res = await api.patch(API_ADMIN_DOCUMENT_STATUS(docId), {
-    status: "ACTIVE"
+    status: "active"
   });
   return res.data;
 };
 
 export const rejectDocument = async (docId: string) => {
   const res = await api.patch(API_ADMIN_DOCUMENT_STATUS(docId), {
-    status: "INACTIVE"
+    status: "inactive"
   });
   return res.data;
 };

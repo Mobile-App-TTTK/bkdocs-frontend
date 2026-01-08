@@ -220,7 +220,7 @@ describe('Admin API', () => {
 
       expect(api.patch).toHaveBeenCalledWith(
         API_ADMIN_DOCUMENT_STATUS('doc-123'),
-        { status: 'ACTIVE' }
+        { status: 'active' }
       );
       expect(result).toEqual(mockResponse);
     });
@@ -232,7 +232,7 @@ describe('Admin API', () => {
 
       expect(api.patch).toHaveBeenCalledWith(
         '/admin/document/abc-xyz/status',
-        { status: 'ACTIVE' }
+        { status: 'active' }
       );
     });
   });
@@ -246,7 +246,7 @@ describe('Admin API', () => {
 
       expect(api.patch).toHaveBeenCalledWith(
         API_ADMIN_DOCUMENT_STATUS('doc-123'),
-        { status: 'INACTIVE' }
+        { status: 'inactive' }
       );
       expect(result).toEqual(mockResponse);
     });
