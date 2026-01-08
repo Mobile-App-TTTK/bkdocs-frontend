@@ -11,7 +11,7 @@ import * as FileSystem from "expo-file-system";
 import * as FSLegacy from "expo-file-system/legacy";
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import * as Sharing from "expo-sharing";
-import { Button, Image, ScrollView, Text } from 'native-base';
+import { Button, Image, ScrollView, Spinner, Text } from 'native-base';
 import React, { useCallback, useEffect, useState } from "react";
 import { Alert, Dimensions, FlatList, Linking, Modal, Platform, Pressable, useColorScheme, View } from 'react-native';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -466,222 +466,229 @@ export default function DownloadDoc() {
                 </Pressable>
             </View>
 
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{
-                    paddingBottom: 100,
-                }}
-            >
-                {/* Image Carousel */}
-                <View style={{ height: SCREEN_WIDTH * 1.3, position: 'relative' }}>
-                    <FlatList
-                        data={allImages.length > 0 ? allImages : [null]}
-                        horizontal
-                        pagingEnabled
-                        showsHorizontalScrollIndicator={false}
-                        scrollEnabled={allImages.length > 1}
-                        onMomentumScrollEnd={(event) => {
-                            const index = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
-                            setSelectedImage(index);
-                        }}
-                        keyExtractor={(_, index) => index.toString()}
-                        renderItem={({ item }) => (
-                            <Pressable onPress={() => setSelectedImageUrl(allImages[selectedImage])} testID="btn-open-image">
-                                <Image
-                                    source={
-                                        typeof item === 'string' && item.trim().length > 0
-                                            ? { uri: item.trim() }
-                                            : require('@/assets/images/sampleDoc1.png')
-                                    }
-                                    alt="Document Image"
-                                    resizeMode="cover"
-                                    style={{
-                                        width: SCREEN_WIDTH,
-                                        height: SCREEN_WIDTH * 1.3,
-                                    }}
-                                />
-                            </Pressable>
-                        )}
-                    />
-
-                    {/* Image Index Indicator */}
-                    {allImages.length > 1 && (
-                        <View style={{
-                            position: 'absolute',
-                            bottom: 40,
-                            right: 16,
-                            backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                            paddingHorizontal: 12,
-                            paddingVertical: 6,
-                            borderRadius: 16,
-                        }}>
-                            <Text style={{ color: 'white', fontWeight: 'bold' }}>
-                                {selectedImage + 1} / {allImages.length}
-                            </Text>
-                        </View>
-                    )}
+            {loading || !docDetail ? (
+                <View className="flex-1 items-center justify-center">
+                    <Spinner size="lg" color="primary.500" />
                 </View>
-
-                {/* Content Section */}
-                <View style={{
-                    paddingHorizontal: 24,
-                    paddingTop: 20,
-                    backgroundColor: isDarkMode ? Colors.dark.background : Colors.light.background,
-                    marginTop: -24,
-                }}>
-                    <View className='flex flex-row items-center gap-10 mt-2'>
-                        <View className="flex-1">
-
-                            {/*Tên doc*/}
-                            <Text className="!font-bold !text-3xl !overflow-ellipsis !truncate">{docDetail?.title ?? ""}</Text>
-
-                            {/*Lượt tải + đánh giá*/}
-                            <View className="mt-1 flex flex-row gap-4">
-                                <View className="flex flex-row items-center justify-center gap-1">
-                                    <Ionicons name="download-outline" size={18} color={isDarkMode ? "white" : "gray.500"} />
-                                    <Text>{docDetail?.downloadCount ?? 0} lượt</Text>
-                                </View>
-
-                                <View className="flex flex-row items-center justify-center gap-1">
-                                    <Ionicons name="star-outline" size={18} color={isDarkMode ? "white" : "gray.500"} />
-                                    <Text>{docRecentRatings.length > 0
-                                        ? (docRecentRatings.reduce((acc, comment) => acc + comment.score, 0) / docRecentRatings.length).toFixed(1)
-                                        : 0} ({docRecentRatings.length ?? 0})</Text>
-                                </View>
-                            </View>
-
-                            <View className="mt-4 flex flex-row items-center gap-3">
-                                <Image source={uploaderAvatar} width={16} height={16} alt={"User Avatar"} className="rounded-full !shadow-md" />
-
-                                <View>
-                                    <View className="flex flex-row items-center gap-1.5">
-                                        <Text className="!font-bold !text-xl">{docDetail?.uploader?.name ?? ""}</Text>
-                                        <Text className="!text-xl !font-bold">•</Text>
-                                        <Pressable onPress={() => setFollowing(!following)} className="!text-xl !font-bold !text-gray-500">
-                                            <Text className={`!text-xl !font-bold ${following ? "!text-gray-500" : "!text-primary-500"}`}>
-                                                {
-                                                    following ? "Bỏ theo dõi" : "Theo dõi"
-                                                }
-                                            </Text>
-                                        </Pressable>
-                                    </View>
-                                    <Text>{uploaderProfile?.faculty ?? ""}</Text>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-
-                    <View className="mt-4">
-                        <Text className="!font-bold !text-xl">Danh mục tài liệu</Text>
-                        <Text>Khoa: {docDetail?.faculty ?? ""} {docDetail?.faculty?.length > 1 ? `+ ${docDetail?.faculty?.length - 1}` : ""}</Text>
-                        <Text>Môn học: {docDetail?.subject ?? ""}</Text>
-                    </View>
-
-                    <View className="mt-6">
-                        <Text className="!font-bold !text-xl">Mô tả</Text>
-                        <Text>{docDetail?.description ?? ""}</Text>
-                    </View>
-
-                    <View className="mt-6">
-                        <Text className="!font-bold !text-xl">Gửi đánh giá và nhận xét</Text>
-                        {
-                            hasUserRated ? (
-                                <View className='flex flex-row items-center gap-2 mt-2'>
-                                    <Ionicons name="checkmark-circle" size={24} color="#22c55e" />
-                                    <Text className='text-gray-500'>Bạn đã đánh giá tài liệu này</Text>
-                                </View>
-                            ) : (
-                                <View className='flex flex-row items-center gap-1 mt-2'>
-                                    <Image source={userAvatar} width={12} height={12} alt={"User Avatar"} className="rounded-full !shadow-md" />
-                                    <Pressable className='flex flex-row gap-1 ml-1' onPress={() => router.push({
-                                        pathname: ROUTES.WRITE_COMMENT,
-                                        params: { id: id }
-                                    } as any
-                                    )} testID="btn-write-comment">
-                                        <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
-                                        <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
-                                        <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
-                                        <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
-                                        <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
-                                    </Pressable>
-                                </View>
-                            )
-                        }
-                    </View>
-
-                    <View className="flex flex-row items-center justify-between mt-4">
-                        <View className="flex flex-row items-center gap-1">
-                            <Text className="!font-bold !text-xl">Đánh giá ({ratingsCount ?? 0})</Text>
-                            <Text className="!text-xl !font-bold">•</Text>
-                            <Text className=" !text-xl">{ratingsAverage ? ratingsAverage.toFixed(1) : 0}</Text>
-                            <Ionicons name="star" size={20} color={"#FFD336"} className='mb-1' />
-                        </View>
-
-                        <Pressable className="flex flex-row gap-1" onPress={() => router.push({
-                            pathname: ROUTES.ALL_COMMENT,
-                            params: { id: id }
-                        } as any)}>
-                            <Text className=" !text-xl">Tất cả</Text>
-                            <Ionicons name="chevron-forward-outline" size={20} color={isDarkMode ? "white" : "gray.500"} />
-                        </Pressable>
-                    </View>
-
-
-                    <View className="mt-4 mb-24">
-                        <View className="flex flex-col gap-6">
-                            {
-                                docRecentRatings.map((comment, index) => (
-                                    <View key={index} className='flex flex-row gap-4'>
+            ) : (
+                <>
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{
+                            paddingBottom: 100,
+                        }}
+                    >
+                        {/* Image Carousel */}
+                        <View style={{ height: SCREEN_WIDTH * 1.3, position: 'relative' }}>
+                            <FlatList
+                                data={allImages.length > 0 ? allImages : [null]}
+                                horizontal
+                                pagingEnabled
+                                showsHorizontalScrollIndicator={false}
+                                scrollEnabled={allImages.length > 1}
+                                onMomentumScrollEnd={(event) => {
+                                    const index = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
+                                    setSelectedImage(index);
+                                }}
+                                keyExtractor={(_, index) => index.toString()}
+                                renderItem={({ item }) => (
+                                    <Pressable onPress={() => setSelectedImageUrl(allImages[selectedImage])} testID="btn-open-image">
                                         <Image
-                                            source={require("@/assets/images/userAvatar.jpg")}
-                                            width={12}
-                                            height={12}
-                                            alt={"User Avatar"}
-                                            className="rounded-full !shadow-md"
+                                            source={
+                                                typeof item === 'string' && item.trim().length > 0
+                                                    ? { uri: item.trim() }
+                                                    : require('@/assets/images/sampleDoc1.png')
+                                            }
+                                            alt="Document Image"
+                                            resizeMode="cover"
+                                            style={{
+                                                width: SCREEN_WIDTH,
+                                                height: SCREEN_WIDTH * 1.3,
+                                            }}
                                         />
-                                        <View className='flex-1 flex-shrink'>
-                                            <Text className='!font-bold'>{comment.userName}</Text>
-                                            <View className='flex flex-row items-center gap-1'>
-                                                {
-                                                    Array.from({ length: comment.score }).map((_, index) => (
-                                                        <Ionicons name="star" size={20} color={"#FFD336"} key={index} />
-                                                    ))
-                                                }
-                                            </View>
-                                            <Text className='mt-2'>{comment.comment}</Text>
-                                            <View className='flex flex-row gap-2 flex-wrap mt-2'>
-                                                {
-                                                    comment.imageUrl && (
-                                                        <Pressable onPress={() => setSelectedImageUrl(comment.imageUrl)}>
-                                                            <Image
-                                                                source={{ uri: comment.imageUrl }}
-                                                                width={12}
-                                                                height={12}
-                                                                alt={"Image"}
-                                                                className="rounded-md !shadow-md"
-                                                            />
-                                                        </Pressable>
-                                                    )
-                                                }
-                                            </View>
+                                    </Pressable>
+                                )}
+                            />
+
+                            {/* Image Index Indicator */}
+                            {allImages.length > 1 && (
+                                <View style={{
+                                    position: 'absolute',
+                                    bottom: 40,
+                                    right: 16,
+                                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                                    paddingHorizontal: 12,
+                                    paddingVertical: 6,
+                                    borderRadius: 16,
+                                }}>
+                                    <Text style={{ color: 'white', fontWeight: 'bold' }}>
+                                        {selectedImage + 1} / {allImages.length}
+                                    </Text>
+                                </View>
+                            )}
+                        </View>
+
+                        {/* Content Section */}
+                        <View style={{
+                            paddingHorizontal: 24,
+                            paddingTop: 20,
+                            backgroundColor: isDarkMode ? Colors.dark.background : Colors.light.background,
+                            marginTop: -24,
+                        }}>
+                            <View className='flex flex-row items-center gap-10 mt-2'>
+                                <View className="flex-1">
+
+                                    {/*Tên doc*/}
+                                    <Text className="!font-bold !text-3xl !overflow-ellipsis !truncate">{docDetail?.title ?? ""}</Text>
+
+                                    {/*Lượt tải + đánh giá*/}
+                                    <View className="mt-1 flex flex-row gap-4">
+                                        <View className="flex flex-row items-center justify-center gap-1">
+                                            <Ionicons name="download-outline" size={18} color={isDarkMode ? "white" : "gray.500"} />
+                                            <Text>{docDetail?.downloadCount ?? 0} lượt</Text>
+                                        </View>
+
+                                        <View className="flex flex-row items-center justify-center gap-1">
+                                            <Ionicons name="star-outline" size={18} color={isDarkMode ? "white" : "gray.500"} />
+                                            <Text>{docRecentRatings.length > 0
+                                                ? (docRecentRatings.reduce((acc, comment) => acc + comment.score, 0) / docRecentRatings.length).toFixed(1)
+                                                : 0} ({docRecentRatings.length ?? 0})</Text>
                                         </View>
                                     </View>
-                                ))
-                            }
+
+                                    <View className="mt-4 flex flex-row items-center gap-3">
+                                        <Image source={uploaderAvatar} width={16} height={16} alt={"User Avatar"} className="rounded-full !shadow-md" />
+
+                                        <View>
+                                            <View className="flex flex-row items-center gap-1.5">
+                                                <Text className="!font-bold !text-xl">{docDetail?.uploader?.name ?? ""}</Text>
+                                                <Text className="!text-xl !font-bold">•</Text>
+                                                <Pressable onPress={() => setFollowing(!following)} className="!text-xl !font-bold !text-gray-500">
+                                                    <Text className={`!text-xl !font-bold ${following ? "!text-gray-500" : "!text-primary-500"}`}>
+                                                        {
+                                                            following ? "Bỏ theo dõi" : "Theo dõi"
+                                                        }
+                                                    </Text>
+                                                </Pressable>
+                                            </View>
+                                            <Text>{uploaderProfile?.faculty ?? ""}</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+
+                            <View className="mt-4">
+                                <Text className="!font-bold !text-xl">Danh mục tài liệu</Text>
+                                <Text>Khoa: {docDetail?.faculty ?? ""} {docDetail?.faculty?.length > 1 ? `+ ${docDetail?.faculty?.length - 1}` : ""}</Text>
+                                <Text>Môn học: {docDetail?.subject ?? ""}</Text>
+                            </View>
+
+                            <View className="mt-6">
+                                <Text className="!font-bold !text-xl">Mô tả</Text>
+                                <Text>{docDetail?.description ?? ""}</Text>
+                            </View>
+
+                            <View className="mt-6">
+                                <Text className="!font-bold !text-xl">Gửi đánh giá và nhận xét</Text>
+                                {
+                                    hasUserRated ? (
+                                        <View className='flex flex-row items-center gap-2 mt-2'>
+                                            <Ionicons name="checkmark-circle" size={24} color="#22c55e" />
+                                            <Text className='text-gray-500'>Bạn đã đánh giá tài liệu này</Text>
+                                        </View>
+                                    ) : (
+                                        <View className='flex flex-row items-center gap-1 mt-2'>
+                                            <Image source={userAvatar} width={12} height={12} alt={"User Avatar"} className="rounded-full !shadow-md" />
+                                            <Pressable className='flex flex-row gap-1 ml-1' onPress={() => router.push({
+                                                pathname: ROUTES.WRITE_COMMENT,
+                                                params: { id: id }
+                                            } as any
+                                            )} testID="btn-write-comment">
+                                                <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
+                                                <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
+                                                <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
+                                                <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
+                                                <Ionicons name="star-outline" size={28} color={isDarkMode ? "white" : "gray.500"} />
+                                            </Pressable>
+                                        </View>
+                                    )
+                                }
+                            </View>
+
+                            <View className="flex flex-row items-center justify-between mt-4">
+                                <View className="flex flex-row items-center gap-1">
+                                    <Text className="!font-bold !text-xl">Đánh giá ({ratingsCount ?? 0})</Text>
+                                    <Text className="!text-xl !font-bold">•</Text>
+                                    <Text className=" !text-xl">{ratingsAverage ? ratingsAverage.toFixed(1) : 0}</Text>
+                                    <Ionicons name="star" size={20} color={"#FFD336"} className='mb-1' />
+                                </View>
+
+                                <Pressable className="flex flex-row gap-1" onPress={() => router.push({
+                                    pathname: ROUTES.ALL_COMMENT,
+                                    params: { id: id }
+                                } as any)}>
+                                    <Text className=" !text-xl">Tất cả</Text>
+                                    <Ionicons name="chevron-forward-outline" size={20} color={isDarkMode ? "white" : "gray.500"} />
+                                </Pressable>
+                            </View>
+
+
+                            <View className="mt-4 mb-24">
+                                <View className="flex flex-col gap-6">
+                                    {
+                                        docRecentRatings.map((comment, index) => (
+                                            <View key={index} className='flex flex-row gap-4'>
+                                                <Image
+                                                    source={require("@/assets/images/userAvatar.jpg")}
+                                                    width={12}
+                                                    height={12}
+                                                    alt={"User Avatar"}
+                                                    className="rounded-full !shadow-md"
+                                                />
+                                                <View className='flex-1 flex-shrink'>
+                                                    <Text className='!font-bold'>{comment.userName}</Text>
+                                                    <View className='flex flex-row items-center gap-1'>
+                                                        {
+                                                            Array.from({ length: comment.score }).map((_, index) => (
+                                                                <Ionicons name="star" size={20} color={"#FFD336"} key={index} />
+                                                            ))
+                                                        }
+                                                    </View>
+                                                    <Text className='mt-2'>{comment.comment}</Text>
+                                                    <View className='flex flex-row gap-2 flex-wrap mt-2'>
+                                                        {
+                                                            comment.imageUrl && (
+                                                                <Pressable onPress={() => setSelectedImageUrl(comment.imageUrl)}>
+                                                                    <Image
+                                                                        source={{ uri: comment.imageUrl }}
+                                                                        width={12}
+                                                                        height={12}
+                                                                        alt={"Image"}
+                                                                        className="rounded-md !shadow-md"
+                                                                    />
+                                                                </Pressable>
+                                                            )
+                                                        }
+                                                    </View>
+                                                </View>
+                                            </View>
+                                        ))
+                                    }
+                                </View>
+                            </View>
                         </View>
-                    </View>
-                </View>
-            </ScrollView>
+                    </ScrollView>
 
-            {/* Download Button - Fixed at bottom */}
-            <Button
-                className="!rounded-xl h-14 absolute z-10 bottom-[60px]"
-                style={{ left: 32, right: 32 }}
-                onPress={handleDownload}
-            >
-                <Text className="!text-xl !font-bold !text-white">{isDownloading ? "Đang tải..." : "Tải về"}</Text>
-            </Button>
-
+                    {/* Download Button - Fixed at bottom */}
+                    <Button
+                        className="!rounded-xl h-14 absolute z-10 bottom-[60px]"
+                        style={{ left: 32, right: 32 }}
+                        onPress={handleDownload}
+                    >
+                        <Text className="!text-xl !font-bold !text-white">{isDownloading ? "Đang tải..." : "Tải về"}</Text>
+                    </Button>
+                </>
+            )}
             <Modal
                 visible={selectedImageUrl !== null}
                 transparent={true}

@@ -183,48 +183,58 @@ export default function NotificationPage() {
                             paddingBottom: 100,
                         }}
                     >
-                        {notifications.length > 0 && notifications.map((notification) => (
-                            <Pressable
-                                key={notification.id}
-                                className={`p-4 mb-3 rounded-xl ${notification.isRead ? 'bg-gray-50 dark:bg-dark-800' : 'bg-primary-50 dark:bg-dark-700'}`}
-                                onPress={() => {
-                                    if (!notification.isRead) {
-                                        markAsRead(notification.id);
-                                    }
+                        {notifications.length > 0 ? (
+                            notifications.map((notification) => (
+                                <Pressable
+                                    key={notification.id}
+                                    className={`p-4 mb-3 rounded-xl ${notification.isRead ? 'bg-gray-50 dark:bg-dark-800' : 'bg-primary-50 dark:bg-dark-700'}`}
+                                    onPress={() => {
+                                        if (!notification.isRead) {
+                                            markAsRead(notification.id);
+                                        }
 
-                                    if (notification.targetId) {
-                                        router.push({
-                                            pathname: ROUTES.DOWNLOAD_DOC as any,
-                                            params: { id: notification.targetId }
-                                        } as any);
-                                    }
-                                }}
-                            >
-                                <View className="flex flex-row gap-4">
-                                    <View className={`w-12 h-12 rounded-full items-center justify-center ${notification.isRead ? 'bg-gray-200 dark:bg-dark-600' : 'bg-primary-100'}`}>
-                                        <Ionicons
-                                            name="document-text"
-                                            size={24}
-                                            color={notification.isRead ? "#6b7280" : "#ff3300"}
-                                        />
+                                        if (notification.targetId) {
+                                            router.push({
+                                                pathname: ROUTES.DOWNLOAD_DOC as any,
+                                                params: { id: notification.targetId }
+                                            } as any);
+                                        }
+                                    }}
+                                >
+                                    <View className="flex flex-row gap-4">
+                                        <View className={`w-12 h-12 rounded-full items-center justify-center ${notification.isRead ? 'bg-gray-200 dark:bg-dark-600' : 'bg-primary-100'}`}>
+                                            <Ionicons
+                                                name="document-text"
+                                                size={24}
+                                                color={notification.isRead ? "#6b7280" : "#ff3300"}
+                                            />
+                                        </View>
+                                        <View className="flex-1 flex-shrink">
+                                            <Text className={`!font-bold ${!notification.isRead ? '!text-primary-600' : ''}`}>
+                                                Thông báo
+                                            </Text>
+                                            <Text className="!text-gray-600 dark:!text-gray-300 mt-1" numberOfLines={2}>
+                                                {notification.message}
+                                            </Text>
+                                            <Text className="!text-gray-400 !text-sm mt-2">
+                                                {formatDate(notification.createdAt)}
+                                            </Text>
+                                        </View>
+                                        {!notification.isRead && (
+                                            <View className="w-3 h-3 rounded-full bg-primary-500 self-start mt-1" />
+                                        )}
                                     </View>
-                                    <View className="flex-1 flex-shrink">
-                                        <Text className={`!font-bold ${!notification.isRead ? '!text-primary-600' : ''}`}>
-                                            Thông báo
-                                        </Text>
-                                        <Text className="!text-gray-600 dark:!text-gray-300 mt-1" numberOfLines={2}>
-                                            {notification.message}
-                                        </Text>
-                                        <Text className="!text-gray-400 !text-sm mt-2">
-                                            {formatDate(notification.createdAt)}
-                                        </Text>
-                                    </View>
-                                    {!notification.isRead && (
-                                        <View className="w-3 h-3 rounded-full bg-primary-500 self-start mt-1" />
-                                    )}
+                                </Pressable>
+                            ))
+                        ) : (
+                            !isLoading && (
+                                <View className="flex-1 items-center justify-center pt-20">
+                                    <Text className="!text-gray-500 dark:!text-gray-400 !text-lg text-center">
+                                        Không có thông báo nào
+                                    </Text>
                                 </View>
-                            </Pressable>
-                        ))}
+                            )
+                        )}
                     </ScrollView>
                 </View>
             </TouchableWithoutFeedback>

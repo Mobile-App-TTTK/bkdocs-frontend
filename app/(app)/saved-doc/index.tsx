@@ -7,7 +7,7 @@ import { downloadedDocsStorage } from "@/utils/downloadDocStorage";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Pressable, Text, View } from "native-base";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 
 type ApiDownloadedDoc = {
@@ -26,7 +26,7 @@ export default function SavedDoc() {
     const [downloadedDocs, setDownloadedDocs] = useState<UserDocument[]>([]);
     const [loading, setLoading] = useState(false);
 
-    const {data: userProfile, isLoading: isLoadingUserProfile, error: errorUserProfile} = useFetchUserProfile();
+    const { data: userProfile, isLoading: isLoadingUserProfile, error: errorUserProfile } = useFetchUserProfile();
 
     useEffect(() => {
         let cancelled = false;
@@ -34,9 +34,9 @@ export default function SavedDoc() {
         const fetchDownloadedDocs = async () => {
             try {
                 setLoading(true);
-                
+
                 const docIds = await downloadedDocsStorage.getDownloadedDocIds();
-                
+
                 const docsPromises = docIds.map(async (id) => {
                     try {
                         const res = await api.get(API_GET_DOCUMENT_DETAIL(id));
@@ -48,7 +48,7 @@ export default function SavedDoc() {
                 });
 
                 const docs = await Promise.all(docsPromises);
-                
+
                 if (!cancelled) {
                     setDownloadedDocs(docs.filter(Boolean));
                 }
@@ -67,16 +67,16 @@ export default function SavedDoc() {
     return (
         <View className="flex-1 bg-white dark:!bg-gray-900">
             <View className="flex items-center justify-center relative !pt-[64px] bg-white dark:!bg-gray-700 "
-                  style={{
-                      shadowColor: "#000",
-                      shadowOffset: {
-                          width: 0,
-                          height: 2,
-                      },
-                      shadowOpacity: 0.1,
-                      shadowRadius: 20,
-                      elevation: 10,
-                  }}
+                style={{
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 20,
+                    elevation: 10,
+                }}
             >
                 <Pressable
                     className="!absolute top-16 left-6 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center"
@@ -90,9 +90,19 @@ export default function SavedDoc() {
             <ScrollView className="p-6">
                 <View className="flex flex-col gap-6 mb-8">
                     {
-                        downloadedDocs.map((doc) => (
-                            <SavedDocCard key={doc.id} id={doc.id} title={doc.title} uploadDate={doc.uploadDate} subject={doc.subject} thumbnailUrl={doc.thumbnailUrl} type={doc.documentType} />
-                        ))
+                        downloadedDocs.length > 0 ? (
+                            downloadedDocs.map((doc) => (
+                                <SavedDocCard key={doc.id} id={doc.id} title={doc.title} uploadDate={doc.uploadDate} subject={doc.subject} thumbnailUrl={doc.thumbnailUrl} type={doc.documentType} />
+                            ))
+                        ) : (
+                            !loading && (
+                                <View className="flex-1 items-center justify-center pt-20">
+                                    <Text className="!text-gray-500 dark:!text-gray-400 !text-lg text-center">
+                                        Không có tài liệu nào
+                                    </Text>
+                                </View>
+                            )
+                        )
                     }
                 </View>
             </ScrollView>
