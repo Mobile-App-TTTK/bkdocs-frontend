@@ -281,7 +281,7 @@ export default function DownloadDoc() {
 
     async function saveWithSAFAndroid(sourceUri: string, fileName: string, mimeType: string) {
         try {
-            const SAF = FSLegacy.StorageAccessFramework; // ✅ legacy
+            const SAF = FSLegacy.StorageAccessFramework;
 
             const perm = await SAF.requestDirectoryPermissionsAsync();
             if (!perm.granted) return { status: "cancelled" as const };
@@ -289,7 +289,7 @@ export default function DownloadDoc() {
             const destUri = await SAF.createFileAsync(perm.directoryUri, fileName, mimeType);
 
             const base64 = await FSLegacy.readAsStringAsync(sourceUri, {
-                encoding: FSLegacy.EncodingType.Base64, // ✅ EncodingType ở legacy
+                encoding: FSLegacy.EncodingType.Base64,
             });
 
             await FSLegacy.writeAsStringAsync(destUri, base64, {
