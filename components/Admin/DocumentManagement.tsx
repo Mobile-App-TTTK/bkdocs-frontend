@@ -1,10 +1,12 @@
 import { PendingDocument, useApproveDocument, useFetchPendingDocuments, useRejectDocument } from '@/components/Admin/api';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { Image, Spinner, Text, View } from 'native-base';
 import { useState } from 'react';
 import { Alert, Pressable, ScrollView, TextInput } from 'react-native';
 
 export default function DocumentManagement() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const {
     data,
@@ -118,8 +120,9 @@ export default function DocumentManagement() {
         ) : (
           <View className="px-6 pb-6">
             {documents.map((doc) => (
-              <View
+              <Pressable
                 key={doc.id}
+                onPress={() => router.push({ pathname: '/(app)/admin/document-management-detail' as any, params: { id: doc.id, downloadUrl: doc.downloadUrl } })}
                 className="bg-white dark:bg-dark-800 rounded-2xl p-4 mb-4 flex-row items-start"
                 style={{
                   shadowColor: '#000',
@@ -184,7 +187,7 @@ export default function DocumentManagement() {
                     </Pressable>
                   </View>
                 </View>
-              </View>
+              </Pressable>
             ))}
 
             {documents.length === 0 && !isLoading && (
