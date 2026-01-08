@@ -7,9 +7,9 @@ import { Image, Text, View } from "native-base";
 import { useState } from "react";
 import { Alert, Linking, Modal, Pressable } from "react-native";
 
-export default function SavedDocCard({id, title, uploadDate, subject, thumbnailUrl, type}: {id: string, title: string, uploadDate: string, subject: string, thumbnailUrl: string, type: string}) {
+export default function SavedDocCard({ id, title, uploadDate, subject, thumbnailUrl, type }: { id: string, title: string, uploadDate: string, subject: string, thumbnailUrl: string, type: string }) {
     const formattedUploadDate = uploadDate ? new Date(uploadDate).toLocaleDateString('vi-VN') : '';
-    
+
     const [imageModalVisible, setImageModalVisible] = useState(false);
     const [imageUri, setImageUri] = useState<string | null>(null);
 
@@ -26,26 +26,26 @@ export default function SavedDocCard({id, title, uploadDate, subject, thumbnailU
     const openSavedFile = async () => {
         try {
             const safeTitle = getSafeFileName(title);
-            
+
             console.log('[SavedDocCard] Opening file:', { title, safeTitle, type });
-            
+
             const extensions = ['.pdf', '.docx', '.doc', '.xlsx', '.xls', '.pptx', '.ppt', '.zip', '.png', '.jpg', '.jpeg', '.gif', '.webp'];
             let foundFile: FileSystem.File | null = null;
             let fileExt = '';
-    
+
             for (const ext of extensions) {
                 const file = new FileSystem.File(FileSystem.Paths.document, `${safeTitle}${ext}`);
                 console.log('[SavedDocCard] Checking:', `${safeTitle}${ext}`, 'exists:', file.exists);
-                
+
                 if (file.exists) {
                     foundFile = file;
                     fileExt = ext;
                     break;
                 }
             }
-    
+
             console.log('[SavedDocCard] Found file:', foundFile?.uri, 'ext:', fileExt);
-    
+
             if (!foundFile) {
                 if (type && isImageType(type) && thumbnailUrl) {
                     console.log('[SavedDocCard] Using thumbnailUrl for image');
@@ -53,14 +53,14 @@ export default function SavedDocCard({id, title, uploadDate, subject, thumbnailU
                     setImageModalVisible(true);
                     return;
                 }
-                
+
                 Alert.alert(
                     "Không tìm thấy file",
                     "File có thể đã bị xóa. Bạn có muốn tải lại?",
                     [
                         { text: "Hủy", style: "cancel" },
-                        { 
-                            text: "Tải lại", 
+                        {
+                            text: "Tải lại",
                             onPress: () => router.push({
                                 pathname: ROUTES.DOWNLOAD_DOC as any,
                                 params: { id },
@@ -70,26 +70,26 @@ export default function SavedDocCard({id, title, uploadDate, subject, thumbnailU
                 );
                 return;
             }
-    
+
             if (isImageExtension(fileExt) || isImageType(type)) {
                 console.log('[SavedDocCard] Opening as image');
                 setImageUri(foundFile.uri);
                 setImageModalVisible(true);
                 return;
             }
-    
+
             if (fileExt === '.pdf') {
                 console.log('[SavedDocCard] Opening as PDF');
                 router.push({
                     pathname: ROUTES.PDF_VIEWER as any,
-                    params: { 
+                    params: {
                         uri: foundFile.uri,
                         title: title,
                     },
                 });
                 return;
             }
-    
+
             // Các file khác dùng Sharing
             console.log('[SavedDocCard] Opening with Sharing');
             if (await Sharing.isAvailableAsync()) {
@@ -105,7 +105,7 @@ export default function SavedDocCard({id, title, uploadDate, subject, thumbnailU
             Alert.alert("Lỗi", "Không thể mở file. Vui lòng thử lại.");
         }
     };
-    
+
     const isImageType = (docType: string) => {
         if (!docType) return false;
         const imageTypes = ['image', 'png', 'jpg', 'jpeg', 'gif', 'webp', 'bmp'];
@@ -132,10 +132,10 @@ export default function SavedDocCard({id, title, uploadDate, subject, thumbnailU
 
     return (
         <>
-            <View className="relative w-full h-36 bg-white dark:!bg-dark-700 rounded-xl shadow-md flex flex-row items-center">
+            <Pressable onPress={openSavedFile} className="relative w-full h-36 bg-white dark:!bg-dark-700 rounded-xl shadow-md flex flex-row items-center">
                 <Image source={thumbnailUrl ? { uri: thumbnailUrl } : require("@/assets/images/sampleDoc6.png")} height={"100%"} width={124} borderLeftRadius={12} alt="thumbnail" />
 
-                <Pressable 
+                <Pressable
                     className="absolute top-5 right-5 ml-auto bg-primary-500 text-sm text-center px-2 py-[2px] font-medium text-white rounded-lg"
                     onPress={openSavedFile}
                 >
@@ -150,16 +150,16 @@ export default function SavedDocCard({id, title, uploadDate, subject, thumbnailU
                     </View>
 
                     <View className="flex flex-row gap-2">
-                        <Ionicons name={"calendar-clear-outline"} size={18} color={"#6b7280"}/>
+                        <Ionicons name={"calendar-clear-outline"} size={18} color={"#6b7280"} />
                         <Text className="!font-medium">{formattedUploadDate}</Text>
                     </View>
 
                     <View className="flex flex-row gap-2">
-                        <Ionicons name={"download-outline"} size={18} color={"#6b7280"}/>
+                        <Ionicons name={"download-outline"} size={18} color={"#6b7280"} />
                         <Text className="!font-medium">{subject}</Text>
                     </View>
                 </View>
-            </View>
+            </Pressable>
 
             {/* Modal xem ảnh fullscreen */}
             <Modal
@@ -190,7 +190,7 @@ export default function SavedDocCard({id, title, uploadDate, subject, thumbnailU
                         <Ionicons name="close" size={28} color="white" />
                     </Pressable>
 
-                    <Text 
+                    <Text
                         style={{
                             position: 'absolute',
                             top: 68,
